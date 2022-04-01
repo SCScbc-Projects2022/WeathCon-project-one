@@ -162,9 +162,13 @@ for(var i = 1; i<15; i++){
 //error handling and validations - change to modals
 
 //currency API
-//placeholder variables
-var departure = "Toronto";
-var destination = "United States";//needs to be a country (assumes taking value from weather call)
+//start currency API logic
+var locationCode = "";//currency code returned from getCurrency()
+var destinationCode = "";//currency code returned from getCurrency()
+//format numerical values
+var dollarUSLocale = Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+});
 
 //load screen for delay in promise fulfillment
 function loading() {
@@ -223,10 +227,8 @@ function generateFrom(symbol, name, code, flag) {
     var amountLabel = $("<label>");
     $(amountLabel).addClass("mr-1").attr("for", "amount").text(symbol);
     var amountInput = $("<input>").addClass("border form-width").attr("type", "text").attr("id", "amount").attr("placeholder", "1");
-    var decimalDigits = $("<p>").text(".00").addClass("inline-block");
     $("#convertFrom").append(amountLabel);
     $("#convertFrom").append(amountInput);
-    $("#convertFrom").append(decimalDigits);
     var fromCurrency = $("<p>").text(name + " (" + code + ")").addClass("italic").attr("id", "fromCurrency");
     $("#convertFrom").append(fromCurrency);
     var fromFlag = $("<img>");
@@ -238,7 +240,7 @@ function generateTo(symbol, name, code, amount, flag) {
     var convertedLabel = $("<label>");
     $(convertedLabel).addClass("mr-1").attr("for", "convertedAmount").text(symbol);
     var convertedAmount = $("<p>");
-    $(convertedAmount).text(amount).addClass("inline-block").attr("id", "convertedAmount");
+    $(convertedAmount).text(dollarUSLocale.format(amount)).addClass("inline-block").attr("id", "convertedAmount");
     $("#convertTo").append(convertedLabel);
     $("#convertTo").append(convertedAmount);
     var toCurrency = $("<p>");
@@ -248,10 +250,6 @@ function generateTo(symbol, name, code, amount, flag) {
     $(toFlag).attr("src", flag);
     $("#toFlag").append(toFlag).attr("alt", "country flag");
 }
-
-//start currency API logic
-var locationCode = "";//currency code returned from getCurrency()
-var destinationCode = "";//currency code returned from getCurrency()
 
 //on conversion click
 function convertAmount() {
@@ -278,9 +276,9 @@ function convertAmount() {
         .then(function(response) {
             if (response.ok) {
                 response.json().then(function(data) {
-                    $("#convertedAmount").text(data.result);
-                    $("#amount").val("").attr("placeholder", amount);
-                    var search = $("<li>").text(amount + ".00" + " (" + locationCode + ") = " + data.result + " (" + destinationCode + ")").addClass("history");
+                    $("#convertedAmount").text(dollarUSLocale.format(data.result));
+                    $("#amount").val("").attr("placeholder", dollarUSLocale.format(amount));
+                    var search = $("<li>").text(dollarUSLocale.format(amount) + " (" + locationCode + ") = " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("history");
                     $("#conversionHistory").prepend(search);
                     $(".conversionHistory .history").slice(10).remove();
                 });
@@ -390,7 +388,7 @@ async function getCurrency(country) {
                 generateFormat();
                 generateFrom(baseCurrency.currencySymbol, baseCurrency.currencyName, locationCode, baseCurrency.countryFlag);
                 generateTo(convertedCurrency.currencySymbol, convertedCurrency.currencyName, destinationCode, data.result, convertedCurrency.countryFlag);
-                var setConversion = $("<p>").text(baseCurrency.currencySymbol + " 1.00 " + "(" + locationCode + ")" + " = " + convertedCurrency.currencySymbol + " " + data.result + " (" + destinationCode + ")").addClass("italic");
+                var setConversion = $("<p>").text(baseCurrency.currencySymbol + " 1.00 " + "(" + locationCode + ")" + " = " + convertedCurrency.currencySymbol + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("italic");
                 $(setConversion).insertBefore($("#historyTitle"));
             });
         } else {
