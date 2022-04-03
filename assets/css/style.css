@@ -1,0 +1,7 @@
+.select {
+    width: 80%;
+    text-align: center;
+}
+.select:focus {
+    outline:none;
+}
