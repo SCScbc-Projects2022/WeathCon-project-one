@@ -13,6 +13,24 @@ var containerThree = document.querySelector("#container-3");
 //error handling and validations - change to modals
 //conversion history?
 
+// .max-size {
+//     max-width: 30px;
+//     margin: 0 10px;
+// }
+
+// .form-width {
+//     max-width: 75px;
+// }
+
+// #loadingImg {
+//     max-width: 100px;
+// }
+
+// #convert {
+//     border-radius: 15px;
+//     background: orange;
+// }
+
 //currency API
 //placeholder variables
 var departure = "Toronto";
@@ -34,17 +52,24 @@ function loading() {
 
 //top-level divs
 function generateFormat() {
-    //top-level divs
+    //top-level
+    var conversionDiv = $("<div>");
+    $(conversionDiv).addClass("border m-5").attr("id", "conversionDiv");
+    $("#container-2").append(conversionDiv);
+    var historyDiv = $("<div>");
+    $(historyDiv).addClass("border m-5").attr("id", "historyDiv");
+    $("#container-2").append(historyDiv);
+    //mid-level divs conversion
     var fromDiv = $("<div>");
     $(fromDiv).addClass("p-3").attr("id", "convertFrom");
-    $("#container-2").append(fromDiv);
+    $("#conversionDiv").append(fromDiv);
     var ButtonDiv = $("<div>")
     $(ButtonDiv).addClass("flex justify-center items-center").attr("id", "convertButtons");
-    $("#container-2").append(ButtonDiv);
+    $("#conversionDiv").append(ButtonDiv);
     var toDiv = $("<div>")
     $(toDiv).addClass("p-3").attr("id", "convertTo");
-    $("#container-2").append(toDiv);
-    //button div elements
+    $("#conversionDiv").append(toDiv);
+    //button div elements conversion
     var fromFlagDiv = $("<div>");
     $(fromFlagDiv).addClass("border inline-block max-size").attr("id", "fromFlag");
     $("#convertButtons").append(fromFlagDiv);
@@ -54,6 +79,12 @@ function generateFormat() {
     var toFlagDiv = $("<div>");
     $(toFlagDiv).addClass("border inline-block max-size").attr("id", "toFlag");
     $("#convertButtons").append(toFlagDiv);
+    //mid-level elements history
+    var historyTitle = $("<h2>").text("Conversion History:").attr("id", "historyTitle");
+    $("#historyDiv").append(historyTitle);
+    var conversionHistory = ("<ul>");
+    $(conversionHistory).addClass("border").attr("id", "conversionHistory");
+    $("#historyDiv").append(conversionHistory);
 }
 
 //internally dynamic elements
@@ -116,15 +147,16 @@ function convertAmount() {
                 });
             } else {
                 alert("unable to retrieve conversion data");
+                return;
             }
         })
         .catch(function(error) {
             alert("unable to connect with currency API");
-        })
+            return;
+        });
 
-    //set so that the amount field now captures changed country to test function - add function call to Candice's code to get country from city
-    // var newDestination = document.querySelector("#amount"); //change id for the form element in header
-    // var country = newDestination.value.trim();
+    // set so that the amount field now captures changed country to test function - add function call to Candice's code to get country from city
+    // var country = $.trim($("#amount").val()); //change id for the form element in header
     // swapDestination(country);
 }
 
@@ -143,11 +175,13 @@ async function swapDestination(country) {
                     });
                 } else {
                     alert("unable to retrieve conversion data");
+                    return;
                 }
             })
             .catch(function(error) {
                 alert("unable to connect with currency API");
-            })
+                return;
+            });
 }
 
 //get country user is currently in
@@ -167,10 +201,12 @@ function departureCountry(departure) {
                     return data;
             } else {
                 alert("unable to retrieve conversion data");
+                return;
             }
         })
         .catch(function(error) {
             alert("unable to connect with currency API");
+            return;
         });
    return dataOne;
 }
@@ -183,34 +219,46 @@ async function getCurrency(country) {
             if (response.ok){
                 var data =  response.json().then(function(data) {
                     var currency = Object.keys(data[0].currencies)[0];
-                    var currencyObj = {currency: Object.keys(data[0].currencies)[0], currencyName: data[0].currencies[currency].name, currencySymbol: data[0].currencies[currency].symbol, countryFlag: data[0].flags.svg};
+                    var currencyObj = {currency: Object.keys(data[0].currencies)[0], currencyName: data[0].currencies[currency].name, currencySymbol: data[0].currencies[currency].symbol, countryFlag: data[0].flags.png};
                     return currencyObj;
                 });
                 return data;
             } else {
                 alert("unable to retrieve conversion data");
+                return;
             }
         })
         .catch(function(error){
             alert("unable to connect with currency API");
-        })
+            return;
+        });
   return dataOne; 
 }
 
 //on submit, run the following
 async function convertCurrency(departure, destination) {
+// async function convertCurrency(destination) { //add convertCurrency(locationCodeFromWeatherAPI) to Candice's code
+    // var departure = $.trim($("#amount").val()); //change id for the form element in header
     var baseCurrency =  await departureCountry(departure);
     var convertedCurrency = await getCurrency(destination);
     locationCode = baseCurrency.currency;
     destinationCode = convertedCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&places=2";
     fetch(apiUrl).then(function(response) {
-        response.json().then(function(data) {
-            $("#container-2").empty();
-            generateFormat();
-            generateFrom(baseCurrency.currencySymbol, baseCurrency.currencyName, locationCode, baseCurrency.countryFlag);
-            generateTo(convertedCurrency.currencySymbol, convertedCurrency.currencyName, destinationCode, data.result, convertedCurrency.countryFlag);
-        });
+        if (response.ok) {
+            response.json().then(function(data) {
+                $("#container-2").empty();
+                generateFormat();
+                generateFrom(baseCurrency.currencySymbol, baseCurrency.currencyName, locationCode, baseCurrency.countryFlag);
+                generateTo(convertedCurrency.currencySymbol, convertedCurrency.currencyName, destinationCode, data.result, convertedCurrency.countryFlag);
+            });
+        } else {
+            alert("unable to retrieve conversion data");
+        }
+    })
+    .catch(function(error) {
+        alert("unable to connect with currency API");
+        return;
     });
 }
 
