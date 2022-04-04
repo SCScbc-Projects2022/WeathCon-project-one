@@ -5,6 +5,15 @@ var containerThree = document.querySelector("#container-3");
 // departure will be current location, destination will be search location
 //Brennan's code here
 //Candice's code here
+
+var formSubmitHandler = function(event){
+event.preventDefault();
+var city = cityinput.value.trim().toLowerCase();
+if (city){
+    getWeather()
+}
+}
+
 var getWeather = function(city){
     console.log(city);
     var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
@@ -34,6 +43,7 @@ var icon=document.createElement("div");
 icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[1].icon + ".png>";
 containerOne.appendChild(icon);
 
+//tabs 
 var tabForecast = document.createElement("div");
 tabForecast.setAttribute("id", "tabs")
 containerOne.appendChild(tabForecast);
