@@ -3,10 +3,15 @@
     margin: 0 10px;
 }
 
-.center {
-    text-align: center;
-}
-
 .form-width {
     max-width: 75px;
+}
+
+#loadingImg {
+    max-width: 100px;
+}
+
+#convert {
+    border-radius: 15px;
+    background: orange;
 }
