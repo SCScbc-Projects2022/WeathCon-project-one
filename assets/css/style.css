@@ -1,0 +1,12 @@
+.max-size {
+    max-width: 30px;
+    margin: 0 10px;
+}
+
+.center {
+    text-align: center;
+}
+
+.form-width {
+    max-width: 75px;
+}

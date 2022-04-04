@@ -8,21 +8,24 @@ var containerThree = document.querySelector("#container-3");
 //Veronica's code here
 
 //To do:
-//capture form fields
 //formatting
 //CSS
 //streamline code
+//reduces parameters returned with weather and REST APIs
+//add flags and fun stuff
+//write code to handle updated destination location
+//error handling and validations
 
 //top-level divs
 function topLevel() {
     var fromDiv = $("<div>");
-    $(fromDiv).addClass("border convert-from").attr("id", "convertFrom");
+    $(fromDiv).addClass("border center").attr("id", "convertFrom");
     $("#container-2").append(fromDiv);
     var ButtonDiv = $("<div>")
-    $(ButtonDiv).addClass("border convert-buttons").attr("id", "convertButtons");
+    $(ButtonDiv).addClass("border flex justify-center items-center").attr("id", "convertButtons");
     $("#container-2").append(ButtonDiv);
     var toDiv = $("<div>")
-    $(toDiv).addClass("border convert-to").attr("id", "convertTo");
+    $(toDiv).addClass("border center").attr("id", "convertTo");
     $("#container-2").append(toDiv);
     // var createDiv = document.createElement("div");
     // createDiv.className = cls;
@@ -50,15 +53,21 @@ function midLevel() {
 
 //inner elements
 function innerElements() {
-    var from = $("<h2>");
-    $(from).text("FROM");
-    $("#convertFrom").append(from);
-    var to = $("<h2>");
-    $(to).text("TO");
-    $("#convertTo").append(to);
+    // var from = $("<h2>");
+    // $(from).text("FROM");
+    // $("#convertFrom").append(from);
+    // var to = $("<h2>");
+    // $(to).text("TO");
+    // $("#convertTo").append(to);
+    var fromFlagDiv = $("<div>");
+    $(fromFlagDiv).addClass("inline-block max-size").attr("id", "fromFlag");
+    $("#convertButtons").append(fromFlagDiv);
     var conversionButton = $("<button>");
-    $(conversionButton).text("CONVERT").attr("id", "convert");
+    $(conversionButton).text("CONVERT TO").attr("id", "convert");
     $("#convertButtons").append(conversionButton);
+    var toFlagDiv = $("<div>");
+    $(toFlagDiv).addClass("inline-block max-size").attr("id", "toFlag");
+    $("#convertButtons").append(toFlagDiv);
     // var from = document.createElement("h2");
     // from.textContent = "FROM";
     // convertFrom.appendChild(from);
@@ -77,14 +86,18 @@ innerElements();
 
 //internally dynamic elements
 //convert from
-function generateFrom(symbol, name, code) {
+function generateFrom(symbol, name, code, flag) {
     var amountLabel = $("<label>");
     $(amountLabel).attr("for", "amount").text(symbol);
-    var amountInput = $("<input>").attr("type", "text").attr("id", "amount").attr("placeholder", 1);
+    var amountInput = $("<input>").addClass("border form-width").attr("type", "text").attr("id", "amount").attr("placeholder", " 1.00");
     $("#convertFrom").append(amountLabel);
     $("#convertFrom").append(amountInput);
-    var fromCurrency = $("<p>").text(name + " (" + code + ")").addClass("currencyName").attr("id", "fromCurrency");
+    var fromCurrency = $("<p>").text(name + " (" + code + ")").attr("id", "fromCurrency");
     $("#convertFrom").append(fromCurrency);
+    var fromFlag = $("<img>");
+    $(fromFlag).attr("src", flag).attr("alt", "country flag");
+    $("#fromFlag").append(fromFlag);
+    console.log(fromFlag);
     // var amountLabel = document.createElement("label");
     // amountLabel.setAttribute("for", "amount");
     // amountLabel.textContent = symbol;
@@ -101,16 +114,19 @@ function generateFrom(symbol, name, code) {
     // convertFrom.appendChild(fromCurrency);
 }
 //generate to
-function generateTo(symbol, name, code, amount) {
+function generateTo(symbol, name, code, amount, flag) {
     var convertedLabel = $("<label>");
     $(convertedLabel).attr("for", "convertedAmount").text(symbol);
     var convertedAmount = $("<p>");
-    $(convertedAmount).text(amount).attr("id", "convertedAmount");
+    $(convertedAmount).text(amount).addClass("inline-block").attr("id", "convertedAmount");
     $("#convertTo").append(convertedLabel);
     $("#convertTo").append(convertedAmount);
     var toCurrency = $("<p>");
-    $(toCurrency).text(name + " (" + code + ")").addClass("currencyName").attr("id", "toCurrency");
+    $(toCurrency).text(name + " (" + code + ")").attr("id", "toCurrency");
     $("#convertTo").append(toCurrency);
+    var toFlag = $("<img>");
+    $(toFlag).attr("src", flag);
+    $("#toFlag").append(toFlag).attr("alt", "country flag");
     // var convertedAmount = document.createElement("p");
     // convertedAmount.textContent = symbol + amount;//change to variable
     // convertTo.appendChild(convertedAmount);
@@ -122,26 +138,46 @@ function generateTo(symbol, name, code, amount) {
 }
 
 //start logic
-var departure = "Europe";
-var destination = "Hong Kong";
-var setLocation = "";
-var setDestination = "";
+var departure = "Toronto";
+var destination = "United States";//needs to be a country (assumes taking value from weather call)
+var setLocation = "";//currency code returned from getCurrency()
+var setDestination = "";//currency code returned from getCurrency()
 
 //on conversion click
 function clickHandler(event) {
     var targetElement = event.target
+    // if (targetElement.matches("#convert")) {
+    //     var submitForm = document.querySelector("#amount");
+    //     var amount = submitForm.value.trim();
+    //     var apiUrl = "https://api.exchangerate.host/convert?from=" + setLocation + "&to=" + setDestination + "&amount=" + amount + "&places=2";
+    //     fetch(apiUrl).then(function(response) {
+    //         response.json().then(function(data) {
+    //             $("#convertedAmount").text(data.result);
+    //         });
+    //     })
+    // }
+
+    //set so that the amount field now captures changed country to test function - add function call to Candice's code to get country from city
     if (targetElement.matches("#convert")) {
         var submitForm = document.querySelector("#amount");
-        var amount = submitForm.value.trim();
-        var apiUrl = "https://api.exchangerate.host/convert?from=" + setLocation + "&to=" + setDestination + "&amount=" + amount + "&places=2";
-        fetch(apiUrl).then(function(response) {
-            response.json().then(function(data) {
-                $("#convertedAmount").text(data.result);
-            });
-        })
+        var country = submitForm.value.trim();
+        swapDestination(country);
     }
 }
 
+//set up for change in destination
+async function swapDestination(country) {
+    var newCurrency = await getCurrency(country);
+    setDestination = newCurrency.currency;
+    var apiUrl = "https://api.exchangerate.host/convert?from=" + setLocation + "&to=" + setDestination + "&amount=&places=2";
+        fetch(apiUrl).then(function(response) {
+            response.json().then(function(data) {
+                $("#convertTo").empty();
+                $("#toFlag").empty();
+                generateTo(newCurrency.currencySymbol, newCurrency.currencyName, setDestination, data.result, newCurrency.countryFlag);
+            });
+        })
+}
 
 //get country user is currently in
 function departureCountry(departure) {
@@ -166,7 +202,7 @@ async function getCurrency(country) {
     var dataOne = fetch(apiUrl).then(function(response) {
        var data =  response.json().then(function(data) {
             var currency = Object.keys(data[0].currencies)[0];
-            var currencyObj = {currency: Object.keys(data[0].currencies)[0], currencyName: data[0].currencies[currency].name, currencySymbol: data[0].currencies[currency].symbol};
+            var currencyObj = {currency: Object.keys(data[0].currencies)[0], currencyName: data[0].currencies[currency].name, currencySymbol: data[0].currencies[currency].symbol, countryFlag: data[0].flags.svg};
             return currencyObj;
         });
         return data;
@@ -175,7 +211,7 @@ async function getCurrency(country) {
 }
 
 //on submit, run the following
-async function convertCurrency(departure, destination, amount) {
+async function convertCurrency(departure, destination) {
     var baseCurrency =  await departureCountry(departure);
     var convertedCurrency = await getCurrency(destination);
     setLocation = baseCurrency.currency;
@@ -183,13 +219,13 @@ async function convertCurrency(departure, destination, amount) {
     var apiUrl = "https://api.exchangerate.host/convert?from=" + setLocation + "&to=" + setDestination + "&places=2";
     fetch(apiUrl).then(function(response) {
         response.json().then(function(data) {
-            generateFrom(baseCurrency.currencySymbol, baseCurrency.currencyName, setLocation);
-            generateTo(convertedCurrency.currencySymbol, convertedCurrency.currencyName, setDestination, data.result);
+            generateFrom(baseCurrency.currencySymbol, baseCurrency.currencyName, setLocation, baseCurrency.countryFlag);
+            generateTo(convertedCurrency.currencySymbol, convertedCurrency.currencyName, setDestination, data.result, convertedCurrency.countryFlag);
         });
-    })
+    });
 }
 
-convertCurrency(departure, destination); //form capture, parse from weather promise
 containerTwo.addEventListener("click", clickHandler);
+convertCurrency(departure, destination); //form capture, parse from weather promise - add to Candice's code or the overall click handler
 
 //Cory's code here
