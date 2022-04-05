@@ -1,6 +1,27 @@
 /*Brennan's code here
 /*Candice's code here
-/*Veronica's code here
+/*Veronica's code here*/
+.max-size {
+    max-width: 30px; /*subject to change*/
+    margin: 0 10px;
+}
+
+.form-width {
+    max-width: 75px;
+}
+
+.history {
+    background: white;
+}
+
+#loadingImg {
+    max-width: 100px;
+}
+
+#convert {
+    border-radius: 15px;
+    background: orange;
+}
 /*Cory's code here
 
 
