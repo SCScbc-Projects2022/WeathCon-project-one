@@ -14,11 +14,12 @@ header {
 }
 
 header p {
-    margin-left: auto;
+    margin-left: 400px;
     margin-right: auto;
     width: 35em;
     padding: 20px;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    
 }
 
 header img {
@@ -30,6 +31,15 @@ main {
     background-image: url("./assets/images/background.jpg");
     background-size: cover;
     background-position: center;
+}
+
+footer {
+   padding: 30px;
+   color: orange;
+   font-size: large;
+   font-weight: bold;
+   background-color: transparent;
+   
 }
 /*Candice's code here
 /*Veronica's code here
