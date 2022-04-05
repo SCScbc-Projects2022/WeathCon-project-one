@@ -1,4 +1,36 @@
-/*Brennan's code here
+/* Brennan's code here */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  
+header {
+    padding: 30px 30px;
+    display: flex;
+    background-color: orange;
+    border: 2px solid black;
+}
+
+header p {
+    margin-left: auto;
+    margin-right: auto;
+    width: 35em;
+    padding: 20px;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+header img {
+    border: 2px solid black;
+    box-shadow: 4px 2px 4px 0px;
+}
+
+main {
+    background-image: url("./assets/images/background.jpg");
+    background-size: cover;
+    background-position: center;
+}
 /*Candice's code here
 /*Veronica's code here
 /*Cory's code here
