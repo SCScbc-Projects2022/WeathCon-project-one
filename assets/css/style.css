@@ -19,19 +19,24 @@ header p {
     width: 35em;
     padding: 20px;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: large;
 }
 
 header img {
     border: 2px solid black;
     box-shadow: 4px 2px 4px 0px;
+    border-radius: 20px;
 }
 
-main {
-    background-image: url("./assets/images/background.jpg");
-    background-size: cover;
+body {
+    background-image: url("/assets/images/background.jpg");
+    background-color: #cccccc;
+    /* height: 500px;
     background-position: center;
+    background-size: cover; */
 }
+
 
 footer {
    padding: 30px;
@@ -39,7 +44,8 @@ footer {
    font-size: large;
    font-weight: bold;
    background-color: transparent;
-   
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+   text-shadow: 0 0 10px rgba(255,255,255);
 }
 /*Candice's code here
 /*Veronica's code here
