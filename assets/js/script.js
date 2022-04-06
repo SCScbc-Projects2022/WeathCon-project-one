@@ -4,10 +4,13 @@ var containerTwo = document.querySelector("#container-2");
 var containerThree = document.querySelector("#container-3");
 // departure will be current location, destination will be search location
 //Brennan's code here
+
+
+
 //Candice's code here
 
 var formSubmitHandler = function(event){
-event.preventDefault();
+event.preventDefault();S
 var city = cityinput.value.trim().toLowerCase();
 if (city){
     getWeather()
