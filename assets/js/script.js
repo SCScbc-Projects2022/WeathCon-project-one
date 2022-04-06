@@ -42,7 +42,7 @@ currentWeather.textContent = "Temp: " + data.locations[cityName].currentConditio
 containerOne.appendChild(currentWeather);
 
 var icon=document.createElement("div");
-icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[1].icon + ".png>";
+icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].currentConditions.icon + ".png>";
 containerOne.appendChild(icon);
 
 //tabs 
@@ -90,6 +90,10 @@ for(var i = 1; i<6; i++){
         date.textContent=moment(data.locations[cityName].values[i].datetimeStr).format("L");
         days.appendChild(date);
 
+        var icon=document.createElement("li");
+        icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
+        days.appendChild(icon);
+
         var temp = document.createElement("li");
         temp.setAttribute("class", "days-text");
         temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
@@ -114,6 +118,10 @@ for(var i = 1; i<8; i++){
         date.textContent=moment(data.locations[cityName].values[i].datetimeStr).format("L");
         days.appendChild(date);
 
+        var icon=document.createElement("li");
+        icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
+        days.appendChild(icon);
+
         var temp = document.createElement("li");
         temp.setAttribute("class", "days-text");
         temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
@@ -137,6 +145,10 @@ for(var i = 1; i<15; i++){
         date.classList.add("font-weight-bold", "days-text");
         date.textContent=moment(data.locations[cityName].values[i].datetimeStr).format("L");
         days.appendChild(date);
+
+        var icon=document.createElement("li");
+        icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
+        days.appendChild(icon);
 
         var temp = document.createElement("li");
         temp.setAttribute("class", "days-text");
