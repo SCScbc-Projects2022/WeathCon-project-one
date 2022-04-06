@@ -23,26 +23,16 @@ var updateDestination = function(){
 	convertCurrency();
 }
 
-<<<<<<< HEAD
-var getWeather = function(city){
-    var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
-=======
 var getWeather = function(){//city){
     //console.log(destination);
     var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + destination + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
->>>>>>> develop
     fetch(apiURL)
     .then(function(response){
         if (response.ok){
             response.json().then(function(data){
-<<<<<<< HEAD
-                  displayWeather(data, city);
-                  var country = data.locations[city].address.split(",")
-=======
                 console.log(data);
                   displayWeather(data, destination);
                   var country = data.locations[destination].address.split(",")
->>>>>>> develop
                   convertCurrency(country[2]);
             })
          } else {
@@ -426,22 +416,11 @@ async function getCurrency(country) {
 }
 
 //on submit, run the following
-<<<<<<< HEAD
  async function convertCurrency(destination) { //add convertCurrency(locationCodeFromWeatherAPI) to Candice's code
     // var departure = $.trim($("#amount").val()); //change id for the form element in header - also needs to be a universal variable - change in Candice's call too
     var departure = "paris";
     var baseCurrency =  await departureCountry(departure);
     var convertedCurrency = await getCurrency(destination);
-=======
-
- async function convertCurrency() { //destination) { //add convertCurrency(locationCodeFromWeatherAPI) to Candice's code
-    // var departure = $.trim($("#amount").val()); //change id for the form element in header
-    //var departure="New York";
-    var baseCurrency =  await getCountry(departure);
-	var convertedCurrency = await getCountry(destination);
-	//console.log(destinationCountry);
-    //var convertedCurrency = await getCurrency(destinationCountry);
->>>>>>> develop
     locationCode = baseCurrency.currency;
     destinationCode = convertedCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&places=2";
