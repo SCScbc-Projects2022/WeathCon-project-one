@@ -1,156 +1,203 @@
-var header = document.querySelector("#header");
-var containerOne = document.querySelector("#container-1");
-var containerTwo = document.querySelector("#container-2");
-var containerThree = document.querySelector("#container-3");
+
+var header = $("#header");
+var containerOne = $("#container-1");
+var containerTwo = $("#container-2");
+var containerThree = $("#container-3");
+
+var departure = "Toronto";
+var destination = "New York";
+var destinationContainer = document.querySelector("#new-current-destination");
 // departure will be current location, destination will be search location
 //Brennan's code here
+
+
+
 //Candice's code here
 
-var formSubmitHandler = function(event){
-event.preventDefault();
-var city = cityinput.value.trim().toLowerCase();
-if (city){
-    getWeather()
-}
+var updateDestination = function(){
+	var newDestination = $("#textDestination").val();
+	console.log(newDestination);
+	destination = newDestination;
+	
+	getWeather();
+	convertCurrency();
 }
 
+<<<<<<< HEAD
 var getWeather = function(city){
     var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
+=======
+var getWeather = function(){//city){
+    //console.log(destination);
+    var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + destination + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
+>>>>>>> develop
     fetch(apiURL)
     .then(function(response){
         if (response.ok){
             response.json().then(function(data){
+<<<<<<< HEAD
                   displayWeather(data, city);
                   var country = data.locations[city].address.split(",")
+=======
+                console.log(data);
+                  displayWeather(data, destination);
+                  var country = data.locations[destination].address.split(",")
+>>>>>>> develop
                   convertCurrency(country[2]);
             })
          } else {
              //insert error handling here
          };
-    })
+    });
 }
- var displayWeather = function(data, city){
-var cityName = city;
-var weatherTitleEl = document.createElement("div");
-weatherTitleEl.textContent=data.locations[cityName].address;
-containerOne.appendChild(weatherTitleEl);
+var displayWeather = function(data){//, city){
+	var weatherTitleEl = document.createElement("div");
+	weatherTitleEl.textContent=data.locations[destination].address;
+	containerOne.append(weatherTitleEl);
 
-var currentWeather = document.createElement("div");
-currentWeather.textContent = "Temp: " + data.locations[cityName].currentConditions.temp + " °C";
-containerOne.appendChild(currentWeather);
+	var currentWeather = document.createElement("div");
+	currentWeather.textContent = "Temp: " + data.locations[destination].currentConditions.temp + " °C";
+	containerOne.append(currentWeather);
 
-var icon=document.createElement("div");
-icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[1].icon + ".png>";
-containerOne.appendChild(icon);
+// // var icon=document.createElement("div");
+// icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].currentConditions.icon + ".png>";
+// containerOne.appendChild(icon);
+	var icon=document.createElement("div");
+	icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[destination].values[1].icon + ".png>";
+	containerOne.append(icon);
 
-//tabs 
-var tabForecast = document.createElement("div");
-tabForecast.setAttribute("id", "tabs")
-containerOne.appendChild(tabForecast);
+	//tabs 
+	var tabForecast = document.createElement("div");
+	tabForecast.setAttribute("id", "tabs")
+	containerOne.append(tabForecast);
 
-var tabHolder = document.createElement("ul");
-tabForecast.appendChild(tabHolder);
+	var tabHolder = document.createElement("ul");
+	tabForecast.appendChild(tabHolder);
 
-var fiveDay = document.createElement("li");
-fiveDay.innerHTML="<a href='#5'>5 Day</a>";
-tabHolder.appendChild(fiveDay);
+	var fiveDay = document.createElement("li");
+	fiveDay.innerHTML="<a href='#5'>5 Day</a>";
+	tabHolder.appendChild(fiveDay);
 
-var sevenDay = document.createElement("li");
-sevenDay.innerHTML="<a href='#7'>7 Day</a>";
-tabHolder.appendChild(sevenDay);
+	var sevenDay = document.createElement("li");
+	sevenDay.innerHTML="<a href='#7'>7 Day</a>";
+	tabHolder.appendChild(sevenDay);
 
-var fourteenDay = document.createElement("li");
-fourteenDay.innerHTML="<a href='#14'>14 Day</a>";
-tabHolder.appendChild(fourteenDay);
+	var fourteenDay = document.createElement("li");
+	fourteenDay.innerHTML="<a href='#14'>14 Day</a>";
+	tabHolder.appendChild(fourteenDay);
 
-var fiveDayTab = document.createElement("div");
-fiveDayTab.setAttribute("id", "5");
-fiveDayTab.classList.add("grid", "grid-cols-5")
+	var fiveDayTab = document.createElement("div");
+	fiveDayTab.setAttribute("id", "5");
+	fiveDayTab.classList.add("grid", "grid-cols-5")
 
-var sevenDayTab = document.createElement("div");
-sevenDayTab.setAttribute("id", "7");
+	var sevenDayTab = document.createElement("div");
+	sevenDayTab.setAttribute("id", "7");
 
-var fourteenDayTab = document.createElement("div");
-fourteenDayTab.setAttribute("id", "14");
+	var fourteenDayTab = document.createElement("div");
+	fourteenDayTab.setAttribute("id", "14");
 
-tabForecast.appendChild(fiveDayTab);
-//dont forget to figure out display not being block to show containers side by side(devtools)
-for(var i = 1; i<6; i++){
-    var dayEl = document.createElement("div");
-        dayEl.classList.add("border");
-        fiveDayTab.appendChild(dayEl);
-        
-        var days = document.createElement("ul");
-        dayEl.appendChild(days);
-        
-        var date = document.createElement("li");
-        date.classList.add("font-weight-bold", "days-text");
-        date.textContent=moment(data.locations[cityName].values[i].datetimeStr).format("L");
-        days.appendChild(date);
+	tabForecast.appendChild(fiveDayTab);
+	//dont forget to figure out display not being block to show containers side by side(devtools)
+	for(var i = 1; i<6; i++){
+		var dayEl = document.createElement("div");
+			dayEl.classList.add("border");
+			fiveDayTab.appendChild(dayEl);
+			
+			var days = document.createElement("ul");
+			dayEl.appendChild(days);
+			
+			var date = document.createElement("li");
+			date.classList.add("font-weight-bold", "days-text");
+			date.textContent=moment(data.locations[destination].values[i].datetimeStr).format("L");
+			days.appendChild(date);
 
-        var temp = document.createElement("li");
-        temp.setAttribute("class", "days-text");
-        temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
-        days.appendChild(temp);
+        var icon=document.createElement("li");
+        icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
+        days.appendChild(icon);
 
-        var humidity = document.createElement("li");
-        humidity.setAttribute("class", "days-text");
-        humidity.textContent= "Humidity: " + data.locations[cityName].values[i].humidity + "%";
-        days.appendChild(humidity);
-}
-tabForecast.appendChild(sevenDayTab);
-for(var i = 1; i<8; i++){
-    var dayEl = document.createElement("div");
-        dayEl.classList.add("border");
-        sevenDayTab.appendChild(dayEl);
-        
-        var days = document.createElement("ul");
-        dayEl.appendChild(days);
-        
-        var date = document.createElement("li");
-        date.classList.add("font-weight-bold", "days-text");
-        date.textContent=moment(data.locations[cityName].values[i].datetimeStr).format("L");
-        days.appendChild(date);
+        // var temp = document.createElement("li");
+        // temp.setAttribute("class", "days-text");
+        // temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
+        // days.appendChild(temp);
+		// 	var temp = document.createElement("li");
+		// 	temp.setAttribute("class", "days-text");
+		// 	temp.textContent= "Temp: " + data.locations[destination].values[i].temp + " °C";
+		// 	days.appendChild(temp);
 
-        var temp = document.createElement("li");
-        temp.setAttribute("class", "days-text");
-        temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
-        days.appendChild(temp);
+			var humidity = document.createElement("li");
+			humidity.setAttribute("class", "days-text");
+			humidity.textContent= "Humidity: " + data.locations[destination].values[i].humidity + "%";
+			days.appendChild(humidity);
+	}
+	tabForecast.appendChild(sevenDayTab);
+	for(var i = 1; i<8; i++){
+		var dayEl = document.createElement("div");
+			dayEl.classList.add("border");
+			sevenDayTab.appendChild(dayEl);
+			
+			var days = document.createElement("ul");
+			dayEl.appendChild(days);
+			
+			var date = document.createElement("li");
+			date.classList.add("font-weight-bold", "days-text");
+			date.textContent=moment(data.locations[destination].values[i].datetimeStr).format("L");
+			days.appendChild(date);
 
-        var humidity = document.createElement("li");
-        humidity.setAttribute("class", "days-text");
-        humidity.textContent= "Humidity: " + data.locations[cityName].values[i].humidity + "%";
-        days.appendChild(humidity);
-}
-tabForecast.appendChild(fourteenDayTab);
-for(var i = 1; i<15; i++){
-    var dayEl = document.createElement("div");
-        dayEl.classList.add("border");
-        fourteenDayTab.appendChild(dayEl);
-        
-        var days = document.createElement("ul");
-        dayEl.appendChild(days);
-        
-        var date = document.createElement("li");
-        date.classList.add("font-weight-bold", "days-text");
-        date.textContent=moment(data.locations[cityName].values[i].datetimeStr).format("L");
-        days.appendChild(date);
+        var icon=document.createElement("li");
+        icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
+        days.appendChild(icon);
 
-        var temp = document.createElement("li");
-        temp.setAttribute("class", "days-text");
-        temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
-        days.appendChild(temp);
+        // var temp = document.createElement("li");
+        // temp.setAttribute("class", "days-text");
+        // temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
+        // days.appendChild(temp);
+		// 	var temp = document.createElement("li");
+		// 	temp.setAttribute("class", "days-text");
+		// 	temp.textContent= "Temp: " + data.locations[destination].values[i].temp + " °C";
+		// 	days.appendChild(temp);
 
-        var humidity = document.createElement("li");
-        humidity.setAttribute("class", "days-text");
-        humidity.textContent= "Humidity: " + data.locations[cityName].values[i].humidity + "%";
-        days.appendChild(humidity);
-}
+			var humidity = document.createElement("li");
+			humidity.setAttribute("class", "days-text");
+			humidity.textContent= "Humidity: " + data.locations[destination].values[i].humidity + "%";
+			days.appendChild(humidity);
+	}
+	tabForecast.appendChild(fourteenDayTab);
+	for(var i = 1; i<15; i++){
+		var dayEl = document.createElement("div");
+			dayEl.classList.add("border");
+			fourteenDayTab.appendChild(dayEl);
+			
+			var days = document.createElement("ul");
+			dayEl.appendChild(days);
+			
+			var date = document.createElement("li");
+			date.classList.add("font-weight-bold", "days-text");
+			date.textContent=moment(data.locations[destination].values[i].datetimeStr).format("L");
+			days.appendChild(date);
+
+        var icon=document.createElement("li");
+        icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
+        days.appendChild(icon);
+
+        // var temp = document.createElement("li");
+        // temp.setAttribute("class", "days-text");
+        // temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
+        // days.appendChild(temp);
+		// 	var temp = document.createElement("li");
+		// 	temp.setAttribute("class", "days-text");
+		// 	temp.textContent= "Temp: " + data.locations[destination].values[i].temp + " °C";
+		// 	days.appendChild(temp);
+
+			var humidity = document.createElement("li");
+			humidity.setAttribute("class", "days-text");
+			humidity.textContent= "Humidity: " + data.locations[destination].values[i].humidity + "%";
+			days.appendChild(humidity);
+	}
 
     $("#tabs").tabs();
  };
 
- getWeather("toronto");
+ getWeather(destination);
  
 
 
@@ -172,7 +219,7 @@ var dollarUSLocale = Intl.NumberFormat('en-US', {
 
 //load screen for delay in promise fulfillment
 function loading() {
-    $("#container-2").addClass("p-3 text-center")
+    containerTwo.addClass("p-3 text-center")
     var flexContainer = $("<div>");
     $(flexContainer).addClass("flex justify-center backdrop").attr("id", "flexContainer");
     $("#container-2").append(flexContainer);
@@ -181,7 +228,13 @@ function loading() {
     $("#flexContainer").append(loading);
     var loadingText = $("<p>");
     $(loadingText).text("Loading...").addClass("m-1");
-    $("#container-2").append(loadingText);   
+    containerTwo.append(loadingText);  
+	
+	
+	$('<input/>').attr({type:'text', id:'textDestination', name:'textDestination'}).addClass('d-inline-block').appendTo(destinationContainer);
+	$('<input/>').attr({type:'button', id:'btnDestination', name:'btnDestination', value:'Go'}).addClass('d-inline-block').appendTo(destinationContainer);   
+	//.append('<i class="fa-solid fa-city"></i>')
+	$(destinationContainer).on("click", "#btnDestination", updateDestination);
 }
 
 //top-level divs
@@ -322,8 +375,8 @@ async function swapDestination(country) {
 }
 
 //get country user is currently in
-function departureCountry(departure) {
-    var apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + departure + "?key=X9LBGTKUKSQ3B9GUW69YR2WX9";//replace personal key
+function getCountry(country) {
+    var apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + country + "?key=X9LBGTKUKSQ3B9GUW69YR2WX9";//replace personal key
     var dataOne = fetch(apiUrl)
         .then(function(response) {
             if (response.ok) {
@@ -373,11 +426,22 @@ async function getCurrency(country) {
 }
 
 //on submit, run the following
+<<<<<<< HEAD
  async function convertCurrency(destination) { //add convertCurrency(locationCodeFromWeatherAPI) to Candice's code
     // var departure = $.trim($("#amount").val()); //change id for the form element in header - also needs to be a universal variable - change in Candice's call too
     var departure = "paris";
     var baseCurrency =  await departureCountry(departure);
     var convertedCurrency = await getCurrency(destination);
+=======
+
+ async function convertCurrency() { //destination) { //add convertCurrency(locationCodeFromWeatherAPI) to Candice's code
+    // var departure = $.trim($("#amount").val()); //change id for the form element in header
+    //var departure="New York";
+    var baseCurrency =  await getCountry(departure);
+	var convertedCurrency = await getCountry(destination);
+	//console.log(destinationCountry);
+    //var convertedCurrency = await getCurrency(destinationCountry);
+>>>>>>> develop
     locationCode = baseCurrency.currency;
     destinationCode = convertedCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&places=2";
