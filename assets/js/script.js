@@ -7,9 +7,9 @@ var containerThree = $("#container-3");
 var departure = "Toronto";
 var destination = "New York";
 var destinationContainer = document.querySelector("#new-current-destination");
+
 // departure will be current location, destination will be search location
 //Brennan's code here
-
 
 
 //Candice's code here
