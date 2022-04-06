@@ -32,7 +32,7 @@ header img {
 body {
     background-image: url("../images/background.jpg");
     background-color: #cccccc;
-    height: 500px;
+    
     background-position: center;
     background-size: cover;
 }
@@ -43,13 +43,33 @@ footer {
    color: orange;
    font-size: large;
    font-weight: bold;
-   background-color: transparent;
+   
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 /*Candice's code here
+/*Veronica's code here*/
+.max-size {
+    max-width: 30px;
+    margin: 0 10px;
+}
 
-/*Veronica's code here
+.form-width {
+    max-width: 85px;
+}
+
+.history, .backdrop {
+    background: white;
+}
+
+#loadingImg {
+    max-width: 100px;
+}
+
+#convert {
+    border-radius: 15px;
+    background: orange;
+}
 /*Cory's code here
 
 
