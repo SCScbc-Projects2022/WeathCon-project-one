@@ -174,7 +174,7 @@ var dollarUSLocale = Intl.NumberFormat('en-US', {
 function loading() {
     $("#container-2").addClass("p-3 text-center")
     var flexContainer = $("<div>");
-    $(flexContainer).addClass("flex justify-center").attr("id", "flexContainer");
+    $(flexContainer).addClass("flex justify-center backdrop").attr("id", "flexContainer");
     $("#container-2").append(flexContainer);
     var loading = $("<img>");
     $(loading).attr("src", "./weathcon-favicon.png").attr("alt", "loading").attr("id", "loadingImg");
@@ -188,10 +188,10 @@ function loading() {
 function generateFormat() {
     //top-level
     var conversionDiv = $("<div>");
-    $(conversionDiv).addClass("border m-5").attr("id", "conversionDiv");
+    $(conversionDiv).addClass("border m-5 backdrop").attr("id", "conversionDiv");
     $("#container-2").append(conversionDiv);
     var historyDiv = $("<div>");
-    $(historyDiv).addClass("border m-5").attr("id", "historyDiv");
+    $(historyDiv).addClass("border m-5 backdrop").attr("id", "historyDiv");
     $("#container-2").append(historyDiv);
     //mid-level divs conversion
     var fromDiv = $("<div>");
@@ -225,8 +225,8 @@ function generateFormat() {
 //convert from
 function generateFrom(symbol, name, code, flag) {
     var amountLabel = $("<label>");
-    $(amountLabel).addClass("mr-1").attr("for", "amount").text(symbol);
-    var amountInput = $("<input>").addClass("border form-width").attr("type", "text").attr("id", "amount").attr("placeholder", "1");
+    $(amountLabel).addClass("mr-1").attr("for", "amount").text(symbol).attr("id", "fromSymbol");
+    var amountInput = $("<input>").addClass("border form-width").attr("type", "text").attr("id", "amount").attr("placeholder", "1.00");
     $("#convertFrom").append(amountLabel);
     $("#convertFrom").append(amountInput);
     var fromCurrency = $("<p>").text(name + " (" + code + ")").addClass("italic").attr("id", "fromCurrency");
@@ -238,7 +238,7 @@ function generateFrom(symbol, name, code, flag) {
 //generate to
 function generateTo(symbol, name, code, amount, flag) {
     var convertedLabel = $("<label>");
-    $(convertedLabel).addClass("mr-1").attr("for", "convertedAmount").text(symbol);
+    $(convertedLabel).addClass("mr-1").attr("for", "convertedAmount").text(symbol).attr("id", "toSymbol");
     var convertedAmount = $("<p>");
     $(convertedAmount).text(dollarUSLocale.format(amount)).addClass("inline-block").attr("id", "convertedAmount");
     $("#convertTo").append(convertedLabel);
@@ -278,7 +278,7 @@ function convertAmount() {
                 response.json().then(function(data) {
                     $("#convertedAmount").text(dollarUSLocale.format(data.result));
                     $("#amount").val("").attr("placeholder", dollarUSLocale.format(amount));
-                    var search = $("<li>").text(dollarUSLocale.format(amount) + " (" + locationCode + ") = " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("history");
+                    var search = $("<li>").text($("#fromSymbol").text() + " " + dollarUSLocale.format(amount) + " (" + locationCode + ") = " + $("#toSymbol").text() + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("history");
                     $("#conversionHistory").prepend(search);
                     $(".conversionHistory .history").slice(10).remove();
                 });
@@ -375,7 +375,7 @@ async function getCurrency(country) {
 //on submit, run the following
  async function convertCurrency(destination) { //add convertCurrency(locationCodeFromWeatherAPI) to Candice's code
     // var departure = $.trim($("#amount").val()); //change id for the form element in header - also needs to be a universal variable - change in Candice's call too
-    var departure = "New York";
+    var departure = "paris";
     var baseCurrency =  await departureCountry(departure);
     var convertedCurrency = await getCurrency(destination);
     locationCode = baseCurrency.currency;
