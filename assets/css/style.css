@@ -48,7 +48,28 @@ footer {
    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 /*Candice's code here
-/*Veronica's code here
+/*Veronica's code here*/
+.max-size {
+    max-width: 30px;
+    margin: 0 10px;
+}
+
+.form-width {
+    max-width: 85px;
+}
+
+.history, .backdrop {
+    background: white;
+}
+
+#loadingImg {
+    max-width: 100px;
+}
+
+#convert {
+    border-radius: 15px;
+    background: orange;
+}
 /*Cory's code here
 
 
