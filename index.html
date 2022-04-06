@@ -6,39 +6,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" integrity="sha512-wnea99uKIC3TJF7v4eKk4Y+lMz2Mklv18+r4na2Gn1abDRPPOeef95xTzdwGD9e6zXJBteMIhZ1+68QC5byJZw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./assets/css/style.css">
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" /> -->
+    <link rel="stylesheet" href="./assets/css/style.css" />
     <title>WeathCon</title>
     <link rel="icon" type="image/x-icon" href="./weathcon-favicon.png">
 </head>
 
 <body>
-    
     <header id="header"> 
         <div>
             <img src="./assets/images/weathcon-logo.png">
         </div>
         <p>Are you planning a vacation?  WeathCon will help you prepare with your destination's weather forecast, and currency exchange rate.</p>
-  <form>   
-    <input type="text" id="new-city" placeholder="        Input New City">
-    <button id="submit">Submit</button>
-  </form>
+        <div id="new-current-destination"></div>
     </header>
 
-    <main class="flex grid place-content-center gap-4 grid-cols-3">
-        <div class="border" id="container-1"></div>
-        <div class="border" id="container-2"></div>
-        <div class="border" id="container-3"></div>
+    <main class="flex grid place-content-center gap-4 grid-cols-3 py-5 px-3">
+        <div class="border bg-white" id="container-1"></div>
+        <div class="border bg-white" id="container-2"></div>
+        <div class="border bg-white" id="container-3"></div>
     </main>
-
-   <form id="current-city"></form>
-   <form id="destination-city"></form>
 
     <footer>
         Made by Team WeathCon 2022
     </footer>
 
     <!--modals go here-->
-    <!-- Brennan's code goes here -->git checkoit
+    <!-- Brennan's code goes here -->
     <!-- Candice's code goes here-- -->
     <!-- Veronica's code goes here-- -->
     <!-- Cory's code goes here -->
@@ -46,8 +41,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js" integrity="sha512-0bEtK0USNd96MnO4XhH8jhv3nyRF0eK87pJke6pkYf3cM0uDIhNJy9ltuzqgypoIFXw3JSuiy04tVk4AjpZdZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/fontawesome.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
