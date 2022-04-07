@@ -47,7 +47,34 @@ footer {
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-/*Candice's code here
+/*Candice's code here*/
+.boxes {
+background-color: white;
+display: flex;
+justify-content: center;
+}
+.cTitle {
+    margin: 10px auto 10px auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: large;
+}
+.cBoxes{
+    margin: 10px auto 10px auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+   
+}
+.ui-tabs .ui-tabs-nav {
+    display: flex;
+    justify-content: center;
+}
+.ui-tabs .ui-tabs-panel {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: small;
+}
+
 /*Veronica's code here*/
 .max-size {
     max-width: 30px;
