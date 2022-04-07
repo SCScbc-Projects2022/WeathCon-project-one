@@ -1,24 +1,18 @@
-//logic passing parameters from page one to two
+//logic passing query string from page one to two
 var locations = [];
 var text = document.location.search;
-var sentence = text.split("?");
+var query = text.split("?");
 parsing();
 function parsing() {
-    for (i = 0; i < sentence.length; i++) {
-        var item = sentence[i].split("%20").join(" ").trim();
+    for (i = 0; i < query.length; i++) {
+        var item = query[i].split("%20").join(" ").trim();
         locations.push(item);
     }
 }
-var departureCity = locations[1];
-var departureCountry = locations[2];
-var destinationCity = locations[3];
-var destinationCountry = locations[4];
-
-//adding console.log for ease of variable substitution - to be removed for final version
-console.log(departureCity);//new york
-console.log(departureCountry);//united states
-console.log(destinationCity);//toronto
-console.log(destinationCountry);//canada
+var departureCity = locations[1];//new york
+var departureCountry = locations[2];//united states
+var destinationCity = locations[3];//toronto
+var destinationCountry = locations[4];//canada
 
 //don't need query selectors after streamlining + using jQuery
 var header = document.querySelector("#header");
@@ -32,6 +26,10 @@ $("#new-destination-form").on("click", "#submit-new-destination", updateDestinat
 
 function updateDestination(event) {
     console.log("this is a placeholder function");
+    //Brennan's variable declaration code goes here
+    //Candice's location change function call goes here
+    //Veronica's location change function call goes here
+    //Cory's locaiton change function call goes here
 }
 
 //Candice's code here    
@@ -264,7 +262,7 @@ function convertAmount() {
                     $("#amount").val("").attr("placeholder", dollarUSLocale.format(amount));
                     var search = $("<li>").text($("#fromSymbol").text() + " " + dollarUSLocale.format(amount) + " (" + locationCode + ") = " + $("#toSymbol").text() + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("bg-white");
                     $("#conversionHistory").prepend(search);
-                    $(".conversionHistory .history").slice(10).remove();
+                    $(".conversionHistory .bg-white").slice(10).remove();
                 });
             } else {
                 alert("unable to retrieve conversion data");
@@ -277,13 +275,13 @@ function convertAmount() {
         });
 
     // set so that the amount field now captures changed country to test function
-    // var country = $.trim($("#amount").val()); //change id for the form element in header
-    // swapDestination(country);
+    // var newDestination = $.trim($("#amount").val()); //change id for the form element in header
+    // swapDestination(newDestination);
 }
 
 //set up for change in destination
-async function swapDestination(country) {
-    var newCurrency = await getCurrency(country);
+async function swapDestination(newDestination) {
+    var newCurrency = await getCurrency(newDestination);
     destinationCode = newCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&amount=&places=2";
     fetch(apiUrl)
@@ -329,8 +327,8 @@ async function getCurrency(country) {
     return dataOne;
 }
 
-//on submit, run the following
-async function convertCurrency(destinationCountry, departureCountry) {
+//change the country to the currency code, then run conversion API and populate dynamic fields
+async function convertCurrency(departureCountry, destinationCountry) {
     var baseCurrency =  await getCurrency(departureCountry);
     var convertedCurrency = await getCurrency(destinationCountry);
     locationCode = baseCurrency.currency;
@@ -359,7 +357,7 @@ $("#container-2").on("dblclick", "li", function () {
     $(this).remove();
 });
 
-convertCurrency(destinationCountry, departureCountry);//on click, run this
+convertCurrency(departureCountry, destinationCountry);//on page load, run this
 
     //Cory's code here
 var APIkey = '01393325d86d48eab9f40e48844eb632';
