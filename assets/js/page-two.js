@@ -12,7 +12,7 @@ function parsing() {
 var departureCity = locations[1];
 var departureCountry = locations[2];
 var destinationCity = locations[3];
-var destinationCountry = locations [4];
+var destinationCountry = locations[4];
 
 //adding console.log for ease of variable substitution - to be removed for final version
 console.log(departureCity);//new york
@@ -34,167 +34,162 @@ function updateDestination(event) {
     console.log("this is a placeholder function");
 }
 
-//Candice's code here
-var formSubmitHandler = function(event){
-    event.preventDefault();
-    var city = cityinput.value.trim().toLowerCase();
-    if (city){
-        getWeather()
-    }
-    }
-    
-    var getWeather = function(city){
-        console.log(city);
-        var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
-        fetch(apiURL)
-        .then(function(response){
-            if (response.ok){
-                response.json().then(function(data){
+//Candice's code here    
+var getWeather = function (city, country) {
+    console.log(city);
+    var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "," + country + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
+    fetch(apiURL)
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
                     console.log(data);
-                      displayWeather(data, city);
-                      var country = data.locations[city].address.split(",")
-                      convertCurrency(country[2]);
+                    displayWeather(data, city, country);
                 })
-             } else {
-                 //insert error handling here
-             };
+            } else {
+                //insert error handling here
+            };
         })
-    }
-     var displayWeather = function(data, city){
-    var cityName = city;
+}
+var displayWeather = function (data, city, country) {
+    var cityCountryName = city + "," + country;
+
     var weatherTitleEl = document.createElement("div");
-    weatherTitleEl.textContent=data.locations[cityName].address;
+    weatherTitleEl.textContent = data.locations[cityCountryName].address;
+    weatherTitleEl.classList.add("boxes", "cTitle", "w-5/6");
     containerOne.appendChild(weatherTitleEl);
-    
+
     var currentWeather = document.createElement("div");
-    currentWeather.textContent = "Temp: " + data.locations[cityName].currentConditions.temp + " °C";
+    currentWeather.textContent = "Temp: " + data.locations[cityCountryName].currentConditions.temp + " °C";
+    currentWeather.classList.add("boxes", "cBoxes", "w-1/3");
     containerOne.appendChild(currentWeather);
-    
-    var icon=document.createElement("div");
-    icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].currentConditions.icon + ".png>";
+
+    var icon = document.createElement("div");
+    icon.innerHTML = "<img src=./assets/images/weathericons/" + data.locations[cityCountryName].currentConditions.icon + ".png>";
+    icon.classList.add("boxes", "cBoxes", "w-1/3");
     containerOne.appendChild(icon);
-    
+
     //tabs 
     var tabForecast = document.createElement("div");
     tabForecast.setAttribute("id", "tabs")
+    tabForecast.classList.add("w-full");
     containerOne.appendChild(tabForecast);
-    
+
     var tabHolder = document.createElement("ul");
     tabForecast.appendChild(tabHolder);
-    
+
     var fiveDay = document.createElement("li");
-    fiveDay.innerHTML="<a href='#5'>5 Day</a>";
+    fiveDay.innerHTML = "<a href='#5'>5 Day</a>";
     tabHolder.appendChild(fiveDay);
-    
+
     var sevenDay = document.createElement("li");
-    sevenDay.innerHTML="<a href='#7'>7 Day</a>";
+    sevenDay.innerHTML = "<a href='#7'>7 Day</a>";
     tabHolder.appendChild(sevenDay);
-    
+
     var fourteenDay = document.createElement("li");
-    fourteenDay.innerHTML="<a href='#14'>14 Day</a>";
+    fourteenDay.innerHTML = "<a href='#14'>14 Day</a>";
     tabHolder.appendChild(fourteenDay);
-    
+
     var fiveDayTab = document.createElement("div");
     fiveDayTab.setAttribute("id", "5");
-    fiveDayTab.classList.add("grid", "grid-cols-5")
-    
+    fiveDayTab.classList.add("flex", "flex-wrap", "flex-row")
+
     var sevenDayTab = document.createElement("div");
     sevenDayTab.setAttribute("id", "7");
-    
+
     var fourteenDayTab = document.createElement("div");
     fourteenDayTab.setAttribute("id", "14");
-    
+
     tabForecast.appendChild(fiveDayTab);
     //dont forget to figure out display not being block to show containers side by side(devtools)
-    for(var i = 1; i<6; i++){
+    for (var i = 1; i < 6; i++) {
         var dayEl = document.createElement("div");
-            dayEl.classList.add("border");
-            fiveDayTab.appendChild(dayEl);
-            
-            var days = document.createElement("ul");
-            dayEl.appendChild(days);
-            
-            var date = document.createElement("li");
-            date.classList.add("font-weight-bold", "days-text");
-            date.textContent=moment(data.locations[cityName].values[i].datetimeStr).format("L");
-            days.appendChild(date);
-    
-            var icon=document.createElement("li");
-            icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
-            days.appendChild(icon);
-    
-            var temp = document.createElement("li");
-            temp.setAttribute("class", "days-text");
-            temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
-            days.appendChild(temp);
-    
-            var humidity = document.createElement("li");
-            humidity.setAttribute("class", "days-text");
-            humidity.textContent= "Humidity: " + data.locations[cityName].values[i].humidity + "%";
-            days.appendChild(humidity);
+        dayEl.classList.add("border", "w-1/5");
+        fiveDayTab.appendChild(dayEl);
+
+        var days = document.createElement("ul");
+        dayEl.appendChild(days);
+
+        var date = document.createElement("li");
+        date.classList.add("font-weight-bold", "days-text");
+        date.textContent = moment(data.locations[cityCountryName].values[i].datetimeStr).format("L");
+        days.appendChild(date);
+
+        var icon = document.createElement("li");
+        icon.innerHTML = "<img src=./assets/images/weathericons/" + data.locations[cityCountryName].values[i].icon + ".png>";
+        days.appendChild(icon);
+
+        var temp = document.createElement("li");
+        temp.setAttribute("class", "days-text");
+        temp.textContent = "Temp: " + data.locations[cityCountryName].values[i].temp + " °C";
+        days.appendChild(temp);
+
+        var humidity = document.createElement("li");
+        humidity.setAttribute("class", "days-text");
+        humidity.textContent = "Humidity: " + data.locations[cityCountryName].values[i].humidity + "%";
+        days.appendChild(humidity);
     }
     tabForecast.appendChild(sevenDayTab);
-    for(var i = 1; i<8; i++){
+    for (var i = 1; i < 8; i++) {
         var dayEl = document.createElement("div");
-            dayEl.classList.add("border");
-            sevenDayTab.appendChild(dayEl);
-            
-            var days = document.createElement("ul");
-            dayEl.appendChild(days);
-            
-            var date = document.createElement("li");
-            date.classList.add("font-weight-bold", "days-text");
-            date.textContent=moment(data.locations[cityName].values[i].datetimeStr).format("L");
-            days.appendChild(date);
-    
-            var icon=document.createElement("li");
-            icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
-            days.appendChild(icon);
-    
-            var temp = document.createElement("li");
-            temp.setAttribute("class", "days-text");
-            temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
-            days.appendChild(temp);
-    
-            var humidity = document.createElement("li");
-            humidity.setAttribute("class", "days-text");
-            humidity.textContent= "Humidity: " + data.locations[cityName].values[i].humidity + "%";
-            days.appendChild(humidity);
+        dayEl.classList.add("border", "w-1/4");
+        sevenDayTab.appendChild(dayEl);
+
+        var days = document.createElement("ul");
+        dayEl.appendChild(days);
+
+        var date = document.createElement("li");
+        date.classList.add("font-weight-bold", "days-text");
+        date.textContent = moment(data.locations[cityCountryName].values[i].datetimeStr).format("L");
+        days.appendChild(date);
+
+        var icon = document.createElement("li");
+        icon.innerHTML = "<img src=./assets/images/weathericons/" + data.locations[cityCountryName].values[i].icon + ".png>";
+        days.appendChild(icon);
+
+        var temp = document.createElement("li");
+        temp.setAttribute("class", "days-text");
+        temp.textContent = "Temp: " + data.locations[cityCountryName].values[i].temp + " °C";
+        days.appendChild(temp);
+
+        var humidity = document.createElement("li");
+        humidity.setAttribute("class", "days-text");
+        humidity.textContent = "Humidity: " + data.locations[cityCountryName].values[i].humidity + "%";
+        days.appendChild(humidity);
     }
     tabForecast.appendChild(fourteenDayTab);
-    for(var i = 1; i<15; i++){
+    for (var i = 1; i < 15; i++) {
         var dayEl = document.createElement("div");
-            dayEl.classList.add("border");
-            fourteenDayTab.appendChild(dayEl);
-            
-            var days = document.createElement("ul");
-            dayEl.appendChild(days);
-            
-            var date = document.createElement("li");
-            date.classList.add("font-weight-bold", "days-text");
-            date.textContent=moment(data.locations[cityName].values[i].datetimeStr).format("L");
-            days.appendChild(date);
-    
-            var icon=document.createElement("li");
-            icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
-            days.appendChild(icon);
-    
-            var temp = document.createElement("li");
-            temp.setAttribute("class", "days-text");
-            temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
-            days.appendChild(temp);
-    
-            var humidity = document.createElement("li");
-            humidity.setAttribute("class", "days-text");
-            humidity.textContent= "Humidity: " + data.locations[cityName].values[i].humidity + "%";
-            days.appendChild(humidity);
+        dayEl.classList.add("border", "w-1/6");
+        fourteenDayTab.appendChild(dayEl);
+
+        var days = document.createElement("ul");
+        dayEl.appendChild(days);
+
+        var date = document.createElement("li");
+        date.classList.add("font-weight-bold", "days-text");
+        date.textContent = moment(data.locations[cityCountryName].values[i].datetimeStr).format("L");
+        days.appendChild(date);
+
+        var icon = document.createElement("li");
+        icon.innerHTML = "<img src=./assets/images/weathericons/" + data.locations[cityCountryName].values[i].icon + ".png>";
+        days.appendChild(icon);
+
+        var temp = document.createElement("li");
+        temp.setAttribute("class", "days-text");
+        temp.textContent = "Temp: " + data.locations[cityCountryName].values[i].temp + " °C";
+        days.appendChild(temp);
+
+        var humidity = document.createElement("li");
+        humidity.setAttribute("class", "days-text");
+        humidity.textContent = "Humidity: " + data.locations[cityCountryName].values[i].humidity + "%";
+        days.appendChild(humidity);
     }
-    
-        $("#tabs").tabs();
-     };
-    
-     getWeather("toronto");
-     
+
+    $("#tabs").tabs();
+};
+
+getWeather(destinationCity, destinationCountry);
+
 
 
 //Veronica's code here
@@ -224,7 +219,7 @@ function loading() {
     $("#flexContainer").append(loading);
     var loadingText = $("<p>");
     $(loadingText).text("Loading...").addClass("m-1");
-    $("#container-2").append(loadingText);   
+    $("#container-2").append(loadingText);
 }
 
 //top-level divs
@@ -299,7 +294,7 @@ function convertAmount() {
     //changes the amount being converted
     var amount = $("#amount").val().trim();
     if (!amount) {
-        alert ("please enter a value to be converted");
+        alert("please enter a value to be converted");
         return;
     }
     if (isNaN(amount)) {
@@ -316,9 +311,9 @@ function convertAmount() {
     }
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&amount=" + amount + "&places=2";
     fetch(apiUrl)
-        .then(function(response) {
+        .then(function (response) {
             if (response.ok) {
-                response.json().then(function(data) {
+                response.json().then(function (data) {
                     $("#convertedAmount").text(dollarUSLocale.format(data.result));
                     $("#amount").val("").attr("placeholder", dollarUSLocale.format(amount));
                     var search = $("<li>").text($("#fromSymbol").text() + " " + dollarUSLocale.format(amount) + " (" + locationCode + ") = " + $("#toSymbol").text() + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("history");
@@ -330,7 +325,7 @@ function convertAmount() {
                 return;
             }
         })
-        .catch(function(error) {
+        .catch(function (error) {
             alert("unable to connect with currency API");
             return;
         });
@@ -345,46 +340,46 @@ async function swapDestination(country) {
     var newCurrency = await getCurrency(country);
     destinationCode = newCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&amount=&places=2";
-        fetch(apiUrl)
-            .then(function(response) {
-                if (response.ok) {
-                    response.json().then(function(data) {
-                        $("#convertTo").empty();
-                        $("#toFlag").empty();
-                        generateTo(newCurrency.currencySymbol, newCurrency.currencyName, destinationCode, data.result, newCurrency.countryFlag);
-                    });
-                } else {
-                    alert("unable to retrieve conversion data");
-                    return;
-                }
-            })
-            .catch(function(error) {
-                alert("unable to connect with currency API");
+    fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    $("#convertTo").empty();
+                    $("#toFlag").empty();
+                    generateTo(newCurrency.currencySymbol, newCurrency.currencyName, destinationCode, data.result, newCurrency.countryFlag);
+                });
+            } else {
+                alert("unable to retrieve conversion data");
                 return;
-            });
+            }
+        })
+        .catch(function (error) {
+            alert("unable to connect with currency API");
+            return;
+        });
 }
 
 //get country user is currently in
 function departureCountry(departure) {
     var apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + departure + "?key=X9LBGTKUKSQ3B9GUW69YR2WX9";//replace personal key
     var dataOne = fetch(apiUrl)
-        .then(function(response) {
+        .then(function (response) {
             if (response.ok) {
-                var data = response.json().then(function(data) {
+                var data = response.json().then(function (data) {
                     var country = data.resolvedAddress.split(",");
-                        var countryCode = getCurrency(country[2]).then(res => {
-                            // console.log({res});
-                            return res;
-                        })
-                        return countryCode;
-                    });
-                    return data;
+                    var countryCode = getCurrency(country[2]).then(res => {
+                        // console.log({res});
+                        return res;
+                    })
+                    return countryCode;
+                });
+                return data;
             } else {
                 alert("unable to retrieve conversion data");
                 return;
             }
         })
-        .catch(function(error) {
+        .catch(function (error) {
             alert("unable to connect with currency API");
             return;
         });
@@ -395,11 +390,11 @@ function departureCountry(departure) {
 async function getCurrency(country) {
     var apiUrl = "https://restcountries.com/v3.1/name/" + country + "?fields=currencies,flags";
     var dataOne = fetch(apiUrl)
-        .then(function(response) {
-            if (response.ok){
-                var data =  response.json().then(function(data) {
+        .then(function (response) {
+            if (response.ok) {
+                var data = response.json().then(function (data) {
                     var currency = Object.keys(data[0].currencies)[0];
-                    var currencyObj = {currency: Object.keys(data[0].currencies)[0], currencyName: data[0].currencies[currency].name, currencySymbol: data[0].currencies[currency].symbol, countryFlag: data[0].flags.png};
+                    var currencyObj = { currency: Object.keys(data[0].currencies)[0], currencyName: data[0].currencies[currency].name, currencySymbol: data[0].currencies[currency].symbol, countryFlag: data[0].flags.png };
                     return currencyObj;
                 });
                 return data;
@@ -408,25 +403,25 @@ async function getCurrency(country) {
                 return;
             }
         })
-        .catch(function(error){
+        .catch(function (error) {
             alert("unable to connect with currency API");
             return;
         });
-    return dataOne; 
+    return dataOne;
 }
 
 //on submit, run the following
-    async function convertCurrency(destination) { //add convertCurrency(locationCodeFromWeatherAPI) to Candice's code
+async function convertCurrency(destination) { //add convertCurrency(locationCodeFromWeatherAPI) to Candice's code
     // var departure = $.trim($("#amount").val()); //change id for the form element in header - also needs to be a universal variable - change in Candice's call too
     var departure = "paris";
-    var baseCurrency =  await departureCountry(departure);
+    var baseCurrency = await departureCountry(departure);
     var convertedCurrency = await getCurrency(destination);
     locationCode = baseCurrency.currency;
     destinationCode = convertedCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&places=2";
-    fetch(apiUrl).then(function(response) {
+    fetch(apiUrl).then(function (response) {
         if (response.ok) {
-            response.json().then(function(data) {
+            response.json().then(function (data) {
                 $("#container-2").empty();
                 generateFormat();
                 generateFrom(baseCurrency.currencySymbol, baseCurrency.currencyName, locationCode, baseCurrency.countryFlag);
@@ -438,14 +433,14 @@ async function getCurrency(country) {
             alert("unable to retrieve conversion data");
         }
     })
-    .catch(function(error) {
-        alert("unable to connect with currency API");
-        return;
-    });
+        .catch(function (error) {
+            alert("unable to connect with currency API");
+            return;
+        });
 }
 
 $("#container-2").on("click", "#convert", convertAmount);
-$("#container-2").on("dblclick", "li", function() {
+$("#container-2").on("dblclick", "li", function () {
     $(this).remove();
 });
 
