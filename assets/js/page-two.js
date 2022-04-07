@@ -52,8 +52,6 @@ var formSubmitHandler = function(event){
                 response.json().then(function(data){
                     console.log(data);
                       displayWeather(data, city);
-                      var country = data.locations[city].address.split(",")
-                      convertCurrency(country[2]);
                 })
              } else {
                  //insert error handling here
@@ -204,93 +202,39 @@ var formSubmitHandler = function(event){
 //streamline code
 //error handling and validations - change to modals
 
-//currency API
 //start currency API logic
-var locationCode = "";//currency code returned from getCurrency()
-var destinationCode = "";//currency code returned from getCurrency()
+$("#conversionHistory").sortable();
+
 //format numerical values
 var dollarUSLocale = Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
 });
 
-//load screen for delay in promise fulfillment
-function loading() {
-    $("#container-2").addClass("p-3 text-center")
-    var flexContainer = $("<div>");
-    $(flexContainer).addClass("flex justify-center backdrop").attr("id", "flexContainer");
-    $("#container-2").append(flexContainer);
-    var loading = $("<img>");
-    $(loading).attr("src", "./weathcon-favicon.png").attr("alt", "loading").attr("id", "loadingImg");
-    $("#flexContainer").append(loading);
-    var loadingText = $("<p>");
-    $(loadingText).text("Loading...").addClass("m-1");
-    $("#container-2").append(loadingText);   
-}
+//currency codes from getCurrency();
+var locationCode = "";
+var destinationCode = "";
 
-//top-level divs
-function generateFormat() {
-    //top-level
-    var conversionDiv = $("<div>");
-    $(conversionDiv).addClass("border m-5 backdrop").attr("id", "conversionDiv");
-    $("#container-2").append(conversionDiv);
-    var historyDiv = $("<div>");
-    $(historyDiv).addClass("border m-5 backdrop").attr("id", "historyDiv");
-    $("#container-2").append(historyDiv);
-    //mid-level divs conversion
-    var fromDiv = $("<div>");
-    $(fromDiv).addClass("p-3").attr("id", "convertFrom");
-    $("#conversionDiv").append(fromDiv);
-    var ButtonDiv = $("<div>")
-    $(ButtonDiv).addClass("flex justify-center items-center").attr("id", "convertButtons");
-    $("#conversionDiv").append(ButtonDiv);
-    var toDiv = $("<div>")
-    $(toDiv).addClass("p-3").attr("id", "convertTo");
-    $("#conversionDiv").append(toDiv);
-    //button div elements conversion
-    var fromFlagDiv = $("<div>");
-    $(fromFlagDiv).addClass("border inline-block max-size").attr("id", "fromFlag");
-    $("#convertButtons").append(fromFlagDiv);
-    var conversionButton = $("<button>");
-    $(conversionButton).text("CONVERT TO").addClass("px-3 py-1").attr("id", "convert").attr("type", "submit");
-    $("#convertButtons").append(conversionButton);
-    var toFlagDiv = $("<div>");
-    $(toFlagDiv).addClass("border inline-block max-size").attr("id", "toFlag");
-    $("#convertButtons").append(toFlagDiv);
-    //mid-level elements history
-    var historyTitle = $("<h2>").html("<span class = font-bold>Conversion History</span></br><span class='italic'>(click and drag to reorder/double click to delete)</span>").addClass("border").attr("id", "historyTitle");
-    $("#historyDiv").append(historyTitle);
-    var conversionHistory = $("<ul>");
-    $(conversionHistory).addClass("conversionHistory").attr("id", "conversionHistory").sortable();
-    $("#historyDiv").append(conversionHistory);
-}
-
-//internally dynamic elements
 //convert from
 function generateFrom(symbol, name, code, flag) {
-    var amountLabel = $("<label>");
-    $(amountLabel).addClass("mr-1").attr("for", "amount").text(symbol).attr("id", "fromSymbol");
+    var amountLabel = $("<label>").addClass("mr-1").attr("for", "amount").text(symbol).attr("id", "fromSymbol");
     var amountInput = $("<input>").addClass("border form-width").attr("type", "text").attr("id", "amount").attr("placeholder", "1.00");
     $("#convertFrom").append(amountLabel);
     $("#convertFrom").append(amountInput);
     var fromCurrency = $("<p>").text(name + " (" + code + ")").addClass("italic").attr("id", "fromCurrency");
     $("#convertFrom").append(fromCurrency);
-    var fromFlag = $("<img>");
-    $(fromFlag).attr("src", flag).attr("alt", "country flag");
+    var fromFlag = $("<img>").attr("src", flag).attr("alt", "country flag");
     $("#fromFlag").append(fromFlag);
 }
+
 //generate to
 function generateTo(symbol, name, code, amount, flag) {
-    var convertedLabel = $("<label>");
-    $(convertedLabel).addClass("mr-1").attr("for", "convertedAmount").text(symbol).attr("id", "toSymbol");
-    var convertedAmount = $("<p>");
-    $(convertedAmount).text(dollarUSLocale.format(amount)).addClass("inline-block").attr("id", "convertedAmount");
+    var convertedLabel = $("<label>").addClass("mr-1").attr("for", "convertedAmount").text(symbol).attr("id", "toSymbol");
+    var convertedAmount = $("<p>").text(dollarUSLocale.format(amount)).addClass("inline-block").attr("id", "convertedAmount");
     $("#convertTo").append(convertedLabel);
     $("#convertTo").append(convertedAmount);
-    var toCurrency = $("<p>");
-    $(toCurrency).text(name + " (" + code + ")").addClass("italic").attr("id", "toCurrency");
+    var toCurrency = $("<p>").text(name + " (" + code + ")").addClass("italic").attr("id", "toCurrency");
     $("#convertTo").append(toCurrency);
-    var toFlag = $("<img>");
-    $(toFlag).attr("src", flag);
+    var toFlag = $("<img>").attr("src", flag);
     $("#toFlag").append(toFlag).attr("alt", "country flag");
 }
 
@@ -303,7 +247,7 @@ function convertAmount() {
         return;
     }
     if (isNaN(amount)) {
-        alert("please enter a numerical value");
+        alert("please enter a numerical value (no symbols)");
         return;
     }
     if (amount % 1 != 0) {
@@ -321,7 +265,7 @@ function convertAmount() {
                 response.json().then(function(data) {
                     $("#convertedAmount").text(dollarUSLocale.format(data.result));
                     $("#amount").val("").attr("placeholder", dollarUSLocale.format(amount));
-                    var search = $("<li>").text($("#fromSymbol").text() + " " + dollarUSLocale.format(amount) + " (" + locationCode + ") = " + $("#toSymbol").text() + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("history");
+                    var search = $("<li>").text($("#fromSymbol").text() + " " + dollarUSLocale.format(amount) + " (" + locationCode + ") = " + $("#toSymbol").text() + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("bg-white");
                     $("#conversionHistory").prepend(search);
                     $(".conversionHistory .history").slice(10).remove();
                 });
@@ -335,7 +279,7 @@ function convertAmount() {
             return;
         });
 
-    // set so that the amount field now captures changed country to test function - add function call to Candice's code to get country from city
+    // set so that the amount field now captures changed country to test function
     // var country = $.trim($("#amount").val()); //change id for the form element in header
     // swapDestination(country);
 }
@@ -364,33 +308,6 @@ async function swapDestination(country) {
             });
 }
 
-//get country user is currently in
-function departureCountry(departure) {
-    var apiUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + departure + "?key=X9LBGTKUKSQ3B9GUW69YR2WX9";//replace personal key
-    var dataOne = fetch(apiUrl)
-        .then(function(response) {
-            if (response.ok) {
-                var data = response.json().then(function(data) {
-                    var country = data.resolvedAddress.split(",");
-                        var countryCode = getCurrency(country[2]).then(res => {
-                            // console.log({res});
-                            return res;
-                        })
-                        return countryCode;
-                    });
-                    return data;
-            } else {
-                alert("unable to retrieve conversion data");
-                return;
-            }
-        })
-        .catch(function(error) {
-            alert("unable to connect with currency API");
-            return;
-        });
-    return dataOne;
-}
-
 //convert country to currency code
 async function getCurrency(country) {
     var apiUrl = "https://restcountries.com/v3.1/name/" + country + "?fields=currencies,flags";
@@ -416,19 +333,15 @@ async function getCurrency(country) {
 }
 
 //on submit, run the following
-    async function convertCurrency(destination) { //add convertCurrency(locationCodeFromWeatherAPI) to Candice's code
-    // var departure = $.trim($("#amount").val()); //change id for the form element in header - also needs to be a universal variable - change in Candice's call too
-    var departure = "paris";
-    var baseCurrency =  await departureCountry(departure);
-    var convertedCurrency = await getCurrency(destination);
+async function convertCurrency(destinationCountry, departureCountry) {
+    var baseCurrency =  await getCurrency(departureCountry);
+    var convertedCurrency = await getCurrency(destinationCountry);
     locationCode = baseCurrency.currency;
     destinationCode = convertedCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&places=2";
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
-                $("#container-2").empty();
-                generateFormat();
                 generateFrom(baseCurrency.currencySymbol, baseCurrency.currencyName, locationCode, baseCurrency.countryFlag);
                 generateTo(convertedCurrency.currencySymbol, convertedCurrency.currencyName, destinationCode, data.result, convertedCurrency.countryFlag);
                 var setConversion = $("<p>").text(baseCurrency.currencySymbol + " 1.00 " + "(" + locationCode + ")" + " = " + convertedCurrency.currencySymbol + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("italic");
@@ -449,6 +362,6 @@ $("#container-2").on("dblclick", "li", function() {
     $(this).remove();
 });
 
-loading();//on click, run this
+convertCurrency(destinationCountry, departureCountry);//on click, run this
 
     //Cory's code here

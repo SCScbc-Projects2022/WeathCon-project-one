@@ -58,10 +58,6 @@ footer {
     max-width: 85px;
 }
 
-.history, .backdrop {
-    background: white;
-}
-
 #loadingImg {
     max-width: 100px;
 }
