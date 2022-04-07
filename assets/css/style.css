@@ -49,6 +49,21 @@ footer {
 }
 /*Candice's code here
 /*Veronica's code here
-/*Cory's code here
 
+
+/*Cory's code here */
+#container-3{
+    background-color: white;
+}
+.timeZone-departure {
+   font-size: 40px;
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+   padding-top: -3rem;
+}
+
+.timeZone-destination {
+   font-size: 40px;
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+   padding-top: -3rem;
+}
 

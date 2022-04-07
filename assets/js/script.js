@@ -42,7 +42,7 @@ currentWeather.textContent = "Temp: " + data.locations[cityName].currentConditio
 containerOne.appendChild(currentWeather);
 
 var icon=document.createElement("div");
-icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[1].icon + ".png>";
+icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].currentConditions.icon + ".png>";
 containerOne.appendChild(icon);
 
 //tabs 
@@ -90,6 +90,10 @@ for(var i = 1; i<6; i++){
         date.textContent=moment(data.locations[cityName].values[i].datetimeStr).format("L");
         days.appendChild(date);
 
+        var icon=document.createElement("li");
+        icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
+        days.appendChild(icon);
+
         var temp = document.createElement("li");
         temp.setAttribute("class", "days-text");
         temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
@@ -114,6 +118,10 @@ for(var i = 1; i<8; i++){
         date.textContent=moment(data.locations[cityName].values[i].datetimeStr).format("L");
         days.appendChild(date);
 
+        var icon=document.createElement("li");
+        icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
+        days.appendChild(icon);
+
         var temp = document.createElement("li");
         temp.setAttribute("class", "days-text");
         temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
@@ -137,6 +145,10 @@ for(var i = 1; i<15; i++){
         date.classList.add("font-weight-bold", "days-text");
         date.textContent=moment(data.locations[cityName].values[i].datetimeStr).format("L");
         days.appendChild(date);
+
+        var icon=document.createElement("li");
+        icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
+        days.appendChild(icon);
 
         var temp = document.createElement("li");
         temp.setAttribute("class", "days-text");
@@ -420,3 +432,33 @@ $(containerTwo).on("click", "#convert", convertAmount);
 loading();
 
 //Cory's code here
+var APIkey = '01393325d86d48eab9f40e48844eb632';
+var departure = {city: 'London', country:'UK'}; //to be replaced with user input
+var destination = {city: 'Toronto', country:'Canada'}; //to be replaced with user input
+
+
+//Local or Departure Time
+function getDepartureTime(departure){
+    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${departure.city},%20${departure.country}`)
+        .then(response => response.json())
+        .then(data => {
+            var departureTime=`<span class="timeZone-departure" >${data.geo.city},<br>${data.geo.country},<br> ${data.time_12}</span>`;
+
+            $('#departureTime').append(departureTime);
+        });
+}
+//Destination time
+function getDestinationTime(destination){
+    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${destination.city},%20${destination.country}`)
+        .then(response => response.json())
+        .then(data => {
+            var destinationTime=`<span class="timeZone-destination">${data.geo.city},<br>${data.geo.country},<br> ${data.time_12}</span>`;
+            $('#destinationTime').append(destinationTime);
+        });
+}
+
+
+
+getDepartureTime(departure);
+getDestinationTime(destination);
+
