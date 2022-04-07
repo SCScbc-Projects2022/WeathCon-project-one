@@ -459,7 +459,7 @@ var destination = {city: 'Toronto', country:'Canada'}; //to be replaced with use
 
 //Local or Departure Time
 function getDepartureTime(departure){
-    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${departure.city},%20${departure.country}`)
+    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${departureCity},%20${departureCountry}`)
         .then(response => response.json())
         .then(data => {
             var departureTime=`<span class="timeZone-departure" >${data.geo.city},<br>${data.geo.country},<br> ${data.time_12}</span>`;
@@ -469,7 +469,7 @@ function getDepartureTime(departure){
 }
 //Destination time
 function getDestinationTime(destination){
-    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${destination.city},%20${destination.country}`)
+    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${destinationCity},%20${destinationCountry}`)
         .then(response => response.json())
         .then(data => {
             var destinationTime=`<span class="timeZone-destination">${data.geo.city},<br>${data.geo.country},<br> ${data.time_12}</span>`;
