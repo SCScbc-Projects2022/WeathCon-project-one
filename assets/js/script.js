@@ -7,9 +7,10 @@ var containerThree = $("#container-3");
 var departure = "Toronto";
 var destination = "New York";
 var destinationContainer = document.querySelector("#new-current-destination");
+
+
 // departure will be current location, destination will be search location
 //Brennan's code here
-
 
 
 //Candice's code here
@@ -49,6 +50,9 @@ var displayWeather = function(data){//, city){
 	currentWeather.textContent = "Temp: " + data.locations[destination].currentConditions.temp + " °C";
 	containerOne.append(currentWeather);
 
+// // var icon=document.createElement("div");
+// icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].currentConditions.icon + ".png>";
+// containerOne.appendChild(icon);
 	var icon=document.createElement("div");
 	icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[destination].values[1].icon + ".png>";
 	containerOne.append(icon);
@@ -98,10 +102,18 @@ var displayWeather = function(data){//, city){
 			date.textContent=moment(data.locations[destination].values[i].datetimeStr).format("L");
 			days.appendChild(date);
 
-			var temp = document.createElement("li");
-			temp.setAttribute("class", "days-text");
-			temp.textContent= "Temp: " + data.locations[destination].values[i].temp + " °C";
-			days.appendChild(temp);
+        var icon=document.createElement("li");
+        icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
+        days.appendChild(icon);
+
+        // var temp = document.createElement("li");
+        // temp.setAttribute("class", "days-text");
+        // temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
+        // days.appendChild(temp);
+		// 	var temp = document.createElement("li");
+		// 	temp.setAttribute("class", "days-text");
+		// 	temp.textContent= "Temp: " + data.locations[destination].values[i].temp + " °C";
+		// 	days.appendChild(temp);
 
 			var humidity = document.createElement("li");
 			humidity.setAttribute("class", "days-text");
@@ -122,10 +134,18 @@ var displayWeather = function(data){//, city){
 			date.textContent=moment(data.locations[destination].values[i].datetimeStr).format("L");
 			days.appendChild(date);
 
-			var temp = document.createElement("li");
-			temp.setAttribute("class", "days-text");
-			temp.textContent= "Temp: " + data.locations[destination].values[i].temp + " °C";
-			days.appendChild(temp);
+        var icon=document.createElement("li");
+        icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
+        days.appendChild(icon);
+
+        // var temp = document.createElement("li");
+        // temp.setAttribute("class", "days-text");
+        // temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
+        // days.appendChild(temp);
+		// 	var temp = document.createElement("li");
+		// 	temp.setAttribute("class", "days-text");
+		// 	temp.textContent= "Temp: " + data.locations[destination].values[i].temp + " °C";
+		// 	days.appendChild(temp);
 
 			var humidity = document.createElement("li");
 			humidity.setAttribute("class", "days-text");
@@ -146,10 +166,18 @@ var displayWeather = function(data){//, city){
 			date.textContent=moment(data.locations[destination].values[i].datetimeStr).format("L");
 			days.appendChild(date);
 
-			var temp = document.createElement("li");
-			temp.setAttribute("class", "days-text");
-			temp.textContent= "Temp: " + data.locations[destination].values[i].temp + " °C";
-			days.appendChild(temp);
+        var icon=document.createElement("li");
+        icon.innerHTML="<img src=./assets/images/weathericons/" + data.locations[cityName].values[i].icon + ".png>";
+        days.appendChild(icon);
+
+        // var temp = document.createElement("li");
+        // temp.setAttribute("class", "days-text");
+        // temp.textContent= "Temp: " + data.locations[cityName].values[i].temp + " °C";
+        // days.appendChild(temp);
+		// 	var temp = document.createElement("li");
+		// 	temp.setAttribute("class", "days-text");
+		// 	temp.textContent= "Temp: " + data.locations[destination].values[i].temp + " °C";
+		// 	days.appendChild(temp);
 
 			var humidity = document.createElement("li");
 			humidity.setAttribute("class", "days-text");
