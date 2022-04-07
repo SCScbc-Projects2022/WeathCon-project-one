@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,6 +12,7 @@
     <title>WeathCon</title>
     <link rel="icon" type="image/x-icon" href="./weathcon-favicon.png">
 </head>
+
 <body>
     
     <header id="header"> 
@@ -18,16 +20,25 @@
             <img src="./assets/images/weathcon-logo.png">
         </div>
         <p>Are you planning a vacation?  WeathCon will help you prepare with your destination's weather forecast, and currency exchange rate.</p>
-        <div id="new-current-destination"></div>
+        <!--Brennan's code here-->
+        <div id="new-destination-form"> <!--if you're going to change this section, make sure to update the js file
+                                        you can also change this to a form with a submit button instead of a click button if you want-->
+            <input type="text" id="new-destination-city" name="new-destination-city" class="d-inline-block" placeholder="Pick a New City"></input>
+            <input type="text" id="new-destination-country" name="new-destination-country" class="d-inline-block" placeholder="Pick a New Country"></input>
+            <button id="submit-new-destination">Submit</button>
+        </div>
     </header>
 
     <main class="flex grid place-content-center gap-4 grid-cols-3 py-5 px-3">
-        <form>
-            <input type="text" id="current-location" placeholder="Where Are You?"></input>
-            <input type="text" id="destination-city" placeholder="What City Are You Going To?"></input>
-            <input type="text" id="destination-country" placeholder="What Country Is The City In?"></input>
-            <button id="initialSubmit" class="bg-white"></button><!--do not change the id of this button-->
-        </form>
+        <div class="border" id="container-1">
+            <!--Candice's code here-->
+        </div>
+        <div class="border" id="container-2">
+            <!--Veronica's code here-->
+        </div>
+        <div class="border" id="container-3">
+            <!--Cory's code here-->
+        </div>
     </main>
 
     <footer>
@@ -36,6 +47,9 @@
 
     <!--modals go here-->
     <!-- Brennan's code goes here -->
+    <!-- Candice's code goes here-- -->
+    <!-- Veronica's code goes here-- -->
+    <!-- Cory's code goes here -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
@@ -43,7 +57,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/fontawesome.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="./assets/js/script.js"></script>
-    
+    <script src="./assets/js/page-two.js"></script>
 </body>
+
 </html>
