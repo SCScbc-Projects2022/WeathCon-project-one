@@ -447,3 +447,32 @@ $("#container-2").on("dblclick", "li", function () {
 loading();//on click, run this
 
     //Cory's code here
+var APIkey = '01393325d86d48eab9f40e48844eb632';
+var departure = {city: 'London', country:'UK'}; //to be replaced with user input
+var destination = {city: 'Toronto', country:'Canada'}; //to be replaced with user input
+
+
+//Local or Departure Time
+function getDepartureTime(departure){
+    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${departureCity},%20${departureCountry}`)
+        .then(response => response.json())
+        .then(data => {
+            var departureTime=`<span class="timeZone-departure" >${data.geo.city},<br>${data.geo.country},<br> ${data.time_12}</span>`;
+
+            $('#departureTime').append(departureTime);
+        });
+}
+//Destination time
+function getDestinationTime(destination){
+    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${destinationCity},%20${destinationCountry}`)
+        .then(response => response.json())
+        .then(data => {
+            var destinationTime=`<span class="timeZone-destination">${data.geo.city},<br>${data.geo.country},<br> ${data.time_12}</span>`;
+            $('#destinationTime').append(destinationTime);
+        });
+}
+
+
+
+getDepartureTime(departure);
+getDestinationTime(destination);
