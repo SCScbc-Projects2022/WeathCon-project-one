@@ -21,13 +21,12 @@
         <div id="new-current-destination"></div>
     </header>
 
-    <main class="flex grid place-content-center gap-4 grid-cols-3 py-5 px-3">
-        <form>
-            <input type="text" id="current-location" placeholder="Where Are You?"></input>
-            <input type="text" id="destination-city" placeholder="What City Are You Going To?"></input>
-            <input type="text" id="destination-country" placeholder="What Country Is The City In?"></input>
-            <button id="initialSubmit" class="bg-white"></button><!--do not change the id of this button-->
-        </form>
+    <main class="flex grid place-content-center gap-4 grid-cols-6 py-5 px-3">
+		<input type="text" id="current-city" placeholder="Where Are You?" value="toronto" />
+		<input type="text" id="current-country" placeholder="Where country?" value="canada" />
+		<input type="text" id="destination-city" placeholder="What City Are You Going To?" value="new york" />
+		<input type="text" id="destination-country" placeholder="What Country Is The City In?" value="united states" />
+		<button id="initialSubmit" class="bg-white">Submit</button><!--do not change the id of this button-->
     </main>
 
     <footer>
