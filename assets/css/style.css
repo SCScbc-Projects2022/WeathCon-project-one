@@ -47,34 +47,7 @@ footer {
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-/*Candice's code here*/
-.boxes {
-background-color: white;
-display: flex;
-justify-content: center;
-}
-.cTitle {
-    margin: 10px auto 10px auto;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    font-size: large;
-}
-.cBoxes{
-    margin: 10px auto 10px auto;
-    padding-top: 20px;
-    padding-bottom: 20px;
-   
-}
-.ui-tabs .ui-tabs-nav {
-    display: flex;
-    justify-content: center;
-}
-.ui-tabs .ui-tabs-panel {
-    display: flex;
-    flex-wrap: wrap;
-    font-size: small;
-}
-
+/*Candice's code here
 /*Veronica's code here*/
 .max-size {
     max-width: 30px;
@@ -83,6 +56,10 @@ justify-content: center;
 
 .form-width {
     max-width: 85px;
+}
+
+.history, .backdrop {
+    background: white;
 }
 
 #loadingImg {
@@ -97,9 +74,7 @@ justify-content: center;
 
 
 /*Cory's code here */
-#container-3{
-    background-color: white;
-}
+
 .timeZone-departure {
    font-size: 40px;
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -110,4 +85,16 @@ justify-content: center;
    font-size: 40px;
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
    padding-top: -3rem;
+}
+
+#departureTime{
+    background-color: white;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#destinationTime{
+    background-color: white;
+    margin-top: 20px;
+    text-align: center;
 }
