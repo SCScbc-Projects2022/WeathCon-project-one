@@ -1,4 +1,10 @@
-//logic passing query string from page one to two - Veronica
+//Veronica's code here
+//redirect
+$("#logo").on("click", function() {
+	document.location.replace("./index.html");
+})
+
+//logic passing query string from page one to two
 var locations = [];
 var text = document.location.search;
 var query = text.split("?");
@@ -9,10 +15,12 @@ function parsing() {
         locations.push(item);
     }
 }
-var departureCity = locations[1];//paris
-var departureCountry = locations[2];//france
-var destinationCity = locations[3];//tokyo
-var destinationCountry = locations[4];//japan
+var departureCity = locations[1];
+var departureCountry = locations[2];
+var destinationCity = locations[3];
+var destinationCountry = locations[4];
+var newDestinationCity = "";
+var newDestinationCountry = "";
 
 //query selectors to accommodate pure JavaScript coding
 var header = document.querySelector("#header");
@@ -20,16 +28,24 @@ var containerOne = document.querySelector("#container-1");
 var containerTwo = document.querySelector("#container-2");
 var containerThree = document.querySelector("#container-3");
 
-//capture destination change - Veronica
+//capture destination change
+// $(function() {
+//     $("#country-picker").selectmenu();
+//     $("#city-picker").selectmenu();
+// });
 $("#new-destination-form").on("click", "#submit-new-destination", updateDestination);
 function updateDestination(event) {
-    var newDestinationCity = $.trim($("#new-destination-city").val());
-    var newDestinationCountry = $.trim($("#new-destination-country").val());
-    console.log("this is a placeholder function");
+    newDestinationCity = $.trim($("#city-picker").val());
+    newDestinationCountry = $.trim($("#country-picker").val());
+    if (!newDestinationCity || !newDestinationCountry) {
+        alert("please enter a valid destination location")
+    } else {
     //Candice's location change function call goes here
     //Veronica's location change function call goes here
+    document.location.replace("./page-two.html?" + departureCity + "?" + departureCountry + "?" + newDestinationCity + "?" + newDestinationCountry);
     swapDestination(newDestinationCountry);
     //Cory's location change function call goes here
+    }
 }
 
 //Brennan's code here
@@ -213,7 +229,7 @@ var destinationCode = "";
 //convert from
 function generateFrom(symbol, name, code, flag) {
     var amountLabel = $("<label>").addClass("mr-1").attr("for", "amount").text(symbol).attr("id", "fromSymbol");
-    var amountInput = $("<input>").addClass("border form-width").attr("type", "text").attr("id", "amount").attr("placeholder", "1.00");
+    var amountInput = $("<input>").addClass("border form-width").attr("type", "text").attr("id", "amount").attr("placeholder", "1.00").attr("name", "amount");
     $("#convertFrom").append(amountLabel);
     $("#convertFrom").append(amountInput);
     var fromCurrency = $("<p>").text(name + " (" + code + ")").addClass("italic").attr("id", "fromCurrency");
@@ -225,7 +241,7 @@ function generateFrom(symbol, name, code, flag) {
 //generate to
 function generateTo(symbol, name, code, amount, flag) {
     var convertedLabel = $("<label>").addClass("mr-1").attr("for", "convertedAmount").text(symbol).attr("id", "toSymbol");
-    var convertedAmount = $("<p>").text(dollarUSLocale.format(amount)).addClass("inline-block").attr("id", "convertedAmount");
+    var convertedAmount = $("<p>").text(dollarUSLocale.format(amount)).addClass("inline-block").attr("id", "convertedAmount").attr("name", "convertedAmount");
     $("#convertTo").append(convertedLabel);
     $("#convertTo").append(convertedAmount);
     var toCurrency = $("<p>").text(name + " (" + code + ")").addClass("italic").attr("id", "toCurrency");

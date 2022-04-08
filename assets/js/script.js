@@ -1,30 +1,31 @@
-//capture and update form fields - Veronica
-// var departureCity = "";
-// var departureCountry = "";
-// var destinationCity = "";
-// var destinationCountry = "";
+//Veronica's code here
+//redirect
+$("#logo").on("click", function() {
+	document.location.replace("./index.html");
+});
 
-// $("#current-city").on("change", function() {
-//   departureCity = $(this).val();
-//   $("#initialSubmit").html("<a href='./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry + "'>Submit</a>");
-// });
-// $("#current-country").on("change", function() {
-//   departureCountry = $(this).val();
-//   $("#initialSubmit").html("<a href='./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry + "'>Submit</a>");
-// });
-// $("#destination-city").on("change", function() {
-//   destinationCity = $(this).val();
-//   $("#initialSubmit").html("<a href='./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry + "'>Submit</a>");
-// });
-// $("#destination-country").on("change", function() {
-//   destinationCountry = $(this).val();
-//   $("#initialSubmit").html("<a href='./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry + "'>Submit</a>");
-// });
+//drop down menus
+$(function() {
+    $("#country-selector").selectmenu();
+	$("#city-selector").selectmenu();
+    $("#country-picker").selectmenu();
+	$("#city-picker").selectmenu();
+});
 
 //use these placeholders if you want to test your code without it breaking
-var departureCity = "paris";
-var departureCountry = "france";
-var destinationCity = "tokyo";
-var destinationCountry = "japan";
+var departureCity = "";
+var departureCountry = "";
+var destinationCity = "";
+var destinationCountry = "";
 
-$("#initialSubmit").html("<a href='./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry + "'>Submit</a>");
+$("#initialSubmit").on("click", function() {
+	departureCity = $("#city-selector").val();
+	departureCountry = $("#country-selector").val();
+	destinationCity = $("#city-picker").val();
+	destinationCountry = $("#country-picker").val();
+	if (!departureCity || !departureCountry || !destinationCity || !destinationCountry) {
+		alert("please enter valid departure and destination locations");
+	} else {
+		document.location.replace("./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry);
+	}
+});

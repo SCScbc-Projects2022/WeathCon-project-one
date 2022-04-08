@@ -15,18 +15,33 @@
     
     <header id="header"> 
         <div>
-            <img src="./assets/images/weathcon-logo.png">
+            <img src="./assets/images/weathcon-logo.png" id="logo">
         </div>
         <p>Are you planning a vacation?  WeathCon will help you prepare with your destination's weather forecast, and currency exchange rate.</p>
-        <div id="new-current-destination"></div>
     </header>
 
-    <main class="flex grid place-content-center gap-4 grid-cols-6 py-5 px-3">
-		<input type="text" id="current-city" placeholder="Where Are You?" value="" />
-		<input type="text" id="current-country" placeholder="What Country?" value="" />
-		<input type="text" id="destination-city" placeholder="What City Are You Going To?" value="" />
-		<input type="text" id="destination-country" placeholder="What Country Is The City In?" value="" />
-		<button id="initialSubmit" class="bg-white">Submit</button><!--do not change the id of this button-->
+    <main class="bg-white"> <!--flex grid place-content-center gap-4 grid-cols-6 py-5 px-3 -->
+        <form action="#">
+            <fieldset>
+                <select name="country-selector" id="country-selector">
+                    <option disabled selected>Select a Country</option>
+                    <option value="italy">italy</option>
+                </select>
+                <select name="city-selector" id="city-selector">
+                    <option disabled selected>Select a City</option>
+                    <option value="venice">venice</option>
+                </select>
+                <select name="country-picker" id="country-picker">
+                    <option disabled selected>Pick a Country</option>
+                    <option value="france">france</option>
+                </select>
+                <select name="city-picker" id="city-picker">
+                    <option disabled selected>Pick a City</option>
+                    <option value="paris">paris</option>
+                </select>
+            </fieldset>
+          </form>
+		<button id="initialSubmit" class="bg-white">Submit</button>
     </main>
 
     <footer>
