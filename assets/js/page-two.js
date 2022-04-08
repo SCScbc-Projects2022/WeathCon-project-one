@@ -9,10 +9,10 @@ function parsing() {
         locations.push(item);
     }
 }
-var departureCity = locations[1];//new york
-var departureCountry = locations[2];//united states
-var destinationCity = locations[3];//toronto
-var destinationCountry = locations[4];//canada
+var departureCity = locations[1];//paris
+var departureCountry = locations[2];//france
+var destinationCity = locations[3];//tokyo
+var destinationCountry = locations[4];//japan
 
 //query selectors to accommodate pure JavaScript coding
 var header = document.querySelector("#header");
@@ -23,9 +23,12 @@ var containerThree = document.querySelector("#container-3");
 //capture destination change - Veronica
 $("#new-destination-form").on("click", "#submit-new-destination", updateDestination);
 function updateDestination(event) {
+    var newDestinationCity = $.trim($("#new-destination-city").val());
+    var newDestinationCountry = $.trim($("#new-destination-country").val());
     console.log("this is a placeholder function");
     //Candice's location change function call goes here
     //Veronica's location change function call goes here
+    swapDestination(newDestinationCountry);
     //Cory's location change function call goes here
 }
 
@@ -271,10 +274,6 @@ function convertAmount() {
             alert("unable to connect with currency API");
             return;
         });
-
-    // set so that the amount field now captures changed country to test function
-    // var newDestination = $.trim($("#amount").val()); //change id for the form element in header
-    // swapDestination(newDestination);
 }
 
 //set up for change in destination
