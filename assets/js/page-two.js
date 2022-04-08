@@ -1,16 +1,5 @@
-//logic passing parameters from page one to two
-//var locations = [];
-var urlParams = {};
-$.each(document.location.search.substr(1).split('&'),function(c,q){
-	var i = q.split('=');
-	urlParams[i[0].toString()] = decodeURI(i[1].toString());
-});
-let departureCity = urlParams.hasOwnProperty('departureCity') ? urlParams['departureCity'] : '';
-let departureCountry = urlParams.hasOwnProperty('departureCountry') ? urlParams['departureCountry'] : '';
-let destinationCity = urlParams.hasOwnProperty('destinationCity') ? urlParams['destinationCity'] : '';
-let destinationCountry = urlParams.hasOwnProperty('destinationCountry') ? urlParams['destinationCountry'] : '';
-
-/*
+//logic passing query string from page one to two - Veronica
+var locations = [];
 var text = document.location.search;
 var query = text.split("?");
 parsing();
@@ -20,51 +9,27 @@ function parsing() {
         locations.push(item);
     }
 }
-var departureCity = locations[1];
-var departureCountry = locations[2];
-var destinationCity = locations[3];
-var destinationCountry = locations[4];
+var departureCity = locations[1];//new york
+var departureCountry = locations[2];//united states
+var destinationCity = locations[3];//toronto
+var destinationCountry = locations[4];//canada
 
-*/
-
-//adding console.log for ease of variable substitution - to be removed for final version
-console.log(departureCity);//new york
-console.log(departureCountry);//united states
-console.log(destinationCity);//toronto
-console.log(destinationCountry);//canada
-
-//don't need query selectors after streamlining + using jQuery
+//query selectors to accommodate pure JavaScript coding
 var header = document.querySelector("#header");
 var containerOne = document.querySelector("#container-1");
 var containerTwo = document.querySelector("#container-2");
 var containerThree = document.querySelector("#container-3");
 
-//Brennan's code here
-//capture destination change - code to run when destination is changed - V
-$("#submit-new-destination").click(function updateDestination(event) {
-	event.preventDefault();
-	event.stopPropagation();
+//capture destination change - Veronica
+$("#new-destination-form").on("click", "#submit-new-destination", updateDestination);
+function updateDestination(event) {
     console.log("this is a placeholder function");
-	
-	if($('#new-destination-city').val().length > 0 && $('#new-destination-country').val().length > 0) {
-		destinationCity = $('#new-destination-city').val();
-		destinationCountry = $('#new-destination-country').val();
-	}
-	
-	console.log(destinationCity);//toronto
-	console.log(destinationCountry);//canada
-	
-	$("#container-1").html('');
-	getWeather(destinationCity, destinationCountry); //needs to clear before set
-	//$("#container-2").html('');
-	convertCurrency(destinationCountry, departureCountry);
-	//$("#container-3").html('');
-	getDepartureTime(departureCity, departureCountry);
-	getDestinationTime(destinationCity, destinationCountry);
-});
+    //Candice's location change function call goes here
+    //Veronica's location change function call goes here
+    //Cory's location change function call goes here
+}
 
-
-
+//Brennan's code here
 //Candice's code here    
 var getWeather = function (city, country) {
     //console.log(city);
