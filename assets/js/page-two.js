@@ -34,23 +34,20 @@ redirect(departureCity, departureCountry, destinationCity, destinationCountry);
 
 //modal redirect
 async function redirect(departureCity, departureCountry, destinationCity, destinationCountry) {
-    debugger;
     var weather = true;
     // var weather = await candice's page load function here
     var currency = await convertCurrency(departureCountry, destinationCountry);
-    console.log(currency);
     var departTime = true;
     var arriveTime = true;
     // var departTime = await Cory's's page load function here
     // var arriveTime = await Cory's page load function here
     if (!weather || !currency || !departTime || !arriveTime) {
-        // document.location.replace("./index.html?modal=true");
-        console.log("why tho")
+        document.location.replace("./index.html?modal=true");
     }
 }
 
 //load destination country options
-function getCountries() {
+async function getCountries() {
     var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities";
     var dataOne = fetch(apiUrl)
         .then(function (response) {
@@ -76,7 +73,7 @@ function getCountries() {
 }
 
 //populate destination cities on destination country selection
-function getDestinationCities(country) {
+async function getDestinationCities(country) {
 	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
     var dataOne = fetch(apiUrl)
         .then(function (response) {
@@ -343,7 +340,7 @@ function generateTo(symbol, name, code, amount, flag) {
 }
 
 //on conversion click
-function convertAmount() {
+async function convertAmount() {
     //changes the amount being converted
     var amount = $("#amount").val().trim();
     if (!amount) {
@@ -374,6 +371,35 @@ function convertAmount() {
                     $(".conversionHistory .bg-white").slice(10).remove();
                 });
                 return true;
+            } else {
+                //add modal
+                return false;
+            }
+        })
+        .catch(function (error) {
+            //add modal
+            return false;
+        });
+}
+
+//swap locations when history button is clicked
+//set up for change in destination
+async function swapLocations(newDepartureCountry, newDestinationCountry) {
+    var newDepartureCurrency = await getCurrency(newDepartureCountry);
+    var newDestinationCurrency = await getCurrency(newDestinationCountry);
+    locationCode = newDepartureCurrency.currency;
+    destinationCode = newDestinationCurrency.currency;
+    var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&amount=&places=2";
+    fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    $("#convertTo").empty();
+                    $("#toFlag").empty();
+                    generateTo(newCurrency.currencySymbol, newCurrency.currencyName, destinationCode, data.result, newCurrency.countryFlag);
+                    generateFrom(newDepartureCurrency.currencySymbol, newDepartureCurrency.currencyName, locationCode, newDepartureCurrency.countryFlag);
+                    generateTo(newDestinationCurrency.currencySymbol, newDestinationCurrency.currencyName, destinationCode, data.result, newDestinationCurrency.countryFlag);
+                });
             } else {
                 //add modal
                 return false;
@@ -431,6 +457,7 @@ async function convertCurrency(departureCountry, destinationCountry) {
         .catch(function (error) {
             return false;
         });
+    return true;
 }
 
 //interactive elements in currency feature
