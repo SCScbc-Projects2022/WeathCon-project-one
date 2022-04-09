@@ -54,12 +54,12 @@ function getDepartureCities(country) {
                 });
                 return data;
             } else {
-                alert("unable to retrieve conversion data");
+                alert("unable to retrieve location data");
                 return;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with currency API");
+            alert("unable to connect with location API");
             return;
         });
     return dataOne;
@@ -80,12 +80,12 @@ function getDestinationCities(country) {
                 });
                 return data;
             } else {
-                alert("unable to retrieve conversion data");
+                alert("unable to retrieve location data");
                 return;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with currency API");
+            alert("unable to connect with location API");
             return;
         });
     return dataOne;

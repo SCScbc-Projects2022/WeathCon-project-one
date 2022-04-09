@@ -74,12 +74,12 @@ function getDestinationCities(country) {
                 });
                 return data;
             } else {
-                alert("unable to retrieve conversion data");
+                alert("unable to retrieve location data");
                 return;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with currency API");
+            alert("unable to connect with location API");
             return;
         });
     return dataOne;
@@ -94,17 +94,20 @@ $("#country-picker").on("change", function() {
 //capture destination change
 $("#new-destination-form").on("click", "#submit-new-destination", updateDestination);
 function updateDestination(event) {
-    newDestinationCity = $.trim($("#city-picker").val());
-    newDestinationCountry = $.trim($("#country-picker").val());
+    event.preventDefault();
+    newDestinationCity = $("#city-picker").val();
+    newDestinationCountry = $("#country-picker").val();
+    console.log(newDestinationCity);
+    console.log(newDestinationCountry);
 	if (!departureCity || !departureCountry || !destinationCity || !destinationCountry) {
 		alert("please enter valid departure and destination locations");
 	} else {
-    //Candice's location change function call goes here
-    getWeather(newDestinationCity, newDestinationCountry, departureCity, departureCountry);
-    //Veronica's location change function call goes here
-    document.location.replace("./page-two.html?" + departureCity + "?" + departureCountry + "?" + newDestinationCity + "?" + newDestinationCountry);
-    swapDestination(newDestinationCountry);
-    //Cory's location change function call goes here
+    document.location.replace("?" + departureCity + "?" + departureCountry + "?" + newDestinationCity + "?" + newDestinationCountry);
+    // //Candice's location change function call goes here
+    // getWeather(newDestinationCity, newDestinationCountry, departureCity, departureCountry);
+    // //Veronica's location change function call goes here
+    // swapDestination(newDestinationCountry);
+    // //Cory's location change function call goes here
     }
 }
 
