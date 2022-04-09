@@ -37,7 +37,7 @@ body {
 
 footer {
     position: relative;
-    bottom: 5px;
+    bottom: 0;
    padding: 30px;
    color: orange;
    font-size: large;
