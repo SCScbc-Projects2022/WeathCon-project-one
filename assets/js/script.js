@@ -1,9 +1,10 @@
 //Veronica's code here
 //unable to operate APIs
 var text = document.location.search;
-var modalBoolean = text.split("?");
+modalTrue();
 function modalTrue() {
-    if (modalBoolean[1] === "modal=true") {
+    if (text === "?modal=true") {
+        console.log("a-bombed");
         openModal();
     }
 }
