@@ -34,7 +34,6 @@ redirect(departureCity, departureCountry, destinationCity, destinationCountry);
 
 //modal redirect
 async function redirect(departureCity, departureCountry, destinationCity, destinationCountry) {
-    debugger;
     var weather = true;
     // var weather = await candice's page load function here
     var currency = await convertCurrency(departureCountry, destinationCountry);
@@ -306,7 +305,7 @@ var cityBtnEl = document.querySelector(".btn-holder");
 var saveButtons = function () {
     cityBtnEl.innerHTML = "";
     for (var i = 0; i < savedDestinations.length; i++) {
-        debugger;
+        //debugger;
         newBtn = document.createElement("button");
         newBtn.classList.add("newbtn", "font-bold", "py-2", "px-4", "rounded");
         newBtn.textContent = savedDestinations[i][2] + " → " + savedDestinations[i][0];
@@ -468,28 +467,23 @@ async function convertCurrency(departureCountry, destinationCountry) {
     locationCode = baseCurrency.currency;
     destinationCode = convertedCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&places=2";
-    var dataGet = fetch(apiUrl).then(function (response) {
+    var getData = await fetch(apiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
                 generateFrom(baseCurrency.currencySymbol, baseCurrency.currencyName, locationCode, baseCurrency.countryFlag);
                 generateTo(convertedCurrency.currencySymbol, convertedCurrency.currencyName, destinationCode, data.result, convertedCurrency.countryFlag);
                 var setConversion = $("<p>").text(baseCurrency.currencySymbol + " 1.00 " + "(" + locationCode + ")" + " = " + convertedCurrency.currencySymbol + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("italic");
                 $(setConversion).insertBefore($("#historyTitle"));
-                return false;
             });
-            return false;
+            return true;
         } else {
             return false;
         }
-    })
+        })
         .catch(function (error) {
             return false;
         });
-    if (dataGet === true){
-        return true;
-    } else {
-        return false;
-    }
+    return getData;
 }
 
 //interactive elements in currency feature
