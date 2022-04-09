@@ -47,9 +47,6 @@ footer {
 }
 
 .form-main form fieldset div {
-    
-    border: solid 5px blue;
-
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: large;
 }
@@ -58,6 +55,8 @@ footer {
   height: 800px;
   width: 100vw;
 }
+
+
 
 
 #country-selector {
