@@ -27,7 +27,7 @@ function updateDestination(event) {
     var newDestinationCountry = $.trim($("#new-destination-country").val());
     // console.log("this is a placeholder function");
     //Candice's location change function call goes here
-    getWeather(newDestinationCity, newDestinationCountry);
+    getWeather(newDestinationCity, newDestinationCountry, departureCity, departureCountry);
     //Veronica's location change function call goes here
     swapDestination(newDestinationCountry);
     //Cory's location change function call goes here
@@ -35,7 +35,7 @@ function updateDestination(event) {
 
 //Brennan's code here
 //Candice's code here    
-var getWeather = function (city, country) {
+var getWeather = function (city, country, departurec, departurecc) {
     //console.log(city);
     var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "," + country + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
     fetch(apiURL)
@@ -44,7 +44,7 @@ var getWeather = function (city, country) {
                 response.json().then(function (data) {
                     console.log(data);
                     displayWeather(data, city, country);
-                    saveLocations(city, country);
+                    saveLocations(city, country, departurec, departurecc);
                 })
             } else {
                 //insert error handling here
@@ -190,21 +190,24 @@ var displayWeather = function (data, city, country) {
     $("#tabs").tabs();
 };
 
-getWeather(destinationCity, destinationCountry);
+getWeather(destinationCity, destinationCountry, departureCity, departureCountry);
 
 var savedDestinations = JSON.parse(localStorage.getItem("locations")) || [];
-var saveDestinations = function(){
+var saveLocations = function(city, country, departurec, departurecc){
     
-    var newSave = [departureCity, departureCountry, destinationCity, destinationCountry];
+    var newSave = [city, country, departurec, departurecc];
     // console.log(newSave);
      var flatLocations = savedDestinations.flat();
-     if (flatLocations.indexOf(departureCity) !== -1 && flatLocations.indexOf(departureCountry) !== -1){
+     if (flatLocations.indexOf(city) !== -1 && flatLocations.indexOf(country) !== -1 && flatLocations.indexOf(departurec)!== -1 && flatLocations.indexOf(departurecc)!== -1){
        console.log("a-bombed");
      } else {
         savedDestinations.push(newSave);
      }
 
      localStorage.setItem("destinations", JSON.stringify(savedDestinations)); 
+}
+var saveButtons = function(){
+    
 }
 
 

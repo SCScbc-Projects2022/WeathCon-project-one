@@ -22,10 +22,10 @@ $("#destination-country").on("change", function() {
 });
 
 //use these placeholders if you want to test your code without it breaking
-var departureCity = "paris";
-var departureCountry = "france";
-var destinationCity = "tokyo";
-var destinationCountry = "japan";
+// var departureCity = "paris";
+// var departureCountry = "france";
+// var destinationCity = "tokyo";
+// var destinationCountry = "japan";
 
 $("#initialSubmit").html("<a href='./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry + "'>Submit</a>");
 
