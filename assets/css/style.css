@@ -38,13 +38,41 @@ body {
 footer {
     position: relative;
     bottom: 0;
-   padding: 30px;
-   color: orange;
-   font-size: large;
-   font-weight: bold;
-   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    color: orange;
+    font-size: large;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
+
+.form-main form fieldset div {
+    
+    border: solid 5px blue;
+
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: large;
+}
+
+.form-main {
+  height: 800px;
+  width: 100vw;
+}
+
+
+#country-selector {
+    border: solid 2px black;
+}
+
+button {
+    border: solid 2px black;
+    padding: 5px;
+    border-radius:5px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+
 /*Candice's code here*/
 .btn-container {
     /* background-color: white; */
