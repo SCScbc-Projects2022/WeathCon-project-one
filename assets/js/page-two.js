@@ -34,6 +34,7 @@ redirect(departureCity, departureCountry, destinationCity, destinationCountry);
 
 //modal redirect
 async function redirect(departureCity, departureCountry, destinationCity, destinationCountry) {
+    debugger;
     var weather = true;
     // var weather = await candice's page load function here
     var currency = await convertCurrency(departureCountry, destinationCountry);
@@ -297,12 +298,6 @@ var saveButtons = function(){
 
 
 //Veronica's code here
-
-//To do:
-//CSS
-//streamline code
-//error handling and validations - change to modals
-
 //start currency API logic
 $("#conversionHistory").sortable();
 
@@ -396,7 +391,6 @@ async function swapLocations(newDepartureCountry, newDestinationCountry) {
                 response.json().then(function (data) {
                     $("#convertTo").empty();
                     $("#toFlag").empty();
-                    generateTo(newCurrency.currencySymbol, newCurrency.currencyName, destinationCode, data.result, newCurrency.countryFlag);
                     generateFrom(newDepartureCurrency.currencySymbol, newDepartureCurrency.currencyName, locationCode, newDepartureCurrency.countryFlag);
                     generateTo(newDestinationCurrency.currencySymbol, newDestinationCurrency.currencyName, destinationCode, data.result, newDestinationCurrency.countryFlag);
                 });
@@ -440,16 +434,16 @@ async function convertCurrency(departureCountry, destinationCountry) {
     locationCode = baseCurrency.currency;
     destinationCode = convertedCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&places=2";
-    fetch(apiUrl).then(function (response) {
+    var dataGet = fetch(apiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function(data) {
                 generateFrom(baseCurrency.currencySymbol, baseCurrency.currencyName, locationCode, baseCurrency.countryFlag);
                 generateTo(convertedCurrency.currencySymbol, convertedCurrency.currencyName, destinationCode, data.result, convertedCurrency.countryFlag);
                 var setConversion = $("<p>").text(baseCurrency.currencySymbol + " 1.00 " + "(" + locationCode + ")" + " = " + convertedCurrency.currencySymbol + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("italic");
                 $(setConversion).insertBefore($("#historyTitle"));
-                return true;
+                return false;
             });
-            return true;
+            return false;
         } else {
             return false;
         }
@@ -457,7 +451,11 @@ async function convertCurrency(departureCountry, destinationCountry) {
         .catch(function (error) {
             return false;
         });
-    return true;
+    if (dataGet === true){
+        return true;
+    } else {
+        return false;
+    }
 }
 
 //interactive elements in currency feature
