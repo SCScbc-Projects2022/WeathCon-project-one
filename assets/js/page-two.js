@@ -1,7 +1,7 @@
 //Veronica's code here
 //redirect
-$("#logo").on("click", function() {
-	document.location.replace("./index.html");
+$("#logo").on("click", function () {
+    document.location.replace("./index.html");
 })
 
 //logic passing query string from page one to two
@@ -54,13 +54,13 @@ async function getCountries() {
         .then(function (response) {
             if (response.ok) {
                 var data = response.json().then(function (data) {
-					for (i = 0; i < data.data.length; i++) {
-						if (data.data[i].cities) {
-							var country = data.data[i].name;
-							var option = $("<option>").attr("value", country).data("index", i).text(country);
-							$("#country-picker").append(option);
-						}
-					}
+                    for (i = 0; i < data.data.length; i++) {
+                        if (data.data[i].cities) {
+                            var country = data.data[i].name;
+                            var option = $("<option>").attr("value", country).data("index", i).text(country);
+                            $("#country-picker").append(option);
+                        }
+                    }
                 });
                 return data;
             } else {
@@ -79,12 +79,12 @@ async function getDestinationCities(country) {
     var dataOne = fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
-				var data = response.json().then(function (data) {
-					for (i = 0; i < data.data[country].cities.length; i++) {
-                    var city = data.data[country].cities[i];
-					var option = $("<option>").text(city);
-					$("#city-picker").append(option);
-					}
+                var data = response.json().then(function (data) {
+                    for (i = 0; i < data.data[country].cities.length; i++) {
+                        var city = data.data[country].cities[i];
+                        var option = $("<option>").text(city);
+                        $("#city-picker").append(option);
+                    }
                 });
                 return data;
             } else {
@@ -100,9 +100,9 @@ async function getDestinationCities(country) {
 }
 
 //trigger city options
-$("#country-picker").on("change", function() {
-	$("#city-picker").empty();
-	getDestinationCities($("#country-picker").find(":selected").data("index"));
+$("#country-picker").on("change", function () {
+    $("#city-picker").empty();
+    getDestinationCities($("#country-picker").find(":selected").data("index"));
 });
 
 //capture destination change
@@ -120,6 +120,7 @@ function updateDestination(event) {
 
 //Brennan's code here
 //Candice's code here    
+
 var getWeather = function (city, country, departurec, departurecc) {
     //console.log(city);
     var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "," + country + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
@@ -129,7 +130,7 @@ var getWeather = function (city, country, departurec, departurecc) {
                 response.json().then(function (data) {
                     console.log(data);
                     displayWeather(data, city, country);
-                    saveLocations(city, country, departurec, departurecc);
+                    
                 })
             } else {
                 //insert error handling here
@@ -137,7 +138,7 @@ var getWeather = function (city, country, departurec, departurecc) {
         })
 }
 var displayWeather = function (data, city, country) {
-    containerOne.innerHTML="";
+    containerOne.innerHTML = "";
     var cityCountryName = city + "," + country;
 
     var weatherTitleEl = document.createElement("div");
@@ -278,37 +279,55 @@ var displayWeather = function (data, city, country) {
 getWeather(destinationCity, destinationCountry, departureCity, departureCountry);
 
 var savedDestinations = JSON.parse(localStorage.getItem("destinations")) || [];
-var saveLocations = function(city, country, departurec, departurecc){
-    
-    var newSave = [city, country, departurec, departurecc];
-    // console.log(newSave);
-     var flatLocations = savedDestinations.flat();
-     if (flatLocations.indexOf(city) !== -1 && flatLocations.indexOf(country) !== -1 && flatLocations.indexOf(departurec)!== -1 && flatLocations.indexOf(departurecc)!== -1){
-       console.log("a-bombed");
+var saveLocations = function (city, country, departurec, departurecc) {
+     if (city === null || country === null || departurec === null || departurecc === null) {
+         return;
      } else {
-        savedDestinations.push(newSave);
-     }
 
-     localStorage.setItem("destinations", JSON.stringify(savedDestinations)); 
-}
+        var newSave = [city, country, departurec, departurecc];
+        var flatLocations = savedDestinations.flat();
+        if (flatLocations.indexOf(city) !== -1 && flatLocations.indexOf(country) !== -1 && flatLocations.indexOf(departurec) !== -1 && flatLocations.indexOf(departurecc) !== -1) {
+            console.log("a-bombed");
+        } else {
+            if (savedDestinations.length === 9) {
+                savedDestinations.shift();
+                savedDestinations.push(newSave);
+            } else {
+                savedDestinations.push(newSave);
+            };
+        }
+
+        localStorage.setItem("destinations", JSON.stringify(savedDestinations));
+    }
+ }
+ saveLocations(destinationCity, destinationCountry, departureCity, departureCountry);
+ 
 var cityBtnEl = document.querySelector(".btn-holder");
 var saveButtons = function () {
     cityBtnEl.innerHTML = "";
     for (var i = 0; i < savedDestinations.length; i++) {
+        debugger;
         newBtn = document.createElement("button");
         newBtn.classList.add("newbtn", "font-bold", "py-2", "px-4", "rounded");
         newBtn.textContent = savedDestinations[i][2] + " → " + savedDestinations[i][0];
+        newBtn.value = savedDestinations[i][0] + "," + savedDestinations[i][1] + "," + savedDestinations[i][2] + "," + savedDestinations[i][3];
         cityBtnEl.appendChild(newBtn);
 
-        // newBtn.addEventListener("click", function (event) {
+         newBtn.addEventListener("click", function () {
             
+            var newArr = [];
+            var fck = newBtn.value.split(",").join(" ").trim();
+            newArr.push(fck);
+            console.log(newArr);
+            getWeather(newArr[0], newArr[1], newArr[2], newArr[3]);
 
-            
-        // });
+           
+         });
     };
-    
-} 
+
+}
 saveButtons();
+
 
 
 
@@ -444,14 +463,14 @@ async function getCurrency(country) {
 
 //change the country to the currency code, then run conversion API and populate dynamic fields
 async function convertCurrency(departureCountry, destinationCountry) {
-    var baseCurrency =  await getCurrency(departureCountry);
+    var baseCurrency = await getCurrency(departureCountry);
     var convertedCurrency = await getCurrency(destinationCountry);
     locationCode = baseCurrency.currency;
     destinationCode = convertedCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&places=2";
     var dataGet = fetch(apiUrl).then(function (response) {
         if (response.ok) {
-            response.json().then(function(data) {
+            response.json().then(function (data) {
                 generateFrom(baseCurrency.currencySymbol, baseCurrency.currencyName, locationCode, baseCurrency.countryFlag);
                 generateTo(convertedCurrency.currencySymbol, convertedCurrency.currencyName, destinationCode, data.result, convertedCurrency.countryFlag);
                 var setConversion = $("<p>").text(baseCurrency.currencySymbol + " 1.00 " + "(" + locationCode + ")" + " = " + convertedCurrency.currencySymbol + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("italic");
@@ -488,27 +507,27 @@ function aBombed() {
 
 // convertCurrency(departureCountry, destinationCountry);//on page load, run this
 
-    //Cory's code here
+//Cory's code here
 var APIkey = '01393325d86d48eab9f40e48844eb632';
 
 
 
 //Local or Departure Time
-function getDepartureTime(){
+function getDepartureTime() {
     fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${departureCity},%20${departureCountry}`)
         .then(response => response.json())
         .then(data => {
-            var departureTime=`<span class="timeZone-departure" >` + departureCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
+            var departureTime = `<span class="timeZone-departure" >` + departureCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
 
             $('#departureTime').append(departureTime);
         });
 }
 //Destination time
-function getDestinationTime(){
+function getDestinationTime() {
     fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${destinationCity},%20${destinationCountry}`)
         .then(response => response.json())
         .then(data => {
-            var destinationTime=`<span class="timeZone-destination">` + destinationCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
+            var destinationTime = `<span class="timeZone-destination">` + destinationCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
             $('#destinationTime').append(destinationTime);
         });
 }
@@ -523,16 +542,16 @@ var modal = $("#modal");
 // Get the <span> element that closes the modal
 var span = $(".close")[0];
 // When the user clicks on the button, open the modal
- function openModal() {
-  $("#modal").css("display","block")
+function openModal() {
+    $("#modal").css("display", "block")
 }
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  $("#modal").css("display","none");
+span.onclick = function () {
+    $("#modal").css("display", "none");
 }
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }

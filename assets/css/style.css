@@ -85,15 +85,17 @@ button {
 .btn-container {
     /* background-color: white; */
     width: 100%;
+    /* background-color: black; */
 }
 .btn-container h3 {
     font-size: bold;
     color: white;
+    
 }
 .newbtn {
     background-color: orange;
     color: white;
-    margin: 0 5px 0 5px;
+    margin: 0 5px 10px 5px;
 }
 #container-1{
     padding-top: 10px;
