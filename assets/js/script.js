@@ -6,7 +6,7 @@ $("#logo").on("click", function() {
 
 //populate country drop downs
 function getCountries() {
-    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities";
+    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name";
     var dataOne = fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {

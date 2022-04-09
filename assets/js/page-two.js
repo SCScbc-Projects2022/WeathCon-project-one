@@ -33,7 +33,7 @@ getCountries();
 
 //load destination country options
 function getCountries() {
-    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities";
+    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name";
     var dataOne = fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
@@ -96,16 +96,18 @@ $("#new-destination-form").on("click", "#submit-new-destination", updateDestinat
 function updateDestination(event) {
     newDestinationCity = $.trim($("#city-picker").val());
     newDestinationCountry = $.trim($("#country-picker").val());
-	if (!departureCity || !departureCountry || !destinationCity || !destinationCountry) {
-		alert("please enter valid departure and destination locations");
-	} else {
-    //Candice's location change function call goes here
-    getWeather(newDestinationCity, newDestinationCountry, departureCity, departureCountry);
-    //Veronica's location change function call goes here
-    document.location.replace("./page-two.html?" + departureCity + "?" + departureCountry + "?" + newDestinationCity + "?" + newDestinationCountry);
-    swapDestination(newDestinationCountry);
-    //Cory's location change function call goes here
-    }
+    console.log(newDestinationCity);
+    console.log(newDestinationCountry);
+	// if (!departureCity || !departureCountry || !destinationCity || !destinationCountry) {
+	// 	alert("please enter valid departure and destination locations");
+	// } else {
+    // //Candice's location change function call goes here
+    // getWeather(newDestinationCity, newDestinationCountry, departureCity, departureCountry);
+    // //Veronica's location change function call goes here
+    // document.location.replace("./page-two.html?" + departureCity + "?" + departureCountry + "?" + newDestinationCity + "?" + newDestinationCountry);
+    // swapDestination(newDestinationCountry);
+    // //Cory's location change function call goes here
+    // }
 }
 
 //Brennan's code here
