@@ -1,4 +1,12 @@
 //Veronica's code here
+//unable to operate APIs
+var text = document.location.search;
+var modalBoolean = text.split("?");
+function modalTrue() {
+    if (modalBoolean[1] === "modal=true") {
+        openModal();
+    }
+}
 //redirect
 $("#logo").on("click", function() {
 	document.location.replace("./index.html");
@@ -29,12 +37,12 @@ function getCountries() {
                 return data;
             } else {
                 alert("unable to retrieve location data");
-                return;
+                return false;
             }
         })
         .catch(function (error) {
             alert("unable to connect with location API");
-            return;
+            return false;
         });
     return dataOne;
 }
@@ -55,12 +63,12 @@ function getDepartureCities(country) {
                 return data;
             } else {
                 alert("unable to retrieve location data");
-                return;
+                return false;
             }
         })
         .catch(function (error) {
             alert("unable to connect with location API");
-            return;
+            return false;
         });
     return dataOne;
 }
@@ -81,12 +89,12 @@ function getDestinationCities(country) {
                 return data;
             } else {
                 alert("unable to retrieve location data");
-                return;
+                return false;
             }
         })
         .catch(function (error) {
             alert("unable to connect with location API");
-            return;
+            return false;
         });
     return dataOne;
 }

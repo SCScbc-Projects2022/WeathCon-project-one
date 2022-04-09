@@ -29,7 +29,25 @@ var containerOne = document.querySelector("#container-1");
 var containerTwo = document.querySelector("#container-2");
 var containerThree = document.querySelector("#container-3");
 
-getCountries();
+aBombed();
+redirect(departureCity, departureCountry, destinationCity, destinationCountry);
+
+//modal redirect
+async function redirect(departureCity, departureCountry, destinationCity, destinationCountry) {
+    debugger;
+    var weather = true;
+    // var weather = await candice's page load function here
+    var currency = await convertCurrency(departureCountry, destinationCountry);
+    console.log(currency);
+    var departTime = true;
+    var arriveTime = true;
+    // var departTime = await Cory's's page load function here
+    // var arriveTime = await Cory's page load function here
+    if (!weather || !currency || !departTime || !arriveTime) {
+        // document.location.replace("./index.html?modal=true");
+        console.log("why tho")
+    }
+}
 
 //load destination country options
 function getCountries() {
@@ -48,13 +66,11 @@ function getCountries() {
                 });
                 return data;
             } else {
-                alert("unable to retrieve location data");
-                return;
+                return false;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with location API");
-            return;
+            return false;
         });
     return dataOne;
 }
@@ -97,9 +113,7 @@ function updateDestination(event) {
     event.preventDefault();
     newDestinationCity = $("#city-picker").val();
     newDestinationCountry = $("#country-picker").val();
-    console.log(newDestinationCity);
-    console.log(newDestinationCountry);
-	if (!departureCity || !departureCountry || !destinationCity || !destinationCountry) {
+	if (!newDestinationCity || !newDestinationCountry) {
 		alert("please enter valid departure and destination locations");
 	} else {
     document.location.replace("?" + departureCity + "?" + departureCountry + "?" + newDestinationCity + "?" + newDestinationCountry);
@@ -359,14 +373,15 @@ function convertAmount() {
                     $("#conversionHistory").prepend(search);
                     $(".conversionHistory .bg-white").slice(10).remove();
                 });
+                return true;
             } else {
-                alert("unable to retrieve conversion data");
-                return;
+                //add modal
+                return false;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with currency API");
-            return;
+            //add modal
+            return false;
         });
 }
 
@@ -383,13 +398,11 @@ async function getCurrency(country) {
                 });
                 return data;
             } else {
-                alert("unable to retrieve conversion data");
-                return;
+                return false;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with currency API");
-            return;
+            return false;
         });
     return dataOne;
 }
@@ -408,23 +421,32 @@ async function convertCurrency(departureCountry, destinationCountry) {
                 generateTo(convertedCurrency.currencySymbol, convertedCurrency.currencyName, destinationCode, data.result, convertedCurrency.countryFlag);
                 var setConversion = $("<p>").text(baseCurrency.currencySymbol + " 1.00 " + "(" + locationCode + ")" + " = " + convertedCurrency.currencySymbol + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("italic");
                 $(setConversion).insertBefore($("#historyTitle"));
+                return true;
             });
+            return true;
         } else {
-            alert("unable to retrieve conversion data");
+            return false;
         }
     })
         .catch(function (error) {
-            alert("unable to connect with currency API");
-            return;
+            return false;
         });
 }
 
+//interactive elements in currency feature
 $("#container-2").on("click", "#convert", convertAmount);
 $("#container-2").on("dblclick", "li", function () {
     $(this).remove();
 });
 
-convertCurrency(departureCountry, destinationCountry);//on page load, run this
+//for funsies
+function aBombed() {
+    if (departureCity === destinationCity && departureCountry === destinationCountry) {
+        console.log("a-bombed");
+    }
+}
+
+// convertCurrency(departureCountry, destinationCountry);//on page load, run this
 
     //Cory's code here
 var APIkey = '01393325d86d48eab9f40e48844eb632';
