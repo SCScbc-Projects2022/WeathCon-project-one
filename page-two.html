@@ -17,16 +17,21 @@
     
     <header id="header"> 
         <div>
-            <img src="./assets/images/weathcon-logo.png">
+            <img src="./assets/images/weathcon-logo.png" id="logo">
         </div>
         <p>Are you planning a vacation?  WeathCon will help you prepare with your destination's weather forecast, and currency exchange rate.</p>
-        <!--Brennan's code here-->
-        <div id="new-destination-form"> <!--if you're going to change this section, make sure to update the js file
-                                        you can also change this to a form with a submit button instead of a click button if you want-->
-            <input type="text" id="new-destination-city" name="new-destination-city" class="d-inline-block" placeholder="Pick a New City"></input>
-            <input type="text" id="new-destination-country" name="new-destination-country" class="d-inline-block" placeholder="Pick a New Country"></input>
+        <!--Veronica's code here-->
+        <form action="#" id="new-destination-form">
+            <fieldset>
+                <select name="country-picker" id="country-picker">
+                    <option disabled selected>Pick a Country</option>
+                </select>
+                <select name="city-picker" id="city-picker">
+                    <option disabled selected>Pick a City</option>
+                </select>
+            </fieldset>
             <button id="submit-new-destination" class="bg-white">Submit</button>
-        </div>
+        </form>
     </header>
 
     <main class="flex grid place-content-center gap-4 grid-cols-3 py-5 px-3">

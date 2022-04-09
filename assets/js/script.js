@@ -1,33 +1,120 @@
-//capture and update form fields - Veronica
-var departureCity = "";
-var departureCountry = "";
-var destinationCity = "";
-var destinationCountry = "";
-
-$("#current-city").on("change", function() {
-  departureCity = $(this).val();
-  $("#initialSubmit").html("<a href='./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry + "'>Submit</a>");
-});
-$("#current-country").on("change", function() {
-  departureCountry = $(this).val();
-  $("#initialSubmit").html("<a href='./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry + "'>Submit</a>");
-});
-$("#destination-city").on("change", function() {
-  destinationCity = $(this).val();
-  $("#initialSubmit").html("<a href='./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry + "'>Submit</a>");
-});
-$("#destination-country").on("change", function() {
-  destinationCountry = $(this).val();
-  $("#initialSubmit").html("<a href='./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry + "'>Submit</a>");
+//Veronica's code here
+//redirect
+$("#logo").on("click", function() {
+	document.location.replace("./index.html");
 });
 
-//use these placeholders if you want to test your code without it breaking
-// var departureCity = "paris";
-// var departureCountry = "france";
-// var destinationCity = "tokyo";
-// var destinationCountry = "japan";
+//populate country drop downs
+function getCountries() {
+    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities";
+    var dataOne = fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+                var data = response.json().then(function (data) {
+					for (i = 0; i < data.data.length; i++) {
+						if (data.data[i].cities) {
+							var country = data.data[i].name;
+							var option = $("<option>").attr("value", country).data("index", i).text(country);
+							$("#country-selector").append(option);
+						}
+					}
+					for (i = 0; i < data.data.length; i++) {
+						if (data.data[i].cities) {
+							var country = data.data[i].name;
+							var option = $("<option>").attr("value", country).data("index", i).text(country);
+							$("#country-picker").append(option);
+						}
+					}
+                });
+                return data;
+            } else {
+                alert("unable to retrieve location data");
+                return;
+            }
+        })
+        .catch(function (error) {
+            alert("unable to connect with location API");
+            return;
+        });
+    return dataOne;
+}
 
-$("#initialSubmit").html("<a href='./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry + "'>Submit</a>");
+//populate departure cities on departure country selection
+function getDepartureCities(country) {
+	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
+    var dataOne = fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+				var data = response.json().then(function (data) {
+					for (i = 0; i < data.data[country].cities.length; i++) {
+                    var city = data.data[country].cities[i];
+					var option = $("<option>").text(city);
+					$("#city-selector").append(option);
+					}
+                });
+                return data;
+            } else {
+                alert("unable to retrieve conversion data");
+                return;
+            }
+        })
+        .catch(function (error) {
+            alert("unable to connect with currency API");
+            return;
+        });
+    return dataOne;
+}
+
+//populate destination cities on destination country selection
+function getDestinationCities(country) {
+	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
+    var dataOne = fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+				var data = response.json().then(function (data) {
+					for (i = 0; i < data.data[country].cities.length; i++) {
+                    var city = data.data[country].cities[i];
+					var option = $("<option>").text(city);
+					$("#city-picker").append(option);
+					}
+                });
+                return data;
+            } else {
+                alert("unable to retrieve conversion data");
+                return;
+            }
+        })
+        .catch(function (error) {
+            alert("unable to connect with currency API");
+            return;
+        });
+    return dataOne;
+}
+
+//event handlers
+$("#country-selector").on("change", function() {
+	$("#city-selector").empty();
+	getDepartureCities($("#country-selector").find(":selected").data("index"));
+});
+
+$("#country-picker").on("change", function() {
+	$("#city-picker").empty();
+	getDestinationCities($("#country-picker").find(":selected").data("index"));
+});
+
+$("#initialSubmit").on("click", function() {
+	var departureCity = $("#city-selector").val();
+	var departureCountry = $("#country-selector").val();
+	var destinationCity = $("#city-picker").val();
+	var destinationCountry = $("#country-picker").val();
+	if (!departureCity || !departureCountry || !destinationCity || !destinationCountry) {
+		alert("please enter valid departure and destination locations");
+	} else {
+		document.location.replace("./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry);
+	}
+});
+
+getCountries();
 
 // Modal
 var modal = $("#modal");
