@@ -103,11 +103,6 @@ function updateDestination(event) {
 		alert("please enter valid departure and destination locations");
 	} else {
     document.location.replace("?" + departureCity + "?" + departureCountry + "?" + newDestinationCity + "?" + newDestinationCountry);
-    // //Candice's location change function call goes here
-    // getWeather(newDestinationCity, newDestinationCountry, departureCity, departureCountry);
-    // //Veronica's location change function call goes here
-    // swapDestination(newDestinationCountry);
-    // //Cory's location change function call goes here
     }
 }
 
@@ -363,30 +358,6 @@ function convertAmount() {
                     var search = $("<li>").text($("#fromSymbol").text() + " " + dollarUSLocale.format(amount) + " (" + locationCode + ") = " + $("#toSymbol").text() + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("bg-white");
                     $("#conversionHistory").prepend(search);
                     $(".conversionHistory .bg-white").slice(10).remove();
-                });
-            } else {
-                alert("unable to retrieve conversion data");
-                return;
-            }
-        })
-        .catch(function (error) {
-            alert("unable to connect with currency API");
-            return;
-        });
-}
-
-//set up for change in destination
-async function swapDestination(newDestination) {
-    var newCurrency = await getCurrency(newDestination);
-    destinationCode = newCurrency.currency;
-    var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&amount=&places=2";
-    fetch(apiUrl)
-        .then(function (response) {
-            if (response.ok) {
-                response.json().then(function (data) {
-                    $("#convertTo").empty();
-                    $("#toFlag").empty();
-                    generateTo(newCurrency.currencySymbol, newCurrency.currencyName, destinationCode, data.result, newCurrency.countryFlag);
                 });
             } else {
                 alert("unable to retrieve conversion data");
