@@ -267,7 +267,7 @@ var displayWeather = function (data, city, country) {
 
 getWeather(destinationCity, destinationCountry, departureCity, departureCountry);
 
-var savedDestinations = JSON.parse(localStorage.getItem("locations")) || [];
+var savedDestinations = JSON.parse(localStorage.getItem("destinations")) || [];
 var saveLocations = function(city, country, departurec, departurecc){
     
     var newSave = [city, country, departurec, departurecc];
@@ -281,9 +281,24 @@ var saveLocations = function(city, country, departurec, departurecc){
 
      localStorage.setItem("destinations", JSON.stringify(savedDestinations)); 
 }
-var saveButtons = function(){
+var cityBtnEl = document.querySelector(".btn-holder");
+var saveButtons = function () {
+    cityBtnEl.innerHTML = "";
+    for (var i = 0; i < savedDestinations.length; i++) {
+        newBtn = document.createElement("button");
+        newBtn.classList.add("newbtn", "font-bold", "py-2", "px-4", "rounded");
+        newBtn.textContent = savedDestinations[i][2] + " → " + savedDestinations[i][0];
+        cityBtnEl.appendChild(newBtn);
+
+        // newBtn.addEventListener("click", function (event) {
+            
+
+            
+        // });
+    };
     
-}
+} 
+saveButtons();
 
 
 
