@@ -21,7 +21,7 @@
         <div id="new-current-destination"></div>
     </header>
 
-    <main class="flex grid place-content-center gap-4 grid-cols-6 py-5 px-3">
+    <main class="flex grid place-content-center gap-4 grid-cols-5 py-5 px-3">
 		<input type="text" id="current-city" placeholder="Where Are You?" value="" />
 		<input type="text" id="current-country" placeholder="What Country?" value="" />
 		<input type="text" id="destination-city" placeholder="What City Are You Going To?" value="" />
@@ -34,6 +34,14 @@
     </footer>
 
     <!--modals go here-->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p id="modalText">Some text in the Modal..</p>
+        </div>
+    </div>    
+
+
     <!-- Brennan's code goes here -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
