@@ -25,8 +25,9 @@ $("#new-destination-form").on("click", "#submit-new-destination", updateDestinat
 function updateDestination(event) {
     var newDestinationCity = $.trim($("#new-destination-city").val());
     var newDestinationCountry = $.trim($("#new-destination-country").val());
-    console.log("this is a placeholder function");
+    // console.log("this is a placeholder function");
     //Candice's location change function call goes here
+    getWeather(newDestinationCity, newDestinationCountry);
     //Veronica's location change function call goes here
     swapDestination(newDestinationCountry);
     //Cory's location change function call goes here
@@ -43,6 +44,7 @@ var getWeather = function (city, country) {
                 response.json().then(function (data) {
                     console.log(data);
                     displayWeather(data, city, country);
+                    saveLocations(city, country);
                 })
             } else {
                 //insert error handling here
@@ -50,6 +52,7 @@ var getWeather = function (city, country) {
         })
 }
 var displayWeather = function (data, city, country) {
+    containerOne.innerHTML="";
     var cityCountryName = city + "," + country;
 
     var weatherTitleEl = document.createElement("div");
@@ -188,6 +191,21 @@ var displayWeather = function (data, city, country) {
 };
 
 getWeather(destinationCity, destinationCountry);
+
+var savedDestinations = JSON.parse(localStorage.getItem("locations")) || [];
+var saveDestinations = function(){
+    
+    var newSave = [departureCity, departureCountry, destinationCity, destinationCountry];
+    // console.log(newSave);
+     var flatLocations = savedDestinations.flat();
+     if (flatLocations.indexOf(departureCity) !== -1 && flatLocations.indexOf(departureCountry) !== -1){
+       console.log("a-bombed");
+     } else {
+        savedDestinations.push(newSave);
+     }
+
+     localStorage.setItem("destinations", JSON.stringify(savedDestinations)); 
+}
 
 
 
