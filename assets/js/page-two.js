@@ -15,6 +15,7 @@ function parsing() {
         locations.push(item);
     }
 }
+//location variables
 var departureCity = locations[1];
 var departureCountry = locations[2];
 var destinationCity = locations[3];
@@ -28,14 +29,76 @@ var containerOne = document.querySelector("#container-1");
 var containerTwo = document.querySelector("#container-2");
 var containerThree = document.querySelector("#container-3");
 
+getCountries();
+
+//load destination country options
+function getCountries() {
+    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities";
+    var dataOne = fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+                var data = response.json().then(function (data) {
+					for (i = 0; i < data.data.length; i++) {
+						if (data.data[i].cities) {
+							var country = data.data[i].name;
+							var option = $("<option>").attr("value", country).data("index", i).text(country);
+							$("#country-picker").append(option);
+						}
+					}
+                });
+                return data;
+            } else {
+                alert("unable to retrieve location data");
+                return;
+            }
+        })
+        .catch(function (error) {
+            alert("unable to connect with location API");
+            return;
+        });
+    return dataOne;
+}
+
+//populate destination cities on destination country selection
+function getDestinationCities(country) {
+	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
+    var dataOne = fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+				var data = response.json().then(function (data) {
+					for (i = 0; i < data.data[country].cities.length; i++) {
+                    var city = data.data[country].cities[i];
+					var option = $("<option>").text(city);
+					$("#city-picker").append(option);
+					}
+                });
+                return data;
+            } else {
+                alert("unable to retrieve conversion data");
+                return;
+            }
+        })
+        .catch(function (error) {
+            alert("unable to connect with currency API");
+            return;
+        });
+    return dataOne;
+}
+
+//trigger city options
+$("#country-picker").on("change", function() {
+	$("#city-picker").empty();
+	getDestinationCities($("#country-picker").find(":selected").data("index"));
+});
+
 //capture destination change
 $("#new-destination-form").on("click", "#submit-new-destination", updateDestination);
 function updateDestination(event) {
     newDestinationCity = $.trim($("#city-picker").val());
     newDestinationCountry = $.trim($("#country-picker").val());
-    if (!newDestinationCity || !newDestinationCountry) {
-        alert("please enter a valid destination location")
-    } else {
+	if (!departureCity || !departureCountry || !destinationCity || !destinationCountry) {
+		alert("please enter valid departure and destination locations");
+	} else {
     //Candice's location change function call goes here
     //Veronica's location change function call goes here
     document.location.replace("./page-two.html?" + departureCity + "?" + departureCountry + "?" + newDestinationCity + "?" + newDestinationCountry);

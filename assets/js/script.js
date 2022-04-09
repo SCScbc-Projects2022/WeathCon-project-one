@@ -4,7 +4,6 @@ $("#logo").on("click", function() {
 	document.location.replace("./index.html");
 });
 
-getCountries();
 //populate country drop downs
 function getCountries() {
     var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities";
@@ -40,6 +39,7 @@ function getCountries() {
     return dataOne;
 }
 
+//populate departure cities on departure country selection
 function getDepartureCities(country) {
 	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
     var dataOne = fetch(apiUrl)
@@ -65,6 +65,7 @@ function getDepartureCities(country) {
     return dataOne;
 }
 
+//populate destination cities on destination country selection
 function getDestinationCities(country) {
 	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
     var dataOne = fetch(apiUrl)
@@ -90,6 +91,7 @@ function getDestinationCities(country) {
     return dataOne;
 }
 
+//event handlers
 $("#country-selector").on("change", function() {
 	$("#city-selector").empty();
 	getDepartureCities($("#country-selector").find(":selected").data("index"));
@@ -111,7 +113,8 @@ $("#initialSubmit").on("click", function() {
 		document.location.replace("./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry);
 	}
 });
-$("#initialSubmit").html("<a href='./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry + "'>Submit</a>");
+
+getCountries();
 
 // Modal
 var modal = $("#modal");
