@@ -45,11 +45,8 @@ function getDepartureCities(country) {
     var dataOne = fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
-				console.log(country);
 				var data = response.json().then(function (data) {
-					console.log(data.data[country].cities)
 					for (i = 0; i < data.data[country].cities.length; i++) {
-						console.log("should be generated")
                     var city = data.data[country].cities[i];
 					var option = $("<option>").text(city);
 					$("#city-selector").append(option);
@@ -73,11 +70,8 @@ function getDestinationCities(country) {
     var dataOne = fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
-				console.log(country);
 				var data = response.json().then(function (data) {
-					console.log(data.data[country].cities)
 					for (i = 0; i < data.data[country].cities.length; i++) {
-						console.log("should be generated")
                     var city = data.data[country].cities[i];
 					var option = $("<option>").text(city);
 					$("#city-picker").append(option);

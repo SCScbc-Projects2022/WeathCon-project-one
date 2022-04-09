@@ -29,10 +29,6 @@ var containerTwo = document.querySelector("#container-2");
 var containerThree = document.querySelector("#container-3");
 
 //capture destination change
-// $(function() {
-//     $("#country-picker").selectmenu();
-//     $("#city-picker").selectmenu();
-// });
 $("#new-destination-form").on("click", "#submit-new-destination", updateDestination);
 function updateDestination(event) {
     newDestinationCity = $.trim($("#city-picker").val());
