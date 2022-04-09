@@ -1,4 +1,10 @@
-//logic passing query string from page one to two - Veronica
+//Veronica's code here
+//redirect
+$("#logo").on("click", function() {
+	document.location.replace("./index.html");
+})
+
+//logic passing query string from page one to two
 var locations = [];
 var text = document.location.search;
 var query = text.split("?");
@@ -9,10 +15,13 @@ function parsing() {
         locations.push(item);
     }
 }
-var departureCity = locations[1];//paris
-var departureCountry = locations[2];//france
-var destinationCity = locations[3];//tokyo
-var destinationCountry = locations[4];//japan
+//location variables
+var departureCity = locations[1];
+var departureCountry = locations[2];
+var destinationCity = locations[3];
+var destinationCountry = locations[4];
+var newDestinationCity = "";
+var newDestinationCountry = "";
 
 //query selectors to accommodate pure JavaScript coding
 var header = document.querySelector("#header");
@@ -20,21 +29,88 @@ var containerOne = document.querySelector("#container-1");
 var containerTwo = document.querySelector("#container-2");
 var containerThree = document.querySelector("#container-3");
 
-//capture destination change - Veronica
+getCountries();
+
+//load destination country options
+function getCountries() {
+    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities";
+    var dataOne = fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+                var data = response.json().then(function (data) {
+					for (i = 0; i < data.data.length; i++) {
+						if (data.data[i].cities) {
+							var country = data.data[i].name;
+							var option = $("<option>").attr("value", country).data("index", i).text(country);
+							$("#country-picker").append(option);
+						}
+					}
+                });
+                return data;
+            } else {
+                alert("unable to retrieve location data");
+                return;
+            }
+        })
+        .catch(function (error) {
+            alert("unable to connect with location API");
+            return;
+        });
+    return dataOne;
+}
+
+//populate destination cities on destination country selection
+function getDestinationCities(country) {
+	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
+    var dataOne = fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+				var data = response.json().then(function (data) {
+					for (i = 0; i < data.data[country].cities.length; i++) {
+                    var city = data.data[country].cities[i];
+					var option = $("<option>").text(city);
+					$("#city-picker").append(option);
+					}
+                });
+                return data;
+            } else {
+                alert("unable to retrieve conversion data");
+                return;
+            }
+        })
+        .catch(function (error) {
+            alert("unable to connect with currency API");
+            return;
+        });
+    return dataOne;
+}
+
+//trigger city options
+$("#country-picker").on("change", function() {
+	$("#city-picker").empty();
+	getDestinationCities($("#country-picker").find(":selected").data("index"));
+});
+
+//capture destination change
 $("#new-destination-form").on("click", "#submit-new-destination", updateDestination);
 function updateDestination(event) {
-    var newDestinationCity = $.trim($("#new-destination-city").val());
-    var newDestinationCountry = $.trim($("#new-destination-country").val());
-    console.log("this is a placeholder function");
+    newDestinationCity = $.trim($("#city-picker").val());
+    newDestinationCountry = $.trim($("#country-picker").val());
+	if (!departureCity || !departureCountry || !destinationCity || !destinationCountry) {
+		alert("please enter valid departure and destination locations");
+	} else {
     //Candice's location change function call goes here
+    getWeather(newDestinationCity, newDestinationCountry, departureCity, departureCountry);
     //Veronica's location change function call goes here
+    document.location.replace("./page-two.html?" + departureCity + "?" + departureCountry + "?" + newDestinationCity + "?" + newDestinationCountry);
     swapDestination(newDestinationCountry);
     //Cory's location change function call goes here
+    }
 }
 
 //Brennan's code here
 //Candice's code here    
-var getWeather = function (city, country) {
+var getWeather = function (city, country, departurec, departurecc) {
     //console.log(city);
     var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "," + country + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
     fetch(apiURL)
@@ -43,6 +119,7 @@ var getWeather = function (city, country) {
                 response.json().then(function (data) {
                     console.log(data);
                     displayWeather(data, city, country);
+                    saveLocations(city, country, departurec, departurecc);
                 })
             } else {
                 //insert error handling here
@@ -50,6 +127,7 @@ var getWeather = function (city, country) {
         })
 }
 var displayWeather = function (data, city, country) {
+    containerOne.innerHTML="";
     var cityCountryName = city + "," + country;
 
     var weatherTitleEl = document.createElement("div");
@@ -187,7 +265,25 @@ var displayWeather = function (data, city, country) {
     $("#tabs").tabs();
 };
 
-getWeather(destinationCity, destinationCountry);
+getWeather(destinationCity, destinationCountry, departureCity, departureCountry);
+
+var savedDestinations = JSON.parse(localStorage.getItem("locations")) || [];
+var saveLocations = function(city, country, departurec, departurecc){
+    
+    var newSave = [city, country, departurec, departurecc];
+    // console.log(newSave);
+     var flatLocations = savedDestinations.flat();
+     if (flatLocations.indexOf(city) !== -1 && flatLocations.indexOf(country) !== -1 && flatLocations.indexOf(departurec)!== -1 && flatLocations.indexOf(departurecc)!== -1){
+       console.log("a-bombed");
+     } else {
+        savedDestinations.push(newSave);
+     }
+
+     localStorage.setItem("destinations", JSON.stringify(savedDestinations)); 
+}
+var saveButtons = function(){
+    
+}
 
 
 
@@ -213,7 +309,7 @@ var destinationCode = "";
 //convert from
 function generateFrom(symbol, name, code, flag) {
     var amountLabel = $("<label>").addClass("mr-1").attr("for", "amount").text(symbol).attr("id", "fromSymbol");
-    var amountInput = $("<input>").addClass("border form-width").attr("type", "text").attr("id", "amount").attr("placeholder", "1.00");
+    var amountInput = $("<input>").addClass("border form-width").attr("type", "text").attr("id", "amount").attr("placeholder", "1.00").attr("name", "amount");
     $("#convertFrom").append(amountLabel);
     $("#convertFrom").append(amountInput);
     var fromCurrency = $("<p>").text(name + " (" + code + ")").addClass("italic").attr("id", "fromCurrency");
@@ -225,7 +321,7 @@ function generateFrom(symbol, name, code, flag) {
 //generate to
 function generateTo(symbol, name, code, amount, flag) {
     var convertedLabel = $("<label>").addClass("mr-1").attr("for", "convertedAmount").text(symbol).attr("id", "toSymbol");
-    var convertedAmount = $("<p>").text(dollarUSLocale.format(amount)).addClass("inline-block").attr("id", "convertedAmount");
+    var convertedAmount = $("<p>").text(dollarUSLocale.format(amount)).addClass("inline-block").attr("id", "convertedAmount").attr("name", "convertedAmount");
     $("#convertTo").append(convertedLabel);
     $("#convertTo").append(convertedAmount);
     var toCurrency = $("<p>").text(name + " (" + code + ")").addClass("italic").attr("id", "toCurrency");
