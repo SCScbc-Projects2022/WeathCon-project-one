@@ -79,6 +79,10 @@ button {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+#country-selector, #city-selector, #country-picker, #city-picker{
+    text-align: center;
+}
+
 
 
 /*Candice's code here*/
