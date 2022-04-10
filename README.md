@@ -25,7 +25,7 @@ Users' last nine location searches are displayed on the bottom of the page, and 
 * JavaScript
 * jQuery
 * Tailwind CSS
-* Moment.js(?)
+* Moment.js
 * Visual Crossing Weather API
 * REST Countries API
 * Exchange Rate Host API

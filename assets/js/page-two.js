@@ -118,13 +118,11 @@ function updateDestination(event) {
 
 //Candice's code here    
 async function getWeather(city, country) {
-    //console.log(city);
     var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "," + country + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=UT9ETQEPJ8MCCY3HSCF2Z6358";
     var getData = await fetch(apiURL)
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data);
                     displayWeather(data, city, country);
                 })
                 return true;
@@ -325,7 +323,6 @@ var saveButtons = function () {
             var fck = event.target.value.split(",");
             newArr.push(fck);
             newArr = newArr.flat();
-            console.log(newArr[0]);
             var destcity = newArr[0];
             var destcount = newArr[1];
             var depcity = newArr[2];
