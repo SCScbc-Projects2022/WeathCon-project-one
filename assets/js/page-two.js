@@ -116,9 +116,7 @@ function updateDestination(event) {
     }
 }
 
-//Brennan's code here
 //Candice's code here    
-
 async function getWeather(city, country) {
     //console.log(city);
     var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "," + country + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=UT9ETQEPJ8MCCY3HSCF2Z6358";
@@ -141,6 +139,7 @@ async function getWeather(city, country) {
         });
     return getData;
 }
+
 var displayWeather = function (data, city, country) {
     containerOne.innerHTML = "";
     containerOne.style.backgroundColor= "";
@@ -193,7 +192,7 @@ var displayWeather = function (data, city, country) {
         fourteenDayTab.setAttribute("id", "14");
 
         tabForecast.appendChild(fiveDayTab);
-        //dont forget to figure out display not being block to show containers side by side(devtools)
+
         for (var i = 1; i < 6; i++) {
             var dayEl = document.createElement("div");
             dayEl.classList.add("border", "w-1/5");
@@ -344,9 +343,6 @@ var saveButtons = function () {
 }
 saveButtons();
 
-
-
-
 //Veronica's code here
 //start currency API logic
 $("#conversionHistory").sortable();
@@ -360,7 +356,7 @@ var dollarUSLocale = Intl.NumberFormat('en-US', {
 var locationCode = "";
 var destinationCode = "";
 
-//convert from
+//convert from elements
 function generateFrom(symbol, name, code, flag) {
     var amountLabel = $("<label>").addClass("mr-1").attr("for", "amount").text(symbol).attr("id", "fromSymbol");
     var amountInput = $("<input>").addClass("border form-width").attr("type", "text").attr("id", "amount").attr("placeholder", "1.00").attr("name", "amount");
@@ -372,7 +368,7 @@ function generateFrom(symbol, name, code, flag) {
     $("#fromFlag").append(fromFlag);
 }
 
-//generate to
+//generate to elements
 function generateTo(symbol, name, code, amount, flag) {
     var convertedLabel = $("<label>").addClass("mr-1").attr("for", "convertedAmount").text(symbol).attr("id", "toSymbol");
     var convertedAmount = $("<p>").text(dollarUSLocale.format(amount)).addClass("inline-block").attr("id", "convertedAmount").attr("name", "convertedAmount");
@@ -384,9 +380,8 @@ function generateTo(symbol, name, code, amount, flag) {
     $("#toFlag").append(toFlag).attr("alt", "country flag");
 }
 
-//on conversion click
+//change amount being converted
 async function convertAmount() {
-    //changes the amount being converted
     var amount = $("#amount").val().trim();
     if (!amount || isNaN(amount) || amount % 1 != 0 || amount < 1 || amount > 1000000) {
         openCurrencyModal();
@@ -416,7 +411,6 @@ async function convertAmount() {
 }
 
 //swap locations when history button is clicked
-//set up for change in destination
 async function swapLocations(newDepartureCountry, newDestinationCountry) {
     var newDepartureCurrency = await getCurrency(newDepartureCountry);
     var newDestinationCurrency = await getCurrency(newDestinationCountry);
@@ -513,8 +507,6 @@ function aBombed() {
 //Cory's code here
 var APIkey = '01393325d86d48eab9f40e48844eb632';
 
-
-
 //Local or Departure Time
 async function getDepartureTime(depCity, depCountry) {
     var getData = await fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=` + depCity + `,%20` + depCountry)
@@ -538,6 +530,7 @@ async function getDepartureTime(depCity, depCountry) {
         });
     return getData;
 }
+
 //Destination time
 async function getDestinationTime(destCity, destCountry) {
     var getData = await fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=` + destCity + `,%20` + destCountry)
@@ -562,6 +555,7 @@ async function getDestinationTime(destCity, destCountry) {
     return getData;
 }
 
+//Cory's code here
 // Modal
 var modal = $("#modal");
 // Get the <span> element that closes the modal
@@ -581,6 +575,7 @@ window.onclick = function (event) {
     }
 }
 
+//Veronica's code here
 // Modal
 var currencyModal = $("#currencyModal");
 // Get the <span> element that closes the modal

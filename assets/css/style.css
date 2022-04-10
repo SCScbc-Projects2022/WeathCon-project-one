@@ -13,8 +13,6 @@ header {
 }
 
 header p {
-    /* margin-left: 600px;
-    margin-right: auto; */
     width: 35em;
     padding: 18px;
     text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
@@ -29,11 +27,8 @@ header img {
 }
 
 header form {
-    /* padding-left: 750px; */
-    
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border-radius: 5px;
-
 }
 
 body {
@@ -83,20 +78,21 @@ button {
 
 /*Candice's code here*/
 .btn-container {
-    /* background-color: white; */
     width: 100%;
-    /* background-color: black; */
 }
+
 .btn-container h3 {
     font-size: bold;
     color: white;
     
 }
+
 .newbtn {
     background-color: orange;
     color: white;
     margin: 0 5px 10px 5px;
 }
+
 #container-1{
     padding-top: 10px;
 }
@@ -111,6 +107,7 @@ display: flex;
 justify-content: center;
 font-size: 30px;
 }
+
 .cTitle {
     margin: 10px auto 10px auto;
     padding-top: 20px;
@@ -118,6 +115,7 @@ font-size: 30px;
     font-size: 30px;
     width: 500px;
 }
+
 .cBoxes{
     margin: 10px auto 10px auto;
     padding-top: 20px;
@@ -126,6 +124,7 @@ font-size: 30px;
     height: 100px;
    
 }
+
 .ui-tabs .ui-tabs-nav {
     display: flex;
     justify-content: center;
@@ -152,13 +151,13 @@ font-size: 30px;
     background: orange;
     height: 60px;
 }
+
 #historyDiv{
     height: 175px;
     margin-top: 22px;
 }
 
 /*Cory's code here */
-
 .timeZone-departure {
    font-size: 30px;
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -195,30 +194,30 @@ font-size: 30px;
     height: 400px; 
 }
   
-  /* Modal Content/Box */
-  .modal-content {
-    text-align: center;
-    font-size: 20px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background-color: black;
-    color: white;
-    padding: 1px;
-    border: 1px solid #888;
-    border: 5px solid orange;
-    box-shadow:5px 5px 10px 10px black;
-  }
+/* Modal Content/Box */
+.modal-content {
+text-align: center;
+font-size: 20px;
+font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+background-color: black;
+color: white;
+padding: 1px;
+border: 1px solid #888;
+border: 5px solid orange;
+box-shadow:5px 5px 10px 10px black;
+}
   
-  /* The Close Button */
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: white;
-    text-decoration: none;
-    cursor: pointer;
-  }
+/* The Close Button */
+.close {
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+color: white;
+text-decoration: none;
+cursor: pointer;
+}

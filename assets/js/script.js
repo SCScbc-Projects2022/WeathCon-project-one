@@ -36,13 +36,11 @@ async function getCountries() {
                 });
                 return data;
             } else {
-                // alert("unable to retrieve location data");
                 openModalTwo();
                 return false;
             }
         })
         .catch(function (error) {
-            // alert("unable to connect with location API");
             openModalThree();
             return false;
         });
@@ -64,13 +62,11 @@ async function getDepartureCities(country) {
                 });
                 return data;
             } else {
-                // alert("unable to retrieve location data");
                 openModalTwo();
                 return false;
             }
         })
         .catch(function (error) {
-            // alert("unable to connect with location API");
             openModalThree();
             return false;
         });
@@ -92,13 +88,11 @@ async function getDestinationCities(country) {
                 });
                 return data;
             } else {
-                // alert("unable to retrieve location data");
                 openModalTwo();
                 return false;
             }
         })
         .catch(function (error) {
-            // alert("unable to connect with location API");
             openModalThree();
             return false;
         });
@@ -123,7 +117,6 @@ $("#initialSubmit").on("click", function(event) {
 	var destinationCity = $("#city-picker").val();
 	var destinationCountry = $("#country-picker").val();
 	if (!departureCity || !departureCountry || !destinationCity || !destinationCountry) {
-		// alert("please enter valid departure and destination locations");
         openModal();
 	} else {
 		document.location.replace("./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry);
@@ -132,6 +125,7 @@ $("#initialSubmit").on("click", function(event) {
 
 getCountries();
 
+//Cory's code here
 //First Modal
  function openModal() {
     var modal = $("#modal");
@@ -152,6 +146,7 @@ window.onclick = function(event) {
 }
  }
 
+//Candice's code here
 //fourth modal
 function openModalFour() {
     var modal = $("#modalFour");

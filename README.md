@@ -16,7 +16,7 @@ Users' last nine location searches are displayed on the bottom of the page, and 
 ## Website
 [WeathCon](https://scscbc-projects2022.github.io/WeathCon-project-one/)
 
-![WeathCon Page One](./documentation/weathcon-one.png?raw=true "WeathCon Page One")
+![WeathCon Page One](./documentation/weathcon-one.png?raw=true "WeathCon Page One")</br></br>
 ![WeathCon Page Two](./documentation/weathcon-two.png?raw=true "WeathCon Page Two")
 
 ## Built With
@@ -32,7 +32,7 @@ Users' last nine location searches are displayed on the bottom of the page, and 
 * Country and Cities API
 
 ## Support
-Contact repository authors: 
+Contact repository authors:</br>
 [Candice](https://github.com/candiecane7) - Weather Module, localStorage/Search History, Debugging</br>
 [Veronica](https://github.com/TOVTC) - Project Management, Currency Conversion, User Input Handling</br>
 [Cory](https://github.com/CorySillaots) - Concept/Design, Time Conversion, Modals</br>
@@ -41,7 +41,7 @@ Contact repository authors:
 See project proposal documentation for specific task directory.
 
 ## Authors and Acknowledgment
-Made with ❤️ and 😱 and 🤬 and 😭 by Team WeathCon.
+Made with ❤️ and 😱 and 🤬 and 😭 by Team WeathCon (Team Cursed).
 
 ### Author-Specific Acknowledgements
 #### Veronica
