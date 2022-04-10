@@ -15,13 +15,12 @@ function parsing() {
         locations.push(item);
     }
 }
+
 //location variables
 var departureCity = locations[1];
 var departureCountry = locations[2];
 var destinationCity = locations[3];
 var destinationCountry = locations[4];
-var newDestinationCity = "";
-var newDestinationCountry = "";
 
 //query selectors to accommodate pure JavaScript coding
 var header = document.querySelector("#header");
@@ -29,8 +28,9 @@ var containerOne = document.querySelector("#container-1");
 var containerTwo = document.querySelector("#container-2");
 var containerThree = document.querySelector("#container-3");
 
-aBombed();
 redirect(departureCity, departureCountry, destinationCity, destinationCountry);
+getCountries();
+aBombed();
 
 //modal redirect
 async function redirect(departureCity, departureCountry, destinationCity, destinationCountry) {
@@ -64,6 +64,7 @@ async function getCountries() {
                 });
                 return data;
             } else {
+                //modal here
                 return false;
             }
         })
@@ -109,12 +110,12 @@ $("#country-picker").on("change", function () {
 $("#new-destination-form").on("click", "#submit-new-destination", updateDestination);
 function updateDestination(event) {
     event.preventDefault();
-    newDestinationCity = $("#city-picker").val();
-    newDestinationCountry = $("#country-picker").val();
-	if (!newDestinationCity || !newDestinationCountry) {
+    destinationCity = $("#city-picker").val();
+    destinationCountry = $("#country-picker").val();
+	if (!destinationCity || !destinationCountry) {
 		alert("please enter valid departure and destination locations");
 	} else {
-    document.location.replace("?" + departureCity + "?" + departureCountry + "?" + newDestinationCity + "?" + newDestinationCountry);
+    document.location.replace("?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry);
     }
 }
 
@@ -474,28 +475,23 @@ async function convertCurrency(departureCountry, destinationCountry) {
     locationCode = baseCurrency.currency;
     destinationCode = convertedCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&places=2";
-    var dataGet = fetch(apiUrl).then(function (response) {
+    var getData = await fetch(apiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
                 generateFrom(baseCurrency.currencySymbol, baseCurrency.currencyName, locationCode, baseCurrency.countryFlag);
                 generateTo(convertedCurrency.currencySymbol, convertedCurrency.currencyName, destinationCode, data.result, convertedCurrency.countryFlag);
                 var setConversion = $("<p>").text(baseCurrency.currencySymbol + " 1.00 " + "(" + locationCode + ")" + " = " + convertedCurrency.currencySymbol + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("italic");
                 $(setConversion).insertBefore($("#historyTitle"));
-                return false;
             });
-            return false;
+            return true;
         } else {
             return false;
         }
-    })
+        })
         .catch(function (error) {
             return false;
         });
-    if (dataGet === true){
-        return true;
-    } else {
-        return false;
-    }
+    return getData;
 }
 
 //interactive elements in currency feature
@@ -510,8 +506,6 @@ function aBombed() {
         console.log("a-bombed");
     }
 }
-
-// convertCurrency(departureCountry, destinationCountry);//on page load, run this
 
 //Cory's code here
 var APIkey = '01393325d86d48eab9f40e48844eb632';
