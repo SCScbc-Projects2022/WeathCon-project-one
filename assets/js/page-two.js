@@ -34,14 +34,10 @@ aBombed();
 
 //modal redirect
 async function redirect(departureCity, departureCountry, destinationCity, destinationCountry) {
-    // debugger;
-    var weather = true;
-    // var weather = await candice's page load function here
+    var weather = await getWeather(destinationCity, destinationCountry);
     var currency = await convertCurrency(departureCountry, destinationCountry);
-    var departTime = true;
-    var arriveTime = true;
-    // var departTime = await Cory's's page load function here
-    // var arriveTime = await Cory's page load function here
+    var departTime = await getDepartureTime(departureCity, departureCountry);
+    var arriveTime = await getDestinationTime(destinationCity, destinationCountry);
     if (!weather || !currency || !departTime || !arriveTime) {
         document.location.replace("./index.html?modal=true");
     }
@@ -122,21 +118,26 @@ function updateDestination(event) {
 //Brennan's code here
 //Candice's code here    
 
-var getWeather = function (city, country) {
+async function getWeather(city, country) {
     //console.log(city);
     var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "," + country + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
-    fetch(apiURL)
+    var getData = await fetch(apiURL)
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
                     console.log(data);
                     displayWeather(data, city, country);
-                    
                 })
+                return true;
             } else {
-                //insert error handling here
-            };
+                return false;
+            }
         })
+        .catch(function(error) {
+            return false;
+        });
+    console.log("c" + getData);
+    return getData;
 }
 var displayWeather = function (data, city, country) {
     containerOne.innerHTML = "";
@@ -276,8 +277,6 @@ var displayWeather = function (data, city, country) {
 
     $("#tabs").tabs();
 };
-
-getWeather(destinationCity, destinationCountry);
 
 var savedDestinations = JSON.parse(localStorage.getItem("destinations")) || [];
 var saveLocations = function (city, country, departurec, departurecc) {
@@ -496,6 +495,7 @@ async function convertCurrency(departureCountry, destinationCountry) {
         .catch(function (error) {
             return false;
         });
+    console.log("v" + getData);
     return getData;
 }
 
@@ -518,31 +518,49 @@ var APIkey = '01393325d86d48eab9f40e48844eb632';
 
 
 //Local or Departure Time
-function getDepartureTime(depCity, depCountry) {
-    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=` + depCity + `,%20` + depCountry)
-        .then(response => response.json())
-        .then(data => {
-            $('#departureTime').empty();
-            var departureTime = `<span class="timeZone-departure" >` + depCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
-
-            $('#departureTime').append(departureTime);
-        });
+async function getDepartureTime(depCity, depCountry) {
+    var getData = await fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=` + depCity + `,%20` + depCountry)
+        .then(function(response) {
+        if (response.ok) {
+              response.json()
+            .then(data => {
+                $('#departureTime').empty();
+                var departureTime = `<span class="timeZone-departure" >` + depCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
+                $('#departureTime').append(departureTime);
+            })
+            return true;
+        } else {
+            return false;
+        }
+    })
+    .catch (function (error) {
+        return false;
+    });
+    console.log("cor" + getData);
+    return getData;
 }
 //Destination time
-function getDestinationTime(destCity, destCountry) {
-    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=` + destCity + `,%20` + destCountry)
-        .then(response => response.json())
-        .then(data => {
-            $('#destinationTime').empty();
-            var destinationTime = `<span class="timeZone-destination">` + destCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
-            $('#destinationTime').append(destinationTime);
-        });
+async function getDestinationTime(destCity, destCountry) {
+    var getData = await fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=` + destCity + `,%20` + destCountry)
+        .then(function (response) {
+            if (response.ok) {
+                response.json()
+            .then(data => {
+                $('#destinationTime').empty();
+                var destinationTime = `<span class="timeZone-destination">` + destCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
+                $('#destinationTime').append(destinationTime);
+            })
+            return true;
+        } else {
+            return false;
+        }
+    })
+    .catch (function (error) {
+        return false;
+    });
+    console.log("cor2" + getData)
+    return getData;
 }
-
-
-
-getDepartureTime(departureCity, departureCountry);
-getDestinationTime(destinationCity, destinationCountry);
 
 // Modal
 var modal = $("#modal");
