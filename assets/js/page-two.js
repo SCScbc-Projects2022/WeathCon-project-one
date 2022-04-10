@@ -387,20 +387,8 @@ function generateTo(symbol, name, code, amount, flag) {
 async function convertAmount() {
     //changes the amount being converted
     var amount = $("#amount").val().trim();
-    if (!amount) {
-        alert("please enter a value to be converted");
-        return;
-    }
-    if (isNaN(amount)) {
-        alert("please enter a numerical value (no symbols)");
-        return;
-    }
-    if (amount % 1 != 0) {
-        alert("please enter a whole number value");
-        return;
-    }
-    if (amount < 1 || amount > 1000000) {
-        alert("please enter a value between 1 and 1,000,000");
+    if (!amount || isNaN(amount) || amount % 1 != 0 || amount < 1 || amount > 1000000) {
+        openCurrencyModal();
         return;
     }
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&amount=" + amount + "&places=2";
@@ -579,6 +567,25 @@ function openModal() {
 // When the user clicks on <span> (x), close the modal
 span.onclick = function () {
     $("#modal").css("display", "none");
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Modal
+var currencyModal = $("#currencyModal");
+// Get the <span> element that closes the modal
+var currencySpan = $(".closeCurrency")[0];
+// When the user clicks on the button, open the modal
+function openCurrencyModal() {
+    $("#currencyModal").css("display", "block")
+}
+// When the user clicks on <span> (x), close the modal
+currencySpan.onclick = function () {
+    $("#currencyModal").css("display", "none");
 }
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
