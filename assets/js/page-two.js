@@ -72,7 +72,7 @@ async function getCountries() {
 
 //populate destination cities on destination country selection
 async function getDestinationCities(country) {
-	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
+    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
     var dataOne = fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
@@ -108,10 +108,10 @@ function updateDestination(event) {
     event.preventDefault();
     destinationCity = $("#city-picker").val();
     destinationCountry = $("#country-picker").val();
-	if (!destinationCity || !destinationCountry) {
-		alert("please enter valid departure and destination locations");
-	} else {
-    document.location.replace("?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry);
+    if (!destinationCity || !destinationCountry) {
+        alert("please enter valid departure and destination locations");
+    } else {
+        document.location.replace("?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry);
     }
 }
 
@@ -130,10 +130,11 @@ async function getWeather(city, country) {
                 })
                 return true;
             } else {
+                openModal();
                 return false;
             }
         })
-        .catch(function(error) {
+        .catch(function (error) {
             return false;
         });
     console.log("c" + getData);
@@ -141,148 +142,153 @@ async function getWeather(city, country) {
 }
 var displayWeather = function (data, city, country) {
     containerOne.innerHTML = "";
+    containerOne.style.backgroundColor= "";
     var cityCountryName = city + "," + country;
+    if (data.locations) {
+        var weatherTitleEl = document.createElement("div");
+        weatherTitleEl.textContent = data.locations[cityCountryName].address;
+        weatherTitleEl.classList.add("boxes", "cTitle", "w-5/6");
+        containerOne.appendChild(weatherTitleEl);
 
-    var weatherTitleEl = document.createElement("div");
-    weatherTitleEl.textContent = data.locations[cityCountryName].address;
-    weatherTitleEl.classList.add("boxes", "cTitle", "w-5/6");
-    containerOne.appendChild(weatherTitleEl);
+        var currentWeather = document.createElement("div");
+        currentWeather.textContent = "Temp: " + data.locations[cityCountryName].currentConditions.temp + " °C";
+        currentWeather.classList.add("boxes", "cBoxes", "w-1/3");
+        containerOne.appendChild(currentWeather);
 
-    var currentWeather = document.createElement("div");
-    currentWeather.textContent = "Temp: " + data.locations[cityCountryName].currentConditions.temp + " °C";
-    currentWeather.classList.add("boxes", "cBoxes", "w-1/3");
-    containerOne.appendChild(currentWeather);
+        var icon = document.createElement("div");
+        icon.innerHTML = "<img src=./assets/images/weathericons/" + data.locations[cityCountryName].currentConditions.icon + ".png>";
+        icon.classList.add("boxes", "cBoxes", "w-1/3");
+        containerOne.appendChild(icon);
 
-    var icon = document.createElement("div");
-    icon.innerHTML = "<img src=./assets/images/weathericons/" + data.locations[cityCountryName].currentConditions.icon + ".png>";
-    icon.classList.add("boxes", "cBoxes", "w-1/3");
-    containerOne.appendChild(icon);
+        //tabs 
+        var tabForecast = document.createElement("div");
+        tabForecast.setAttribute("id", "tabs")
+        tabForecast.classList.add("w-full");
+        containerOne.appendChild(tabForecast);
 
-    //tabs 
-    var tabForecast = document.createElement("div");
-    tabForecast.setAttribute("id", "tabs")
-    tabForecast.classList.add("w-full");
-    containerOne.appendChild(tabForecast);
+        var tabHolder = document.createElement("ul");
+        tabForecast.appendChild(tabHolder);
 
-    var tabHolder = document.createElement("ul");
-    tabForecast.appendChild(tabHolder);
+        var fiveDay = document.createElement("li");
+        fiveDay.innerHTML = "<a href='#5'>5 Day</a>";
+        tabHolder.appendChild(fiveDay);
 
-    var fiveDay = document.createElement("li");
-    fiveDay.innerHTML = "<a href='#5'>5 Day</a>";
-    tabHolder.appendChild(fiveDay);
+        var sevenDay = document.createElement("li");
+        sevenDay.innerHTML = "<a href='#7'>7 Day</a>";
+        tabHolder.appendChild(sevenDay);
 
-    var sevenDay = document.createElement("li");
-    sevenDay.innerHTML = "<a href='#7'>7 Day</a>";
-    tabHolder.appendChild(sevenDay);
+        var fourteenDay = document.createElement("li");
+        fourteenDay.innerHTML = "<a href='#14'>14 Day</a>";
+        tabHolder.appendChild(fourteenDay);
 
-    var fourteenDay = document.createElement("li");
-    fourteenDay.innerHTML = "<a href='#14'>14 Day</a>";
-    tabHolder.appendChild(fourteenDay);
+        var fiveDayTab = document.createElement("div");
+        fiveDayTab.setAttribute("id", "5");
+        fiveDayTab.classList.add("flex", "flex-wrap", "flex-row")
 
-    var fiveDayTab = document.createElement("div");
-    fiveDayTab.setAttribute("id", "5");
-    fiveDayTab.classList.add("flex", "flex-wrap", "flex-row")
+        var sevenDayTab = document.createElement("div");
+        sevenDayTab.setAttribute("id", "7");
 
-    var sevenDayTab = document.createElement("div");
-    sevenDayTab.setAttribute("id", "7");
+        var fourteenDayTab = document.createElement("div");
+        fourteenDayTab.setAttribute("id", "14");
 
-    var fourteenDayTab = document.createElement("div");
-    fourteenDayTab.setAttribute("id", "14");
+        tabForecast.appendChild(fiveDayTab);
+        //dont forget to figure out display not being block to show containers side by side(devtools)
+        for (var i = 1; i < 6; i++) {
+            var dayEl = document.createElement("div");
+            dayEl.classList.add("border", "w-1/5");
+            fiveDayTab.appendChild(dayEl);
 
-    tabForecast.appendChild(fiveDayTab);
-    //dont forget to figure out display not being block to show containers side by side(devtools)
-    for (var i = 1; i < 6; i++) {
-        var dayEl = document.createElement("div");
-        dayEl.classList.add("border", "w-1/5");
-        fiveDayTab.appendChild(dayEl);
+            var days = document.createElement("ul");
+            dayEl.appendChild(days);
 
-        var days = document.createElement("ul");
-        dayEl.appendChild(days);
+            var date = document.createElement("li");
+            date.classList.add("font-weight-bold", "days-text");
+            date.textContent = moment(data.locations[cityCountryName].values[i].datetimeStr).format("L");
+            days.appendChild(date);
 
-        var date = document.createElement("li");
-        date.classList.add("font-weight-bold", "days-text");
-        date.textContent = moment(data.locations[cityCountryName].values[i].datetimeStr).format("L");
-        days.appendChild(date);
+            var icon = document.createElement("li");
+            icon.innerHTML = "<img src=./assets/images/weathericons/" + data.locations[cityCountryName].values[i].icon + ".png>";
+            days.appendChild(icon);
 
-        var icon = document.createElement("li");
-        icon.innerHTML = "<img src=./assets/images/weathericons/" + data.locations[cityCountryName].values[i].icon + ".png>";
-        days.appendChild(icon);
+            var temp = document.createElement("li");
+            temp.setAttribute("class", "days-text");
+            temp.textContent = "Temp: " + data.locations[cityCountryName].values[i].temp + " °C";
+            days.appendChild(temp);
 
-        var temp = document.createElement("li");
-        temp.setAttribute("class", "days-text");
-        temp.textContent = "Temp: " + data.locations[cityCountryName].values[i].temp + " °C";
-        days.appendChild(temp);
+            var humidity = document.createElement("li");
+            humidity.setAttribute("class", "days-text");
+            humidity.textContent = "Humidity: " + data.locations[cityCountryName].values[i].humidity + "%";
+            days.appendChild(humidity);
+        }
+        tabForecast.appendChild(sevenDayTab);
+        for (var i = 1; i < 8; i++) {
+            var dayEl = document.createElement("div");
+            dayEl.classList.add("border", "w-1/4");
+            sevenDayTab.appendChild(dayEl);
 
-        var humidity = document.createElement("li");
-        humidity.setAttribute("class", "days-text");
-        humidity.textContent = "Humidity: " + data.locations[cityCountryName].values[i].humidity + "%";
-        days.appendChild(humidity);
+            var days = document.createElement("ul");
+            dayEl.appendChild(days);
+
+            var date = document.createElement("li");
+            date.classList.add("font-weight-bold", "days-text");
+            date.textContent = moment(data.locations[cityCountryName].values[i].datetimeStr).format("L");
+            days.appendChild(date);
+
+            var icon = document.createElement("li");
+            icon.innerHTML = "<img src=./assets/images/weathericons/" + data.locations[cityCountryName].values[i].icon + ".png>";
+            days.appendChild(icon);
+
+            var temp = document.createElement("li");
+            temp.setAttribute("class", "days-text");
+            temp.textContent = "Temp: " + data.locations[cityCountryName].values[i].temp + " °C";
+            days.appendChild(temp);
+
+            var humidity = document.createElement("li");
+            humidity.setAttribute("class", "days-text");
+            humidity.textContent = "Humidity: " + data.locations[cityCountryName].values[i].humidity + "%";
+            days.appendChild(humidity);
+        }
+        tabForecast.appendChild(fourteenDayTab);
+        for (var i = 1; i < 15; i++) {
+            var dayEl = document.createElement("div");
+            dayEl.classList.add("border", "w-1/6");
+            fourteenDayTab.appendChild(dayEl);
+
+            var days = document.createElement("ul");
+            dayEl.appendChild(days);
+
+            var date = document.createElement("li");
+            date.classList.add("font-weight-bold", "days-text");
+            date.textContent = moment(data.locations[cityCountryName].values[i].datetimeStr).format("L");
+            days.appendChild(date);
+
+            var icon = document.createElement("li");
+            icon.innerHTML = "<img src=./assets/images/weathericons/" + data.locations[cityCountryName].values[i].icon + ".png>";
+            days.appendChild(icon);
+
+            var temp = document.createElement("li");
+            temp.setAttribute("class", "days-text");
+            temp.textContent = "Temp: " + data.locations[cityCountryName].values[i].temp + " °C";
+            days.appendChild(temp);
+
+            var humidity = document.createElement("li");
+            humidity.setAttribute("class", "days-text");
+            humidity.textContent = "Humidity: " + data.locations[cityCountryName].values[i].humidity + "%";
+            days.appendChild(humidity);
+        }
+
+        $("#tabs").tabs();
+    } else {
+        containerOne.textContent = "Sorry unable to collect weather data from this location";
+        containerOne.style.backgroundColor = "white";
     }
-    tabForecast.appendChild(sevenDayTab);
-    for (var i = 1; i < 8; i++) {
-        var dayEl = document.createElement("div");
-        dayEl.classList.add("border", "w-1/4");
-        sevenDayTab.appendChild(dayEl);
-
-        var days = document.createElement("ul");
-        dayEl.appendChild(days);
-
-        var date = document.createElement("li");
-        date.classList.add("font-weight-bold", "days-text");
-        date.textContent = moment(data.locations[cityCountryName].values[i].datetimeStr).format("L");
-        days.appendChild(date);
-
-        var icon = document.createElement("li");
-        icon.innerHTML = "<img src=./assets/images/weathericons/" + data.locations[cityCountryName].values[i].icon + ".png>";
-        days.appendChild(icon);
-
-        var temp = document.createElement("li");
-        temp.setAttribute("class", "days-text");
-        temp.textContent = "Temp: " + data.locations[cityCountryName].values[i].temp + " °C";
-        days.appendChild(temp);
-
-        var humidity = document.createElement("li");
-        humidity.setAttribute("class", "days-text");
-        humidity.textContent = "Humidity: " + data.locations[cityCountryName].values[i].humidity + "%";
-        days.appendChild(humidity);
-    }
-    tabForecast.appendChild(fourteenDayTab);
-    for (var i = 1; i < 15; i++) {
-        var dayEl = document.createElement("div");
-        dayEl.classList.add("border", "w-1/6");
-        fourteenDayTab.appendChild(dayEl);
-
-        var days = document.createElement("ul");
-        dayEl.appendChild(days);
-
-        var date = document.createElement("li");
-        date.classList.add("font-weight-bold", "days-text");
-        date.textContent = moment(data.locations[cityCountryName].values[i].datetimeStr).format("L");
-        days.appendChild(date);
-
-        var icon = document.createElement("li");
-        icon.innerHTML = "<img src=./assets/images/weathericons/" + data.locations[cityCountryName].values[i].icon + ".png>";
-        days.appendChild(icon);
-
-        var temp = document.createElement("li");
-        temp.setAttribute("class", "days-text");
-        temp.textContent = "Temp: " + data.locations[cityCountryName].values[i].temp + " °C";
-        days.appendChild(temp);
-
-        var humidity = document.createElement("li");
-        humidity.setAttribute("class", "days-text");
-        humidity.textContent = "Humidity: " + data.locations[cityCountryName].values[i].humidity + "%";
-        days.appendChild(humidity);
-    }
-
-    $("#tabs").tabs();
 };
 
 var savedDestinations = JSON.parse(localStorage.getItem("destinations")) || [];
 var saveLocations = function (city, country, departurec, departurecc) {
-     if (city === null || country === null || departurec === null || departurecc === null) {
-         return;
-     } else {
+    if (city === null || country === null || departurec === null || departurecc === null) {
+        return;
+    } else {
 
         var newSave = [city, country, departurec, departurecc];
         var flatLocations = savedDestinations.flat();
@@ -299,9 +305,9 @@ var saveLocations = function (city, country, departurec, departurecc) {
 
         localStorage.setItem("destinations", JSON.stringify(savedDestinations));
     }
- }
- saveLocations(destinationCity, destinationCountry, departureCity, departureCountry);
- 
+}
+saveLocations(destinationCity, destinationCountry, departureCity, departureCountry);
+
 var cityBtnEl = document.querySelector(".btn-holder");
 var saveButtons = function () {
     cityBtnEl.innerHTML = "";
@@ -312,8 +318,8 @@ var saveButtons = function () {
         newBtn.value = savedDestinations[i][0] + "," + savedDestinations[i][1] + "," + savedDestinations[i][2] + "," + savedDestinations[i][3];
         cityBtnEl.appendChild(newBtn);
 
-         newBtn.addEventListener("click", function (event) {
-            
+        newBtn.addEventListener("click", function (event) {
+
             var newArr = [];
             debugger;
             var fck = event.target.value.split(",");
@@ -324,14 +330,14 @@ var saveButtons = function () {
             var destcount = newArr[1];
             var depcity = newArr[2];
             var depcount = newArr[3];
-             getWeather(destcity, destcount);
-             swapLocations(depcount, destcount);
-             getDestinationTime(destcity, destcount);
-             getDepartureTime(depcity, depcount);
-             
+            getWeather(destcity, destcount);
+            swapLocations(depcount, destcount);
+            getDestinationTime(destcity, destcount);
+            getDepartureTime(depcity, depcount);
 
-           
-         });
+
+
+        });
     };
 
 }
@@ -491,7 +497,7 @@ async function convertCurrency(departureCountry, destinationCountry) {
         } else {
             return false;
         }
-        })
+    })
         .catch(function (error) {
             return false;
         });
@@ -520,22 +526,22 @@ var APIkey = '01393325d86d48eab9f40e48844eb632';
 //Local or Departure Time
 async function getDepartureTime(depCity, depCountry) {
     var getData = await fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=` + depCity + `,%20` + depCountry)
-        .then(function(response) {
-        if (response.ok) {
-              response.json()
-            .then(data => {
-                $('#departureTime').empty();
-                var departureTime = `<span class="timeZone-departure" >` + depCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
-                $('#departureTime').append(departureTime);
-            })
-            return true;
-        } else {
+        .then(function (response) {
+            if (response.ok) {
+                response.json()
+                    .then(data => {
+                        $('#departureTime').empty();
+                        var departureTime = `<span class="timeZone-departure" >` + depCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
+                        $('#departureTime').append(departureTime);
+                    })
+                return true;
+            } else {
+                return false;
+            }
+        })
+        .catch(function (error) {
             return false;
-        }
-    })
-    .catch (function (error) {
-        return false;
-    });
+        });
     console.log("cor" + getData);
     return getData;
 }
@@ -545,19 +551,19 @@ async function getDestinationTime(destCity, destCountry) {
         .then(function (response) {
             if (response.ok) {
                 response.json()
-            .then(data => {
-                $('#destinationTime').empty();
-                var destinationTime = `<span class="timeZone-destination">` + destCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
-                $('#destinationTime').append(destinationTime);
-            })
-            return true;
-        } else {
+                    .then(data => {
+                        $('#destinationTime').empty();
+                        var destinationTime = `<span class="timeZone-destination">` + destCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
+                        $('#destinationTime').append(destinationTime);
+                    })
+                return true;
+            } else {
+                return false;
+            }
+        })
+        .catch(function (error) {
             return false;
-        }
-    })
-    .catch (function (error) {
-        return false;
-    });
+        });
     console.log("cor2" + getData)
     return getData;
 }
