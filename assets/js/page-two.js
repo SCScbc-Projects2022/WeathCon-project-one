@@ -42,9 +42,9 @@ async function redirect(departureCity, departureCountry, destinationCity, destin
     var arriveTime = true;
     // var departTime = await Cory's's page load function here
     // var arriveTime = await Cory's page load function here
-    // if (!weather || !currency || !departTime || !arriveTime) {
-    //     document.location.replace("./index.html?modal=true");
-    // }
+     if (!weather || !currency || !departTime || !arriveTime) {
+         document.location.replace("./index.html?modal=true");
+     }
 }
 
 //load destination country options
