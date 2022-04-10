@@ -13,8 +13,8 @@ header {
 }
 
 header p {
-    margin-left: 600px;
-    margin-right: auto;
+    /* margin-left: 600px;
+    margin-right: auto; */
     width: 35em;
     padding: 18px;
     text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
@@ -29,7 +29,7 @@ header img {
 }
 
 header form {
-    padding-left: 750px;
+    /* padding-left: 750px; */
     
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border-radius: 5px;

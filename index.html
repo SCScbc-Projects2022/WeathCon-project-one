@@ -13,7 +13,7 @@
 </head>
 <body>
     
-    <header id="header"> 
+    <header id="header" class="justify-between flex-wrap"> 
         <div>
             <img src="./assets/images/weathcon-logo.png" id="logo">
         </div>
@@ -23,7 +23,7 @@
     <main class="form-main"> 
         <!--Veronica's code here-->
         <form class="flex justify-center w-full h-full" action="#">
-            <fieldset class="grid place-content-center grid-cols-3 py-5 px-3 w-full h-full">
+            <fieldset class="grid md:grid-cols-3 justify-items-center content-center py-5 px-3 w-full h-full">
                <div class="grid grid-rows-2 gap-4 h-full w-4/5">
                 <select name="country-selector"  id="country-selector">
                     <option disabled selected>Start Typing to Select a Departure Country</option>
@@ -64,14 +64,14 @@
     <div id="modalTwo" class="modal">
         <div class="modal-content">
           <span class="close" id="cTwo">&times;</span>
-          <p id="modalText">Unable to retrieve location data</p>
+          <p id="modalText">Unable to retrieve location data.</p>
           <p>Please choose another location or try again later</p>
         </div>
     </div>  
     <div id="modalThree" class="modal">
         <div class="modal-content">
           <span class="close" id="cThree">&times;</span>
-          <p id="modalText">Unable to connect</p>
+          <p id="modalText">Unable to connect.</p>
           <p>Please try again later!</p>
         </div>
     </div><div id="modalFour" class="modal">

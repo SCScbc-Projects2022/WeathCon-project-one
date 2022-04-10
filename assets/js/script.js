@@ -155,7 +155,7 @@ window.onclick = function(event) {
 //fourth modal
 function openModalFour() {
     var modal = $("#modalFour");
-    var span = $("#cFour");
+    var span = $("#cFour")[0];
     $("#modalFour").css("display","block")
   
   // When the user clicks on <span> (x), close the modal
@@ -173,7 +173,7 @@ function openModalFour() {
 //Second Modal
   function openModalTwo() {
     var modal = $("#modalTwo");
-    var span = $("#cTwo"); 
+    var span = $("#cTwo")[0]; 
     $("#modalTwo").css("display","block")
   
   // When the user clicks on <span> (x), close the modal
@@ -191,7 +191,7 @@ function openModalFour() {
 //Third Modal
   function openModalThree() {
     var modal = $("#modalThree");
-    var span = $("#cThree"); 
+    var span = $("#cThree")[0]; 
     $("#modalThree").css("display","block")
   
   // When the user clicks on <span> (x), close the modal
