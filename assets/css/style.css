@@ -28,14 +28,18 @@ header img {
     border-radius: 20px;
 }
 
+header form {
+    border: solid 2px black;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 5px;
+}
+
 body {
     background-image: url("../images/background.jpg");
     background-color: #cccccc;
     background-repeat: no-repeat;
     background-size: cover;
 }
-
-
 
 footer {
     position: relative;
@@ -57,7 +61,6 @@ form select {
     border: solid 2px black;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border-radius: 5px;
-    
 }
 
 form p {
@@ -67,10 +70,7 @@ form p {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: orange;
     text-align: center;
-    
 }
-
-
 
 button {
     border: solid 2px black;
