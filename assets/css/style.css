@@ -13,7 +13,7 @@ header {
 }
 
 header p {
-    margin-left: 400px;
+    margin-left: 600px;
     margin-right: auto;
     width: 35em;
     padding: 18px;
@@ -29,9 +29,11 @@ header img {
 }
 
 header form {
-    border: solid 2px black;
+    padding-left: 750px;
+    
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border-radius: 5px;
+
 }
 
 body {
@@ -58,13 +60,12 @@ footer {
 }
 
 form select {
-    border: solid 2px black;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border-radius: 5px;
 }
 
 form p {
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     font-size: xx-large;
     font-weight: 200;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -77,6 +78,7 @@ button {
     padding: 5px;
     border-radius:5px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    
 }
 
 
