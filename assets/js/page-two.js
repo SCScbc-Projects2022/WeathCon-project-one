@@ -73,7 +73,7 @@ async function getCountries() {
 
 //populate destination cities on destination country selection
 async function getDestinationCities(country) {
-    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
+    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities";
     var dataOne = fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
@@ -139,7 +139,6 @@ async function getWeather(city, country) {
             openModal();
             return false;
         });
-    console.log("c" + getData);
     return getData;
 }
 var displayWeather = function (data, city, country) {
@@ -495,7 +494,6 @@ async function convertCurrency(departureCountry, destinationCountry) {
             openModal();
             return false;
         });
-    console.log("v" + getData);
     return getData;
 }
 
@@ -538,7 +536,6 @@ async function getDepartureTime(depCity, depCountry) {
             openModal();
             return false;
         });
-    console.log("cor" + getData);
     return getData;
 }
 //Destination time
@@ -562,7 +559,6 @@ async function getDestinationTime(destCity, destCountry) {
             openModal();
             return false;
         });
-    console.log("cor2" + getData)
     return getData;
 }
 

@@ -51,7 +51,7 @@ async function getCountries() {
 
 //populate departure cities on departure country selection
 async function getDepartureCities(country) {
-	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
+	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities";
     var dataOne = fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
@@ -79,7 +79,7 @@ async function getDepartureCities(country) {
 
 //populate destination cities on destination country selection
 async function getDestinationCities(country) {
-	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
+	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities";
     var dataOne = fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {

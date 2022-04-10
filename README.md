@@ -16,7 +16,8 @@ Users' last nine location searches are displayed on the bottom of the page, and 
 ## Website
 [WeathCon](https://scscbc-projects2022.github.io/WeathCon-project-one/)
 
-![WeathCon](./assets/images/weathcon.png?raw=true "WeathCon")
+![WeathCon Page One](./documentation/weathcon-one.png?raw=true "WeathCon Page One")
+![WeathCon Page Two](./documentation/weathcon-two.png?raw=true "WeathCon Page Two")
 
 ## Built With
 * HTML
