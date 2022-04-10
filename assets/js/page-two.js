@@ -34,7 +34,7 @@ redirect(departureCity, departureCountry, destinationCity, destinationCountry);
 
 //modal redirect
 async function redirect(departureCity, departureCountry, destinationCity, destinationCountry) {
-    debugger;
+    // debugger;
     var weather = true;
     // var weather = await candice's page load function here
     var currency = await convertCurrency(departureCountry, destinationCountry);
@@ -42,9 +42,9 @@ async function redirect(departureCity, departureCountry, destinationCity, destin
     var arriveTime = true;
     // var departTime = await Cory's's page load function here
     // var arriveTime = await Cory's page load function here
-    if (!weather || !currency || !departTime || !arriveTime) {
-        document.location.replace("./index.html?modal=true");
-    }
+    // if (!weather || !currency || !departTime || !arriveTime) {
+    //     document.location.replace("./index.html?modal=true");
+    // }
 }
 
 //load destination country options
@@ -121,7 +121,7 @@ function updateDestination(event) {
 //Brennan's code here
 //Candice's code here    
 
-var getWeather = function (city, country, departurec, departurecc) {
+var getWeather = function (city, country) {
     //console.log(city);
     var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "," + country + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
     fetch(apiURL)
@@ -276,7 +276,7 @@ var displayWeather = function (data, city, country) {
     $("#tabs").tabs();
 };
 
-getWeather(destinationCity, destinationCountry, departureCity, departureCountry);
+getWeather(destinationCity, destinationCountry);
 
 var savedDestinations = JSON.parse(localStorage.getItem("destinations")) || [];
 var saveLocations = function (city, country, departurec, departurecc) {
@@ -306,20 +306,26 @@ var cityBtnEl = document.querySelector(".btn-holder");
 var saveButtons = function () {
     cityBtnEl.innerHTML = "";
     for (var i = 0; i < savedDestinations.length; i++) {
-        debugger;
         newBtn = document.createElement("button");
         newBtn.classList.add("newbtn", "font-bold", "py-2", "px-4", "rounded");
         newBtn.textContent = savedDestinations[i][2] + " → " + savedDestinations[i][0];
         newBtn.value = savedDestinations[i][0] + "," + savedDestinations[i][1] + "," + savedDestinations[i][2] + "," + savedDestinations[i][3];
         cityBtnEl.appendChild(newBtn);
 
-         newBtn.addEventListener("click", function () {
+         newBtn.addEventListener("click", function (event) {
             
             var newArr = [];
-            var fck = newBtn.value.split(",").join(" ").trim();
+            debugger;
+            var fck = event.target.value.split(",");
             newArr.push(fck);
-            console.log(newArr);
-            getWeather(newArr[0], newArr[1], newArr[2], newArr[3]);
+            newArr = newArr.flat();
+            console.log(newArr[0]);
+            var destcity = newArr[0];
+            var destcount = newArr[1];
+            var depcity = newArr[2];
+            var depcount = newArr[3];
+             getWeather(destcity, destcount);
+             
 
            
          });
