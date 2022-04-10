@@ -1,7 +1,7 @@
 //Veronica's code here
 //redirect
-$("#logo").on("click", function() {
-	document.location.replace("./index.html");
+$("#logo").on("click", function () {
+    document.location.replace("./index.html");
 })
 
 //logic passing query string from page one to two
@@ -15,13 +15,12 @@ function parsing() {
         locations.push(item);
     }
 }
+
 //location variables
 var departureCity = locations[1];
 var departureCountry = locations[2];
 var destinationCity = locations[3];
 var destinationCountry = locations[4];
-var newDestinationCity = "";
-var newDestinationCountry = "";
 
 //query selectors to accommodate pure JavaScript coding
 var header = document.querySelector("#header");
@@ -29,22 +28,64 @@ var containerOne = document.querySelector("#container-1");
 var containerTwo = document.querySelector("#container-2");
 var containerThree = document.querySelector("#container-3");
 
+redirect(departureCity, departureCountry, destinationCity, destinationCountry);
 getCountries();
+aBombed();
+
+//modal redirect
+async function redirect(departureCity, departureCountry, destinationCity, destinationCountry) {
+    // debugger;
+    var weather = true;
+    // var weather = await candice's page load function here
+    var currency = await convertCurrency(departureCountry, destinationCountry);
+    var departTime = true;
+    var arriveTime = true;
+    // var departTime = await Cory's's page load function here
+    // var arriveTime = await Cory's page load function here
+    // if (!weather || !currency || !departTime || !arriveTime) {
+    //     document.location.replace("./index.html?modal=true");
+    // }
+}
 
 //load destination country options
-function getCountries() {
-    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name";
+async function getCountries() {
+    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities";
     var dataOne = fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
                 var data = response.json().then(function (data) {
-					for (i = 0; i < data.data.length; i++) {
-						if (data.data[i].cities) {
-							var country = data.data[i].name;
-							var option = $("<option>").attr("value", country).data("index", i).text(country);
-							$("#country-picker").append(option);
-						}
-					}
+                    for (i = 0; i < data.data.length; i++) {
+                        if (data.data[i].cities) {
+                            var country = data.data[i].name;
+                            var option = $("<option>").attr("value", country).data("index", i).text(country);
+                            $("#country-picker").append(option);
+                        }
+                    }
+                });
+                return data;
+            } else {
+                //modal here
+                return false;
+            }
+        })
+        .catch(function (error) {
+            return false;
+        });
+    return dataOne;
+}
+
+//populate destination cities on destination country selection
+async function getDestinationCities(country) {
+	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
+    var dataOne = fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+                var data = response.json().then(function (data) {
+                    for (i = 0; i < data.data[country].cities.length; i++) {
+                        var city = data.data[country].cities[i];
+                        var option = $("<option>").text(city);
+                        $("#city-picker").append(option);
+                    }
                 });
                 return data;
             } else {
@@ -59,60 +100,29 @@ function getCountries() {
     return dataOne;
 }
 
-//populate destination cities on destination country selection
-function getDestinationCities(country) {
-	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
-    var dataOne = fetch(apiUrl)
-        .then(function (response) {
-            if (response.ok) {
-				var data = response.json().then(function (data) {
-					for (i = 0; i < data.data[country].cities.length; i++) {
-                    var city = data.data[country].cities[i];
-					var option = $("<option>").text(city);
-					$("#city-picker").append(option);
-					}
-                });
-                return data;
-            } else {
-                alert("unable to retrieve conversion data");
-                return;
-            }
-        })
-        .catch(function (error) {
-            alert("unable to connect with currency API");
-            return;
-        });
-    return dataOne;
-}
-
 //trigger city options
-$("#country-picker").on("change", function() {
-	$("#city-picker").empty();
-	getDestinationCities($("#country-picker").find(":selected").data("index"));
+$("#country-picker").on("change", function () {
+    $("#city-picker").empty();
+    getDestinationCities($("#country-picker").find(":selected").data("index"));
 });
 
 //capture destination change
 $("#new-destination-form").on("click", "#submit-new-destination", updateDestination);
 function updateDestination(event) {
-    newDestinationCity = $.trim($("#city-picker").val());
-    newDestinationCountry = $.trim($("#country-picker").val());
-    console.log(newDestinationCity);
-    console.log(newDestinationCountry);
-	// if (!departureCity || !departureCountry || !destinationCity || !destinationCountry) {
-	// 	alert("please enter valid departure and destination locations");
-	// } else {
-    // //Candice's location change function call goes here
-    // getWeather(newDestinationCity, newDestinationCountry, departureCity, departureCountry);
-    // //Veronica's location change function call goes here
-    // document.location.replace("./page-two.html?" + departureCity + "?" + departureCountry + "?" + newDestinationCity + "?" + newDestinationCountry);
-    // swapDestination(newDestinationCountry);
-    // //Cory's location change function call goes here
-    // }
+    event.preventDefault();
+    destinationCity = $("#city-picker").val();
+    destinationCountry = $("#country-picker").val();
+	if (!destinationCity || !destinationCountry) {
+		alert("please enter valid departure and destination locations");
+	} else {
+    document.location.replace("?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry);
+    }
 }
 
 //Brennan's code here
 //Candice's code here    
-var getWeather = function (city, country, departurec, departurecc) {
+
+var getWeather = function (city, country) {
     //console.log(city);
     var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "," + country + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
     fetch(apiURL)
@@ -121,7 +131,7 @@ var getWeather = function (city, country, departurec, departurecc) {
                 response.json().then(function (data) {
                     console.log(data);
                     displayWeather(data, city, country);
-                    saveLocations(city, country, departurec, departurecc);
+                    
                 })
             } else {
                 //insert error handling here
@@ -129,7 +139,7 @@ var getWeather = function (city, country, departurec, departurecc) {
         })
 }
 var displayWeather = function (data, city, country) {
-    containerOne.innerHTML="";
+    containerOne.innerHTML = "";
     var cityCountryName = city + "," + country;
 
     var weatherTitleEl = document.createElement("div");
@@ -267,35 +277,68 @@ var displayWeather = function (data, city, country) {
     $("#tabs").tabs();
 };
 
-getWeather(destinationCity, destinationCountry, departureCity, departureCountry);
+getWeather(destinationCity, destinationCountry);
 
-var savedDestinations = JSON.parse(localStorage.getItem("locations")) || [];
-var saveLocations = function(city, country, departurec, departurecc){
-    
-    var newSave = [city, country, departurec, departurecc];
-    // console.log(newSave);
-     var flatLocations = savedDestinations.flat();
-     if (flatLocations.indexOf(city) !== -1 && flatLocations.indexOf(country) !== -1 && flatLocations.indexOf(departurec)!== -1 && flatLocations.indexOf(departurecc)!== -1){
-       console.log("a-bombed");
+var savedDestinations = JSON.parse(localStorage.getItem("destinations")) || [];
+var saveLocations = function (city, country, departurec, departurecc) {
+     if (city === null || country === null || departurec === null || departurecc === null) {
+         return;
      } else {
-        savedDestinations.push(newSave);
-     }
 
-     localStorage.setItem("destinations", JSON.stringify(savedDestinations)); 
+        var newSave = [city, country, departurec, departurecc];
+        var flatLocations = savedDestinations.flat();
+        if (flatLocations.indexOf(city) !== -1 && flatLocations.indexOf(country) !== -1 && flatLocations.indexOf(departurec) !== -1 && flatLocations.indexOf(departurecc) !== -1) {
+            console.log("a-bombed");
+        } else {
+            if (savedDestinations.length === 9) {
+                savedDestinations.shift();
+                savedDestinations.push(newSave);
+            } else {
+                savedDestinations.push(newSave);
+            };
+        }
+
+        localStorage.setItem("destinations", JSON.stringify(savedDestinations));
+    }
+ }
+ saveLocations(destinationCity, destinationCountry, departureCity, departureCountry);
+ 
+var cityBtnEl = document.querySelector(".btn-holder");
+var saveButtons = function () {
+    cityBtnEl.innerHTML = "";
+    for (var i = 0; i < savedDestinations.length; i++) {
+        newBtn = document.createElement("button");
+        newBtn.classList.add("newbtn", "font-bold", "py-2", "px-4", "rounded");
+        newBtn.textContent = savedDestinations[i][2] + " → " + savedDestinations[i][0];
+        newBtn.value = savedDestinations[i][0] + "," + savedDestinations[i][1] + "," + savedDestinations[i][2] + "," + savedDestinations[i][3];
+        cityBtnEl.appendChild(newBtn);
+
+         newBtn.addEventListener("click", function (event) {
+            
+            var newArr = [];
+            debugger;
+            var fck = event.target.value.split(",");
+            newArr.push(fck);
+            newArr = newArr.flat();
+            console.log(newArr[0]);
+            var destcity = newArr[0];
+            var destcount = newArr[1];
+            var depcity = newArr[2];
+            var depcount = newArr[3];
+             getWeather(destcity, destcount);
+             
+
+           
+         });
+    };
+
 }
-var saveButtons = function(){
-    
-}
+saveButtons();
+
 
 
 
 //Veronica's code here
-
-//To do:
-//CSS
-//streamline code
-//error handling and validations - change to modals
-
 //start currency API logic
 $("#conversionHistory").sortable();
 
@@ -333,7 +376,7 @@ function generateTo(symbol, name, code, amount, flag) {
 }
 
 //on conversion click
-function convertAmount() {
+async function convertAmount() {
     //changes the amount being converted
     var amount = $("#amount").val().trim();
     if (!amount) {
@@ -363,21 +406,25 @@ function convertAmount() {
                     $("#conversionHistory").prepend(search);
                     $(".conversionHistory .bg-white").slice(10).remove();
                 });
+                return true;
             } else {
-                alert("unable to retrieve conversion data");
-                return;
+                //add modal
+                return false;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with currency API");
-            return;
+            //add modal
+            return false;
         });
 }
 
+//swap locations when history button is clicked
 //set up for change in destination
-async function swapDestination(newDestination) {
-    var newCurrency = await getCurrency(newDestination);
-    destinationCode = newCurrency.currency;
+async function swapLocations(newDepartureCountry, newDestinationCountry) {
+    var newDepartureCurrency = await getCurrency(newDepartureCountry);
+    var newDestinationCurrency = await getCurrency(newDestinationCountry);
+    locationCode = newDepartureCurrency.currency;
+    destinationCode = newDestinationCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&amount=&places=2";
     fetch(apiUrl)
         .then(function (response) {
@@ -385,16 +432,17 @@ async function swapDestination(newDestination) {
                 response.json().then(function (data) {
                     $("#convertTo").empty();
                     $("#toFlag").empty();
-                    generateTo(newCurrency.currencySymbol, newCurrency.currencyName, destinationCode, data.result, newCurrency.countryFlag);
+                    generateFrom(newDepartureCurrency.currencySymbol, newDepartureCurrency.currencyName, locationCode, newDepartureCurrency.countryFlag);
+                    generateTo(newDestinationCurrency.currencySymbol, newDestinationCurrency.currencyName, destinationCode, data.result, newDestinationCurrency.countryFlag);
                 });
             } else {
-                alert("unable to retrieve conversion data");
-                return;
+                //add modal
+                return false;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with currency API");
-            return;
+            //add modal
+            return false;
         });
 }
 
@@ -411,70 +459,75 @@ async function getCurrency(country) {
                 });
                 return data;
             } else {
-                alert("unable to retrieve conversion data");
-                return;
+                return false;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with currency API");
-            return;
+            return false;
         });
     return dataOne;
 }
 
 //change the country to the currency code, then run conversion API and populate dynamic fields
 async function convertCurrency(departureCountry, destinationCountry) {
-    var baseCurrency =  await getCurrency(departureCountry);
+    var baseCurrency = await getCurrency(departureCountry);
     var convertedCurrency = await getCurrency(destinationCountry);
     locationCode = baseCurrency.currency;
     destinationCode = convertedCurrency.currency;
     var apiUrl = "https://api.exchangerate.host/convert?from=" + locationCode + "&to=" + destinationCode + "&places=2";
-    fetch(apiUrl).then(function (response) {
+    var getData = await fetch(apiUrl).then(function (response) {
         if (response.ok) {
-            response.json().then(function(data) {
+            response.json().then(function (data) {
                 generateFrom(baseCurrency.currencySymbol, baseCurrency.currencyName, locationCode, baseCurrency.countryFlag);
                 generateTo(convertedCurrency.currencySymbol, convertedCurrency.currencyName, destinationCode, data.result, convertedCurrency.countryFlag);
                 var setConversion = $("<p>").text(baseCurrency.currencySymbol + " 1.00 " + "(" + locationCode + ")" + " = " + convertedCurrency.currencySymbol + " " + dollarUSLocale.format(data.result) + " (" + destinationCode + ")").addClass("italic");
                 $(setConversion).insertBefore($("#historyTitle"));
             });
+            return true;
         } else {
-            alert("unable to retrieve conversion data");
+            return false;
         }
-    })
+        })
         .catch(function (error) {
-            alert("unable to connect with currency API");
-            return;
+            return false;
         });
+    return getData;
 }
 
+//interactive elements in currency feature
 $("#container-2").on("click", "#convert", convertAmount);
 $("#container-2").on("dblclick", "li", function () {
     $(this).remove();
 });
 
-convertCurrency(departureCountry, destinationCountry);//on page load, run this
+//for funsies
+function aBombed() {
+    if (departureCity === destinationCity && departureCountry === destinationCountry) {
+        console.log("a-bombed");
+    }
+}
 
-    //Cory's code here
+//Cory's code here
 var APIkey = '01393325d86d48eab9f40e48844eb632';
 
 
 
 //Local or Departure Time
-function getDepartureTime(){
+function getDepartureTime() {
     fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${departureCity},%20${departureCountry}`)
         .then(response => response.json())
         .then(data => {
-            var departureTime=`<span class="timeZone-departure" >` + departureCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
+            var departureTime = `<span class="timeZone-departure" >` + departureCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
 
             $('#departureTime').append(departureTime);
         });
 }
 //Destination time
-function getDestinationTime(){
+function getDestinationTime() {
     fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${destinationCity},%20${destinationCountry}`)
         .then(response => response.json())
         .then(data => {
-            var destinationTime=`<span class="timeZone-destination">` + destinationCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
+            var destinationTime = `<span class="timeZone-destination">` + destinationCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
             $('#destinationTime').append(destinationTime);
         });
 }
@@ -489,16 +542,16 @@ var modal = $("#modal");
 // Get the <span> element that closes the modal
 var span = $(".close")[0];
 // When the user clicks on the button, open the modal
- function openModal() {
-  $("#modal").css("display","block")
+function openModal() {
+    $("#modal").css("display", "block")
 }
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  $("#modal").css("display","none");
+span.onclick = function () {
+    $("#modal").css("display", "none");
 }
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }
