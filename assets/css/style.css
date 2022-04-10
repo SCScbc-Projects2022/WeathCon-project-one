@@ -189,9 +189,10 @@ font-size: 30px;
 
 /* Modal Styling */
 .modal {
-    display: none;
-    margin: auto;    
-    top: 0;
+    display: none; 
+    position: absolute;  
+    top: 250px;
+    left: 35%;
     width: 400px; 
     height: 400px; 
 }
