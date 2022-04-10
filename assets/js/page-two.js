@@ -502,7 +502,7 @@ function aBombed() {
 }
 
 //Cory's code here
-var APIkey = '01393325d86d48eab9f40e48844eb632';
+var APIkey = 'fdc6961d9d5d4b60a6fdea5302b0d8f7';
 
 //Local or Departure Time
 async function getDepartureTime(depCity, depCountry) {

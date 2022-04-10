@@ -2,14 +2,14 @@
 Planning a vacation? WeathCon can help you prepare with your destination's weather forecast, currency exchange rate, and timezone conversion.
 
 ## About This Repository
-This website hosts a dashboard for all your travelling needs. Users can search for weather, currency, and timezone information by simply selecting their departure and destination locations using our dropdowns.</br></br<>
+This website hosts a dashboard for all your travelling needs. Users can search for weather, currency, and timezone information by simply selecting their departure and destination locations using our dropdowns.</br></br>
 
 WeathCon presents users with the destination location's current and forecasted weather conditions, the timezone differential between the user's local and destination time, and allows users to convert currency between their departure and destination locations.
 
 ### Bonus Features
 Users are able to toggle the length of the forecasted weather (five, seven, and fourteen days) using jQuery UI tabs.</br></br>
 
-Users' ten most recent currency conversion enquries are displayed on the page, complete with draggable jQuery UI functionality (note these searches are sadly not suppored by localStorage).</br></br>
+Users' ten most recent currency conversion enquiries are displayed on the page, complete with draggable jQuery UI functionality (note these searches are sadly not supported by localStorage).</br></br>
 
 Users' last nine location searches are displayed on the bottom of the page, and users are able to load the relevant information for those searches by clicking on the history item.
 
