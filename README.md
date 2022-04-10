@@ -49,7 +49,10 @@ As with all projects, external resources were consulted, but a special thanks to
 Nick's answer [here](https://stackoverflow.com/questions/35276306/how-i-can-limit-number-child-of-div-jquery-or-javascript)</br>
 First answer [here](https://stackoverflow.com/questions/149055/how-to-format-numbers-as-currency-strings), I don't know whose it is 🙁</br>
 Dacre's answer [here](https://stackoverflow.com/questions/53219054/how-to-get-data-attribute-value-for-selected-option)</br></br>
-In addition to Osama's article [here](https://stackabuse.com/how-to-format-number-as-currency-string-in-javascript/)
+
+In addition to Osama's article [here](https://stackabuse.com/how-to-format-number-as-currency-string-in-javascript/)</br></br>
+
+Also, huge thanks to [Erik](https://github.com/CodingErik) for his week-old office hours answer that truly, truly saved this project for me. I might have had to destroy my super-fun overly-convoluted triple-nested API call that I initially asked about, but if I didn't have that in the first place, I'd never have been able to figure out how to get promises to produce the booleans we use for error handling and page redirects.
 
 #### Cory
 [w3schools](https://www.w3schools.com/)</br>
