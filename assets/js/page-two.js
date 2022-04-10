@@ -327,6 +327,8 @@ var saveButtons = function () {
             var depcount = newArr[3];
              getWeather(destcity, destcount);
              swapLocations(depcount, destcount);
+             getDestinationTime(destcity, destcount);
+             getDepartureTime(depcity, depcount);
              
 
            
@@ -520,6 +522,7 @@ function getDepartureTime(depCity, depCountry) {
     fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=` + depCity + `,%20` + depCountry)
         .then(response => response.json())
         .then(data => {
+            $('#departureTime').empty();
             var departureTime = `<span class="timeZone-departure" >` + depCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
 
             $('#departureTime').append(departureTime);
@@ -530,6 +533,7 @@ function getDestinationTime(destCity, destCountry) {
     fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=` + destCity + `,%20` + destCountry)
         .then(response => response.json())
         .then(data => {
+            $('#destinationTime').empty();
             var destinationTime = `<span class="timeZone-destination">` + destCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
             $('#destinationTime').append(destinationTime);
         });
