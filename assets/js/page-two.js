@@ -34,10 +34,7 @@ aBombed();
 
 //modal redirect
 async function redirect(departureCity, departureCountry, destinationCity, destinationCountry) {
-<<<<<<< HEAD
-=======
     // debugger;
->>>>>>> develop
     var weather = true;
     // var weather = await candice's page load function here
     var currency = await convertCurrency(departureCountry, destinationCountry);
