@@ -60,11 +60,12 @@ async function getCountries() {
                 });
                 return data;
             } else {
-                //modal here
+                openModal();
                 return false;
             }
         })
         .catch(function (error) {
+            openModal();
             return false;
         });
     return dataOne;
@@ -135,6 +136,7 @@ async function getWeather(city, country) {
             }
         })
         .catch(function (error) {
+            openModal();
             return false;
         });
     console.log("c" + getData);
@@ -404,12 +406,12 @@ async function convertAmount() {
                 });
                 return true;
             } else {
-                //add modal
+                openModal();
                 return false;
             }
         })
         .catch(function (error) {
-            //add modal
+            openModal();
             return false;
         });
 }
@@ -434,12 +436,12 @@ async function swapLocations(newDepartureCountry, newDestinationCountry) {
                     generateTo(newDestinationCurrency.currencySymbol, newDestinationCurrency.currencyName, destinationCode, data.result, newDestinationCurrency.countryFlag);
                 });
             } else {
-                //add modal
+                openModal();
                 return false;
             }
         })
         .catch(function (error) {
-            //add modal
+            openModal();
             return false;
         });
 }
@@ -457,10 +459,12 @@ async function getCurrency(country) {
                 });
                 return data;
             } else {
+                openModal();
                 return false;
             }
         })
         .catch(function (error) {
+            openModal();
             return false;
         });
     return dataOne;
@@ -483,10 +487,12 @@ async function convertCurrency(departureCountry, destinationCountry) {
             });
             return true;
         } else {
+            openModal();
             return false;
         }
     })
         .catch(function (error) {
+            openModal();
             return false;
         });
     console.log("v" + getData);
@@ -524,10 +530,12 @@ async function getDepartureTime(depCity, depCountry) {
                     })
                 return true;
             } else {
+                openModal();
                 return false;
             }
         })
         .catch(function (error) {
+            openModal();
             return false;
         });
     console.log("cor" + getData);
@@ -546,10 +554,12 @@ async function getDestinationTime(destCity, destCountry) {
                     })
                 return true;
             } else {
+                openModal();
                 return false;
             }
         })
         .catch(function (error) {
+            openModal();
             return false;
         });
     console.log("cor2" + getData)
@@ -589,7 +599,7 @@ currencySpan.onclick = function () {
 }
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
-    if (event.target == modal) {
+    if (event.target == currencyModal) {
         modal.style.display = "none";
     }
 }
