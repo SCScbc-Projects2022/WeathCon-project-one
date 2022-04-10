@@ -120,7 +120,7 @@ function updateDestination(event) {
 
 async function getWeather(city, country) {
     //console.log(city);
-    var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "," + country + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=DDEWS835GJQFSW9E6Z6B3TS3K";
+    var apiURL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=" + city + "," + country + "&aggregateHours=24&forecastDays=15&unitGroup=metric&shortColumnNames=false&contentType=json&iconSet=icons1&key=UT9ETQEPJ8MCCY3HSCF2Z6358";
     var getData = await fetch(apiURL)
         .then(function (response) {
             if (response.ok) {
