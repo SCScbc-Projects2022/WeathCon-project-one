@@ -326,6 +326,7 @@ var saveButtons = function () {
             var depcity = newArr[2];
             var depcount = newArr[3];
              getWeather(destcity, destcount);
+             swapLocations(depcount, destcount);
              
 
            
@@ -513,21 +514,21 @@ var APIkey = '01393325d86d48eab9f40e48844eb632';
 
 
 //Local or Departure Time
-function getDepartureTime() {
-    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${departureCity},%20${departureCountry}`)
+function getDepartureTime(depCity, depCountry) {
+    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=` + depCity + `,%20` + depCountry)
         .then(response => response.json())
         .then(data => {
-            var departureTime = `<span class="timeZone-departure" >` + departureCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
+            var departureTime = `<span class="timeZone-departure" >` + depCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
 
             $('#departureTime').append(departureTime);
         });
 }
 //Destination time
-function getDestinationTime() {
-    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=${destinationCity},%20${destinationCountry}`)
+function getDestinationTime(destCity, destCountry) {
+    fetch(`https://api.ipgeolocation.io/timezone?apiKey=${APIkey}&location=` + destCity + `,%20` + destCountry)
         .then(response => response.json())
         .then(data => {
-            var destinationTime = `<span class="timeZone-destination">` + destinationCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
+            var destinationTime = `<span class="timeZone-destination">` + destCity + ` ,<br>${data.geo.country},<br> ${data.time_12}</span>`;
             $('#destinationTime').append(destinationTime);
         });
 }
@@ -535,7 +536,7 @@ function getDestinationTime() {
 
 
 getDepartureTime(departureCity, departureCountry);
-getDestinationTime(destinationCity, departureCountry);
+getDestinationTime(destinationCity, destinationCountry);
 
 // Modal
 var modal = $("#modal");
