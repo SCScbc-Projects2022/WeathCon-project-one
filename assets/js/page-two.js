@@ -15,6 +15,7 @@ function parsing() {
         locations.push(item);
     }
 }
+
 //location variables
 var departureCity = locations[1];
 var departureCountry = locations[2];

@@ -4,7 +4,6 @@ var text = document.location.search;
 modalTrue();
 function modalTrue() {
     if (text === "?modal=true") {
-        console.log("a-bombed");
         openModal();
     }
 }
