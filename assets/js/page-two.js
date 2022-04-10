@@ -430,6 +430,8 @@ async function swapLocations(newDepartureCountry, newDestinationCountry) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
+                    $("#convertFrom").empty();
+                    $("#fromFlag").empty();
                     $("#convertTo").empty();
                     $("#toFlag").empty();
                     generateFrom(newDepartureCurrency.currencySymbol, newDepartureCurrency.currencyName, locationCode, newDepartureCurrency.countryFlag);
