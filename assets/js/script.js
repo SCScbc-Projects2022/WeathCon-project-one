@@ -1,20 +1,12 @@
 //Veronica's code here
-//unable to operate APIs
-var text = document.location.search;
-modalTrue();
-function modalTrue() {
-    if (text === "?modal=true") {
-        openModal();
-    }
-}
 //redirect
 $("#logo").on("click", function() {
 	document.location.replace("./index.html");
 });
 
 //populate country drop downs
-async function getCountries() {
-    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities";
+function getCountries() {
+    var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name";
     var dataOne = fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
@@ -37,18 +29,18 @@ async function getCountries() {
                 return data;
             } else {
                 alert("unable to retrieve location data");
-                return false;
+                return;
             }
         })
         .catch(function (error) {
             alert("unable to connect with location API");
-            return false;
+            return;
         });
     return dataOne;
 }
 
 //populate departure cities on departure country selection
-async function getDepartureCities(country) {
+function getDepartureCities(country) {
 	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
     var dataOne = fetch(apiUrl)
         .then(function (response) {
@@ -62,19 +54,19 @@ async function getDepartureCities(country) {
                 });
                 return data;
             } else {
-                alert("unable to retrieve location data");
-                return false;
+                alert("unable to retrieve conversion data");
+                return;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with location API");
-            return false;
+            alert("unable to connect with currency API");
+            return;
         });
     return dataOne;
 }
 
 //populate destination cities on destination country selection
-async function getDestinationCities(country) {
+function getDestinationCities(country) {
 	var apiUrl = "https://countriesnow.space/api/v0.1/countries/info?returns=name,cities,flag";
     var dataOne = fetch(apiUrl)
         .then(function (response) {
@@ -88,13 +80,13 @@ async function getDestinationCities(country) {
                 });
                 return data;
             } else {
-                alert("unable to retrieve location data");
-                return false;
+                alert("unable to retrieve conversion data");
+                return;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with location API");
-            return false;
+            alert("unable to connect with currency API");
+            return;
         });
     return dataOne;
 }
