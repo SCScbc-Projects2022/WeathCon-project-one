@@ -110,7 +110,8 @@ $("#country-picker").on("change", function() {
 	getDestinationCities($("#country-picker").find(":selected").data("index"));
 });
 
-$("#initialSubmit").on("click", function() {
+$("#initialSubmit").on("click", function(event) {
+    event.preventDefault();
 	var departureCity = $("#city-selector").val();
 	var departureCountry = $("#country-selector").val();
 	var destinationCity = $("#city-picker").val();
