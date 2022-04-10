@@ -4,7 +4,7 @@ var text = document.location.search;
 modalTrue();
 function modalTrue() {
     if (text === "?modal=true") {
-        openModal();
+        openModalFour();
     }
 }
 //redirect
@@ -36,12 +36,14 @@ async function getCountries() {
                 });
                 return data;
             } else {
-                alert("unable to retrieve location data");
+                // alert("unable to retrieve location data");
+                openModalTwo();
                 return false;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with location API");
+            // alert("unable to connect with location API");
+            openModalThree();
             return false;
         });
     return dataOne;
@@ -62,12 +64,14 @@ async function getDepartureCities(country) {
                 });
                 return data;
             } else {
-                alert("unable to retrieve location data");
+                // alert("unable to retrieve location data");
+                openModalTwo();
                 return false;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with location API");
+            // alert("unable to connect with location API");
+            openModalThree();
             return false;
         });
     return dataOne;
@@ -88,12 +92,14 @@ async function getDestinationCities(country) {
                 });
                 return data;
             } else {
-                alert("unable to retrieve location data");
+                // alert("unable to retrieve location data");
+                openModalTwo();
                 return false;
             }
         })
         .catch(function (error) {
-            alert("unable to connect with location API");
+            // alert("unable to connect with location API");
+            openModalThree();
             return false;
         });
     return dataOne;
@@ -117,7 +123,8 @@ $("#initialSubmit").on("click", function(event) {
 	var destinationCity = $("#city-picker").val();
 	var destinationCountry = $("#country-picker").val();
 	if (!departureCity || !departureCountry || !destinationCity || !destinationCountry) {
-		alert("please enter valid departure and destination locations");
+		// alert("please enter valid departure and destination locations");
+        openModal();
 	} else {
 		document.location.replace("./page-two.html?" + departureCity + "?" + departureCountry + "?" + destinationCity + "?" + destinationCountry);
 	}
@@ -125,14 +132,14 @@ $("#initialSubmit").on("click", function(event) {
 
 getCountries();
 
-// Modal
-var modal = $("#modal");
-// Get the <span> element that closes the modal
-var span = $(".close")[0];
-// When the user clicks on the button, open the modal
+//First Modal
  function openModal() {
+    var modal = $("#modal");
+    // Get the <span> element that closes the modal
+    var span = $(".close")[0];
+    // When the user clicks on the button, open the modal
   $("#modal").css("display","block")
-}
+ 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
   $("#modal").css("display","none");
@@ -141,5 +148,60 @@ span.onclick = function() {
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
+  }
+}
+ }
+
+//fourth modal
+function openModalFour() {
+    var modal = $("#modalFour");
+    var span = $("#cFour");
+    $("#modalFour").css("display","block")
+  
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    $("#modalFour").css("display","none");
+  }
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+}
+
+//Second Modal
+  function openModalTwo() {
+    var modal = $("#modalTwo");
+    var span = $("#cTwo"); 
+    $("#modalTwo").css("display","block")
+  
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    $("#modalTwo").css("display","none");
+  }
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+}
+
+//Third Modal
+  function openModalThree() {
+    var modal = $("#modalThree");
+    var span = $("#cThree"); 
+    $("#modalThree").css("display","block")
+  
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    $("#modalThree").css("display","none");
+  }
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
   }
 }
