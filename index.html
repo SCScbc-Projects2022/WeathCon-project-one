@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" integrity="sha512-wnea99uKIC3TJF7v4eKk4Y+lMz2Mklv18+r4na2Gn1abDRPPOeef95xTzdwGD9e6zXJBteMIhZ1+68QC5byJZw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>WeathCon</title>
+    <link rel="icon" type="image/x-icon" href="./weathcon-favicon.png">
+</head>
+<body>
+    <header id="header" class="justify-between flex-wrap"> 
+        <div>
+            <img src="./assets/images/weathcon-logo.png" id="logo">
+        </div>
+        <p>Planning a vacation? WeathCon can help you prepare with your destination's weather forecast, currency exchange rate, and timezone conversion.</p>
+    </header>
+    <main class="form-main"> 
+        <!--Veronica's code here-->
+        <form class="flex justify-center w-full h-full" action="#">
+            <fieldset class="grid md:grid-cols-3 justify-items-center content-center py-5 px-3 w-full h-full">
+               <!--departure-->
+                <div class="grid grid-rows-2 gap-4 h-full w-4/5">
+                <select name="country-selector"  id="country-selector">
+                    <option disabled selected>Start Typing to Select a Departure Country</option>
+                </select>
+                <select name="city-selector"  id="city-selector">
+                    <option disabled selected>Select a City</option>
+                </select>
+              </div>
+              <!--submit-->
+              <div class="grid grid-rows-2 gap-2 w-4/5">
+                <p>TO</p>
+                <button id="initialSubmit" class="bg-white">Submit</button>
+             </div>
+             <!--destination-->
+             <div class="grid grid-rows-2 gap-4 w-4/5">
+                <select name="country-picker"  id="country-picker">
+                    <option disabled selected>Start Typing to Pick a Destination Country</option>
+                </select>
+                <select name="city-picker"  id="city-picker">
+                    <option disabled selected>Pick a City</option>
+                </select>
+            </div>  
+            </fieldset>
+          </form>
+		
+    </main>
+    <footer>
+        Made by Team WeathCon 2022
+    </footer>
+
+    <!--modals go here-->
+    <!--Cory's code here-->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="cOne">&times;</span>
+          <p id="modalText">Looks like we need</p>
+          <p>a little more information!</p>
+        </div>
+    </div>
+    <!--Candice's code here-->
+    <div id="modalTwo" class="modal">
+        <div class="modal-content">
+          <span class="close" id="cTwo">&times;</span>
+          <p id="modalText">Unable to retrieve location data.</p>
+          <p>Please choose another location or try again later</p>
+        </div>
+    </div>
+    <div id="modalThree" class="modal">
+        <div class="modal-content">
+          <span class="close" id="cThree">&times;</span>
+          <p id="modalText">Unable to connect.</p>
+          <p>Please try again later!</p>
+        </div>
+    </div><div id="modalFour" class="modal">
+        <div class="modal-content">
+          <span class="close" id="cFour">&times;</span>
+          <p id="modalText">Oops it looks like something went wrong.</p>
+          <p>Please try again later!</p>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js" integrity="sha512-0bEtK0USNd96MnO4XhH8jhv3nyRF0eK87pJke6pkYf3cM0uDIhNJy9ltuzqgypoIFXw3JSuiy04tVk4AjpZdZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>
